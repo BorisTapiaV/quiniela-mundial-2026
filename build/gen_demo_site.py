@@ -195,7 +195,7 @@ def render(players, real_view, fxno, NM, ISO, fmtdate, ranks, miles):
     html = HEAD.replace('{TITLE}', 'En curso · 12 jugadores') + f"""
 <header><div class="kick">Copa Mundial FIFA · Canadá · México · EE.UU.</div>
 <h1>Quiniela 2026</h1>
-<nav><a class="on" href="index.html">Posiciones</a><a href="calendario.html">Calendario</a><a href="la-casa.html">La Casa</a></nav>
+<nav><a class="on" href="index.html">Posiciones</a><a href="calendario.html">Calendario</a></nav>
 <div class="demo">⚠ DEMO — torneo EN CURSO (resultados simulados)</div></header>
 
 <div class="state">⚽ <b>16avos disputados</b> · 88/104 partidos jugados · quedan 16 equipos ·

@@ -165,8 +165,8 @@ footer .legend span{{margin:0 8px}}
 </footer>
 </div></body></html>"""
 
-    os.makedirs(os.path.join(HERE, 'site'), exist_ok=True)
-    out = os.path.join(HERE, 'site', 'la-casa.html')
+    os.makedirs(os.path.join(HERE, 'private'), exist_ok=True)
+    out = os.path.join(HERE, 'private', 'la-casa.html')
     with open(out, 'w', encoding='utf-8') as f:
         f.write(html)
     print('site/index.html generado:', len(html), 'bytes ·', NM[champ], 'campeón')
