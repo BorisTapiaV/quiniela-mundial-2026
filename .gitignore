@@ -2,6 +2,9 @@
 __pycache__/
 *.pyc
 
+# Netlify (link local del CLI)
+.netlify/
+
 # artefactos de render (se regeneran; no deben deployarse)
 site/preview*.png
 site/prev_*.png

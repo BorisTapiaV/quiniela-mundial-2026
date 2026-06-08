@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SLUG = 'MF'
+SLUG = 'CASA'
 
 def load_pred():
     base = os.path.join(HERE, 'data/predicciones')
@@ -62,6 +62,11 @@ def main():
                   f'<div class="champ-label">Campeón pronosticado</div></div>') if champ else ''
     tercero = pb['win'].get(103)
     tercero_html = f'<div class="bronze">🥉 3er puesto: {flag(tercero)} <b>{NM[tercero]}</b></div>' if tercero else ''
+    ei = []
+    if esp.get('goleador'): ei.append(f'⚽ Goleador: <b>{esp["goleador"]}</b>')
+    if esp.get('primer_eliminado'): ei.append(f'💀 1º eliminado: {flag(esp["primer_eliminado"])} <b>{NM[esp["primer_eliminado"]]}</b>')
+    if esp.get('sorpresa'): ei.append(f'🎁 Sorpresa: {flag(esp["sorpresa"])} <b>{NM[esp["sorpresa"]]}</b>')
+    esp_html = ('<div class="bronze">' + ' &nbsp;·&nbsp; '.join(ei) + '</div>') if ei else ''
 
     # tablas de grupo
     allst = engine.compute_all_standings(engine.group_results_by_group(gs, fixture), eq)
@@ -81,7 +86,7 @@ def main():
     html = f"""<!doctype html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quiniela Mundial 2026 · Pronóstico de {SLUG}</title>
+<title>Quiniela Mundial 2026 · Pronóstico de La Casa</title>
 <style>
 :root{{--bg:#0b1020;--card:#151c34;--card2:#1c2545;--line:#2a3358;--txt:#e8ecf7;--mut:#8d97bf;
 --green:#16d97b;--gold:#ffd24a;--win:#1f8a55;}}
@@ -93,6 +98,9 @@ header{{text-align:center;padding:28px 0 8px}}
 header .kick{{color:var(--gold);letter-spacing:.18em;font-size:12px;text-transform:uppercase}}
 header h1{{margin:6px 0 2px;font-size:30px}}
 header .sub{{color:var(--mut)}}
+nav{{display:flex;gap:8px;justify-content:center;margin:8px 0}}
+nav a{{color:var(--mut);text-decoration:none;font-size:13px;padding:5px 14px;border:1px solid var(--line);border-radius:20px}}
+nav a.on{{color:#06210f;background:var(--gold);border-color:var(--gold);font-weight:700}}
 .champ{{display:flex;justify-content:center;margin:22px 0 8px}}
 .champ-card{{background:linear-gradient(160deg,#2a2140,#3a2c1a);border:1px solid #4a3a20;
 border-radius:18px;padding:18px 30px;text-align:center;box-shadow:0 10px 40px #0006}}
@@ -134,11 +142,13 @@ footer .legend span{{margin:0 8px}}
 <header>
   <div class="kick">Copa Mundial FIFA · Canadá · México · EE.UU.</div>
   <h1>Quiniela 2026</h1>
-  <div class="sub">Pronóstico de <b>{SLUG}</b> · vista de solo lectura (prototipo)</div>
+  <nav><a href="index.html">Posiciones</a><a href="calendario.html">Calendario</a><a class="on" href="la-casa.html">La Casa</a></nav>
+  <div class="sub">🎯 Pronóstico de <b>La Casa</b> — nuestro modelo (scouting de las 48 selecciones)</div>
 </header>
 
 <div class="champ">{champ_html}</div>
 {tercero_html}
+{esp_html}
 
 <h2 class="sec">Cuadro de eliminatorias</h2>
 <div class="bracket">{bracket_cols}</div>
@@ -156,7 +166,7 @@ footer .legend span{{margin:0 8px}}
 </div></body></html>"""
 
     os.makedirs(os.path.join(HERE, 'site'), exist_ok=True)
-    out = os.path.join(HERE, 'site', 'index.html')
+    out = os.path.join(HERE, 'site', 'la-casa.html')
     with open(out, 'w', encoding='utf-8') as f:
         f.write(html)
     print('site/index.html generado:', len(html), 'bytes ·', NM[champ], 'campeón')

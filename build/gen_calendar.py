@@ -54,7 +54,7 @@ def main():
     html = HEAD + f"""
 <header><div class="kick">Copa Mundial FIFA · Canadá · México · EE.UU.</div>
 <h1>Quiniela 2026</h1>
-<nav><a href="index.html">Posiciones</a><a class="on" href="calendario.html">Calendario</a></nav></header>
+<nav><a href="index.html">Posiciones</a><a class="on" href="calendario.html">Calendario</a><a href="la-casa.html">La Casa</a></nav></header>
 <div class="legend">🕐 horas en hora local de cada sede · banderas: grupos · las eliminatorias muestran la ronda</div>
 {months_html}
 <footer>104 partidos · 11 jun → 19 jul 2026 · datos de fixture.csv · gen_calendar.py</footer>
