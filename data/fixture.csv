@@ -1,0 +1,105 @@
+match_no,fase,grupo,matchday,fecha,hora_local,sede,local,visita
+1,grupos,A,1,2026-06-11,15:00,Estadio Ciudad de México,MEX,RSA
+2,grupos,A,1,2026-06-11,22:00,Estadio Guadalajara,KOR,CZE
+3,grupos,B,1,2026-06-12,15:00,Estadio Toronto,CAN,BIH
+4,grupos,D,1,2026-06-12,21:00,Estadio Los Angeles,USA,PAR
+5,grupos,B,1,2026-06-13,15:00,Estadio Bahía de San Francisco,QAT,SUI
+6,grupos,C,1,2026-06-13,18:00,Estadio Nueva York/Nueva Jersey,BRA,MAR
+7,grupos,C,1,2026-06-13,21:00,Estadio Boston,HAI,SCO
+8,grupos,D,1,2026-06-14,00:00,Estadio BC Place Vancouver,AUS,TUR
+9,grupos,E,1,2026-06-14,13:00,Estadio Houston,GER,CUW
+10,grupos,F,1,2026-06-14,16:00,Estadio Dallas,NED,JPN
+11,grupos,E,1,2026-06-14,19:00,Estadio Filadelfia,CIV,ECU
+12,grupos,F,1,2026-06-14,22:00,Estadio Monterrey,SWE,TUN
+13,grupos,H,1,2026-06-15,12:00,Estadio Atlanta,ESP,CPV
+14,grupos,G,1,2026-06-15,15:00,Estadio Seattle,BEL,EGY
+15,grupos,H,1,2026-06-15,18:00,Estadio Miami,KSA,URU
+16,grupos,G,1,2026-06-15,21:00,Estadio Los Angeles,IRN,NZL
+17,grupos,I,1,2026-06-16,15:00,Estadio Nueva York/Nueva Jersey,FRA,SEN
+18,grupos,I,1,2026-06-16,18:00,Estadio Boston,IRQ,NOR
+19,grupos,J,1,2026-06-16,21:00,Estadio Kansas City,ARG,ALG
+20,grupos,J,1,2026-06-17,00:00,Estadio Bahía de San Francisco,AUT,JOR
+21,grupos,K,1,2026-06-17,13:00,Estadio Houston,POR,COD
+22,grupos,L,1,2026-06-17,16:00,Estadio Dallas,ENG,CRO
+23,grupos,L,1,2026-06-17,19:00,Estadio Toronto,GHA,PAN
+24,grupos,K,1,2026-06-17,22:00,Estadio Ciudad de México,UZB,COL
+25,grupos,A,2,2026-06-18,12:00,Estadio Atlanta,CZE,RSA
+26,grupos,B,2,2026-06-18,15:00,Estadio Los Angeles,SUI,BIH
+27,grupos,B,2,2026-06-18,18:00,Estadio BC Place Vancouver,CAN,QAT
+28,grupos,A,2,2026-06-18,21:00,Estadio Guadalajara,MEX,KOR
+29,grupos,D,2,2026-06-19,15:00,Estadio Seattle,USA,AUS
+30,grupos,C,2,2026-06-19,18:00,Estadio Boston,SCO,MAR
+31,grupos,C,2,2026-06-19,20:30,Estadio Filadelfia,BRA,HAI
+32,grupos,D,2,2026-06-19,23:00,Estadio Bahía de San Francisco,TUR,PAR
+33,grupos,F,2,2026-06-20,13:00,Estadio Houston,NED,SWE
+34,grupos,E,2,2026-06-20,16:00,Estadio Toronto,GER,CIV
+35,grupos,E,2,2026-06-20,20:00,Estadio Kansas City,ECU,CUW
+36,grupos,F,2,2026-06-21,00:00,Estadio Monterrey,TUN,JPN
+37,grupos,H,2,2026-06-21,12:00,Estadio Atlanta,ESP,KSA
+38,grupos,G,2,2026-06-21,15:00,Estadio Los Angeles,BEL,IRN
+39,grupos,H,2,2026-06-21,18:00,Estadio Miami,URU,CPV
+40,grupos,G,2,2026-06-21,21:00,Estadio BC Place Vancouver,NZL,EGY
+41,grupos,J,2,2026-06-22,13:00,Estadio Dallas,ARG,AUT
+42,grupos,I,2,2026-06-22,17:00,Estadio Filadelfia,FRA,IRQ
+43,grupos,I,2,2026-06-22,20:00,Estadio Nueva York/Nueva Jersey,NOR,SEN
+44,grupos,J,2,2026-06-22,23:00,Estadio Bahía de San Francisco,JOR,ALG
+45,grupos,K,2,2026-06-23,13:00,Estadio Houston,POR,UZB
+46,grupos,L,2,2026-06-23,16:00,Estadio Boston,ENG,GHA
+47,grupos,L,2,2026-06-23,19:00,Estadio Toronto,PAN,CRO
+48,grupos,K,2,2026-06-23,22:00,Estadio Guadalajara,COL,COD
+49,grupos,B,3,2026-06-24,15:00,Estadio BC Place Vancouver,SUI,CAN
+50,grupos,B,3,2026-06-24,15:00,Estadio Seattle,BIH,QAT
+51,grupos,C,3,2026-06-24,18:00,Estadio Miami,SCO,BRA
+52,grupos,C,3,2026-06-24,18:00,Estadio Atlanta,MAR,HAI
+53,grupos,A,3,2026-06-24,21:00,Estadio Ciudad de México,CZE,MEX
+54,grupos,A,3,2026-06-24,21:00,Estadio Monterrey,RSA,KOR
+55,grupos,E,3,2026-06-25,16:00,Estadio Filadelfia,CUW,CIV
+56,grupos,E,3,2026-06-25,16:00,Estadio Nueva York/Nueva Jersey,ECU,GER
+57,grupos,F,3,2026-06-25,19:00,Estadio Dallas,JPN,SWE
+58,grupos,F,3,2026-06-25,19:00,Estadio Kansas City,TUN,NED
+59,grupos,D,3,2026-06-25,22:00,Estadio Los Angeles,TUR,USA
+60,grupos,D,3,2026-06-25,22:00,Estadio Bahía de San Francisco,PAR,AUS
+61,grupos,I,3,2026-06-26,15:00,Estadio Boston,NOR,FRA
+62,grupos,I,3,2026-06-26,15:00,Estadio de Toronto,SEN,IRQ
+63,grupos,H,3,2026-06-26,20:00,Estadio Houston,CPV,KSA
+64,grupos,H,3,2026-06-26,20:00,Estadio Guadalajara,URU,ESP
+65,grupos,G,3,2026-06-26,23:00,Estadio Seattle,EGY,IRN
+66,grupos,G,3,2026-06-26,23:00,Estadio BC Place Vancouver,NZL,BEL
+67,grupos,L,3,2026-06-27,17:00,Estadio Nueva York/Nueva Jersey,PAN,ENG
+68,grupos,L,3,2026-06-27,17:00,Estadio Filadelfia,CRO,GHA
+69,grupos,K,3,2026-06-27,19:30,Estadio Miami,COL,POR
+70,grupos,K,3,2026-06-27,19:30,Estadio Atlanta,COD,UZB
+71,grupos,J,3,2026-06-27,22:00,Estadio Kansas City,ALG,AUT
+72,grupos,J,3,2026-06-27,22:00,Estadio Dallas,JOR,ARG
+73,R32,,,2026-06-28,15:00,Estadio Los Angeles,2A,2B
+74,R32,,,2026-06-29,13:00,Estadio Houston,1E,3-ABCDF
+75,R32,,,2026-06-29,16:30,Estadio Boston,1F,2C
+76,R32,,,2026-06-29,21:00,Estadio Monterrey,1C,2F
+77,R32,,,2026-06-30,13:00,Estadio Dallas,1I,3-CDFGH
+78,R32,,,2026-06-30,17:00,Estadio Nueva York/Nueva Jersey,2E,2I
+79,R32,,,2026-06-30,21:00,Estadio Ciudad de México,1A,3-CEFHI
+80,R32,,,2026-07-01,12:00,Estadio Atlanta,1L,3-EHIJK
+81,R32,,,2026-07-01,16:00,Estadio Seattle,1D,3-BEFIJ
+82,R32,,,2026-07-01,20:00,Estadio Bahía de San Francisco,1G,3-AEHIJ
+83,R32,,,2026-07-02,15:00,Estadio Los Angeles,2K,2L
+84,R32,,,2026-07-02,19:00,Estadio Toronto,1H,2J
+85,R32,,,2026-07-03,23:00,Estadio BC Place Vancouver,1B,3-EFGIJ
+86,R32,,,2026-07-03,14:00,Estadio Dallas,1J,2H
+87,R32,,,2026-07-03,18:00,Estadio Miami,1K,3-DEIJL
+88,R32,,,2026-07-03,21:30,Estadio Kansas City,2D,2G
+89,R16,,,2026-07-04,13:00,Estadio Houston,W74,W77
+90,R16,,,2026-07-04,17:00,Estadio Filadelfia,W73,W75
+91,R16,,,2026-07-05,16:00,Estadio Nueva York/Nueva Jersey,W76,W78
+92,R16,,,2026-07-05,20:00,Estadio Ciudad de México,W79,W80
+93,R16,,,2026-07-06,15:00,Estadio Dallas,W83,W84
+94,R16,,,2026-07-06,20:00,Estadio Seattle,W81,W82
+95,R16,,,2026-07-07,12:00,Estadio Atlanta,W86,W88
+96,R16,,,2026-07-07,16:00,Estadio BC Place Vancouver,W85,W87
+97,QF,,,2026-07-09,16:00,Estadio Boston,W89,W90
+98,QF,,,2026-07-10,15:00,Estadio Los Angeles,W93,W94
+99,QF,,,2026-07-11,17:00,Estadio Miami,W91,W92
+100,QF,,,2026-07-11,21:00,Estadio Kansas City,W95,W96
+101,SF,,,2026-07-14,15:00,Estadio Dallas,W97,W98
+102,SF,,,2026-07-15,15:00,Estadio Atlanta,W99,W100
+103,3P,,,2026-07-18,17:00,Estadio Miami,L101,L102
+104,Final,,,2026-07-19,15:00,Estadio N. York/N. Jersey,W101,W102
