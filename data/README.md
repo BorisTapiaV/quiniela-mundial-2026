@@ -14,7 +14,7 @@ Datos estructurales del Mundial 2026. Una vez generados (bootstrap), estos CSV s
 **equipos.csv** — `code,grupo,pos,nombre_es,nombre_en,iso_bandera,anfitrion`
 - `code` = código FIFA 3 letras (MEX, POR…). `iso_bandera` = código flagcdn (`mx`, `gb-sct`, `gb-eng`…). `anfitrion` = `si` para A1/B1/D1.
 
-**fixture.csv** — `match_no,fase,grupo,matchday,fecha,hora_local,sede,local,visita`
+**fixture.csv** — `match_no,fase,grupo,matchday,fecha,hora_chile,sede,local,visita`
 - `fase` ∈ {grupos, R32, R16, QF, SF, 3P, Final}. `matchday` ∈ {1,2,3} solo en grupos.
 - En grupos `local`/`visita` = códigos de equipo. En KO = **slots**: `1A`=ganador grupo A, `2B`=segundo grupo B, `3-ABCDF`=mejor 3º de esos grupos, `W74`=ganador del M74, `L101`=perdedor del M101.
 
@@ -24,6 +24,7 @@ Datos estructurales del Mundial 2026. Una vez generados (bootstrap), estos CSV s
 
 ## ⚠️ Caveats de verificación
 
-- **`fixture.csv` fechas/horas/sedes** vienen de un modelo de terceros (ClasesExcel), **NO de FIFA primario**. Verificar contra el calendario oficial FIFA antes de dar por buenas las fechas/sedes exactas. Los **cruces** (estructura del bracket) sí son del reglamento y están verificados.
+- **`fixture.csv` fechas/sedes** vienen de un modelo de terceros (ClasesExcel). Los **cruces** (estructura del bracket) son del reglamento y están verificados.
+- **`hora_chile` está en HORA DE CHILE** (✅ verificado 2026-06-09 contra el calendario oficial en 3 husos distintos: M1 MEX-RSA = 15:00 CL = 13:00 México; M4 USA-PAR LA = 21:00 CL = 18:00 PT; M19 ARG-ALG Kansas City = 21:00 CL = 20:00 CT). La columna ANTES se llamaba `hora_local` por error — el valor siempre fue hora de Chile, no de la sede. Chile en jun-jul = UTC-4 (invierno).
 - **`equipos.csv` grupos** vienen del álbum (Boris verificó las láminas físicas reales). Alta confianza, pero si hubiera un error de sorteo, se corrige aquí.
-- Las **horas** están en hora local de cada sede (columna `Q` original de ClasesExcel ya convertía; aquí se tomó la hora local cruda).
+- **Transmisión Chile** (jun-2026): Chilevisión (TV abierta, 52 partidos) · DSports/DirecTV (cable, 104) · Paramount+ (streaming, 104) · Disney+ Premium/ESPN (~30). Panel en el calendario.

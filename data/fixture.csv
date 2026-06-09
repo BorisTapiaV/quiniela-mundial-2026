@@ -1,4 +1,4 @@
-match_no,fase,grupo,matchday,fecha,hora_local,sede,local,visita
+match_no,fase,grupo,matchday,fecha,hora_chile,sede,local,visita
 1,grupos,A,1,2026-06-11,15:00,Estadio Ciudad de México,MEX,RSA
 2,grupos,A,1,2026-06-11,22:00,Estadio Guadalajara,KOR,CZE
 3,grupos,B,1,2026-06-12,15:00,Estadio Toronto,CAN,BIH

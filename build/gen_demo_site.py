@@ -182,7 +182,7 @@ def render(players, real_view, fxno, NM, ISO, fmtdate, ranks, miles):
     prox = ''
     for mn in range(89, 97):
         m = fxno[mn]; a, b = real_view['teams'][mn]
-        prox += (f'<div class="px"><div class="pxd">{fmtdate(m["fecha"])} · {m["hora_local"]}</div>'
+        prox += (f'<div class="px"><div class="pxd">{fmtdate(m["fecha"])} · {m["hora_chile"]}</div>'
                  f'<div class="pxm">{flag(a)}<b>{NM[a]}</b><span class="vs">vs</span>{flag(b)}<b>{NM[b]}</b></div>'
                  f'<div class="pxs">{m["sede"]}</div></div>')
 

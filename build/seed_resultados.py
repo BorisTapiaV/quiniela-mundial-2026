@@ -50,7 +50,7 @@ def main():
             w = csv.writer(f); w.writerow(['match_no', 'fecha', 'hora', 'sede', 'local', 'visita', 'gl', 'gv'])
             for m in fixture:
                 if m['fase'] == 'grupos':
-                    w.writerow([m['match_no'], m['fecha'], m['hora_local'], m['sede'],
+                    w.writerow([m['match_no'], m['fecha'], m['hora_chile'], m['sede'],
                                 NM[m['local']], NM[m['visita']], '', ''])
         print(f'✓ {p} (72 grupos en blanco)')
 

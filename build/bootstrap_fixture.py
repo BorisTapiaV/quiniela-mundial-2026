@@ -84,7 +84,7 @@ def main():
     out.sort(key=lambda x: x[0])
     with open(os.path.join(HERE, 'data/fixture.csv'), 'w', encoding='utf-8', newline='') as f:
         w = csv.writer(f)
-        w.writerow(['match_no', 'fase', 'grupo', 'matchday', 'fecha', 'hora_local', 'sede', 'local', 'visita'])
+        w.writerow(['match_no', 'fase', 'grupo', 'matchday', 'fecha', 'hora_chile', 'sede', 'local', 'visita'])
         w.writerows(out)
 
     # ---- verificaciones ----
