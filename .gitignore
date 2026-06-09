@@ -9,7 +9,8 @@ __pycache__/
 site/preview*.png
 site/prev_*.png
 site/*.png
-!site/og.png        # excepción: asset deployable (preview del link en WhatsApp)
+# excepción: og.png es asset deployable (preview del link en WhatsApp)
+!site/og.png
 
 # nada más se ignora: los CSV de data/ y el HTML de site/ SON entregables versionables
 site/p/_preview_*.png
