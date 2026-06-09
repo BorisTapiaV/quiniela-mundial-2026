@@ -52,6 +52,19 @@ Patrón reutilizable para ingerir cualquier predicción externa: mapear → alin
 
 ---
 
+## Plantilla de captura por jugador (Paso 7) ★
+
+| Script | Salida | Qué hace |
+|--------|--------|----------|
+| `gen_plantilla.py` | `PLANTILLA_QUINIELA_EN_BLANCO.xlsx` | Genera la planilla **en blanco** que se reparte. Una sola hoja de trabajo (bracket-challenge): el jugador pone los 72 marcadores de grupo, el **cuadro se arma solo** (standings con desempates FIFA + 8 mejores terceros vía tabla 495 → R32), y elige ganadores KO en **desplegables dependientes** hasta el campeón. Hojas: Instrucciones · Grupos · Eliminatorias · Especiales (+ ocultas `_calc`/`_t495`/`_eq`). |
+| `ingest_plantilla.py` | `data/predicciones/<slug>.csv` (+`_ko`+`_especiales`) | Ingiere una plantilla **llena** al formato propio (igual que MF/CASA). El **motor es autoritativo**: re-deriva el bracket desde los 72 marcadores y avisa si algún ganador KO elegido no está en su llave derivada. Uso: `python build/ingest_plantilla.py <archivo.xlsx> [slug]`. |
+
+**Cómo el Excel replica el motor (clave compuesta).** El motor ordena cada bloque de empate en UNA pasada (pts → H2H pts/dif/goles entre equipos con mismos puntos globales → dif/goles global → seed). Eso se reproduce en Excel con una **clave numérica compuesta lexicográfica** por equipo (`_calc!K`), ordenada con `RANK`. Validado **== engine** en 48.000 órdenes de grupo y **0 desajustes de R32 en 3.000 torneos completos**; recálculo real del libro (lib `formulas`) con datos de MF = **R32 16/16** y cascada KO → campeón correcto. ⚠️ Magnitud importante: en la clave de terceros `gf*100` (no `*10`) para que `letterord (1..12)` no se solape.
+
+> openpyxl **no recalcula** fórmulas. Por eso el puntaje real nunca depende del Excel: `ingest_plantilla.py` + `engine.py` son la fuente de verdad. El Excel solo guía al jugador. Tras editar `gen_plantilla.py`, conviene abrir el libro 1 vez en Excel para confirmar que las fórmulas vivas renderizan antes de repartir.
+
+---
+
 ## Generadores del visor (salida a `site/`)
 
 | Script | Salida | Qué renderiza |
@@ -59,6 +72,9 @@ Patrón reutilizable para ingerir cualquier predicción externa: mapear → alin
 | `gen_site.py` | `site/index.html` | bracket completo de **1** jugador + tablas de grupo + banderas |
 | `gen_demo_site.py` | `site/index.html` | **demo 12 jugadores, torneo EN CURSO** (cutoff configurable): leaderboard parcial, carrera de 2 actos, próximos partidos, sub-campeonatos, supervivencia de campeones |
 | `gen_calendar.py` | `site/calendario.html` | calendario mensual jun+jul, partidos con hora + banderas (grupos) / ronda (KO) |
+| `gen_jugador.py` | `site/p/<slug>.html` (+`private/links-jugadores.md`) | **Página individual de confirmación por jugador** (pre-cierre): su cuadro + tablas de grupo + campeón/especiales + sello "✓ recibido" + aviso link privado. `noindex`. Un link **no listado** por jugador (cada uno ve solo lo suyo → sin copia antes del cierre). Excluye La Casa (`DENY`). Uso: `python build/gen_jugador.py [SLUG...]` (sin args = todos los ingeridos). |
+
+> **Visibilidad por tiempo (Boris 2026-06-09):** ANTES del cierre (11-jun) cada jugador ve solo SU `site/p/<slug>.html` (link privado, no enlazado desde el sitio público). DESPUÉS del cierre se abre la galería pública de todos + leaderboard (pendiente, va con `data/resultados.csv` + `gen_site.py` de producción).
 
 > `gen_demo_site.py` genera 12 predicciones (1 real MF + 11 sintéticas con accuracy variable) y un **resultado simulado** con corte configurable (variable `real_ko` filtrada por nº de partido). Cambiar el corte muestra cualquier momento del torneo (grupos → final). En producción, esto se reemplaza por `data/predicciones/*` reales + `data/resultados*.csv`.
 
@@ -80,7 +96,7 @@ EDGE="/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 
 ## Hacia producción (Paso 7)
 
-1. Plantilla Excel en blanco → repartir → cada jugador llena → ingerir a `data/predicciones/<slug>.csv`.
+1. ✅ Plantilla Excel en blanco (`gen_plantilla.py`) → repartir → cada jugador llena → ingerir con `ingest_plantilla.py` a `data/predicciones/<slug>.csv`.
 2. Cargar `data/resultados.csv` (parcial, lo jugado) a medida que avanza el torneo.
 3. Un `gen_site.py` de producción: lee todas las predicciones + resultados → motor → leaderboard en vivo + vistas.
 4. Deploy de `site/` a Netlify (regenerar al entrar resultados).
