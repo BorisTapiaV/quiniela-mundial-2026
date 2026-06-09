@@ -21,7 +21,7 @@ Uso:
   python build/gen_galeria.py            # datos reales -> site/index.html (portada)
   python build/gen_galeria.py --demo     # 10 jugadores sintéticos + resultado parcial (previsualizar)
 """
-import csv, os, sys, random
+import csv, os, sys, random, urllib.parse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 try:
     sys.stdout.reconfigure(encoding='utf-8')
@@ -33,6 +33,7 @@ import gen_demo_site as demo            # helpers: sim_ko, noisy_group, load_mf,
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRED = os.path.join(HERE, 'data', 'predicciones')
 SITE = os.path.join(HERE, 'site')
+SITE_URL = 'https://quiniela-mundial-2026-1780886848.netlify.app'
 DENY = {'CASA'}
 
 
@@ -233,10 +234,21 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
     demobanner = '<div class="demo">⚠ VISTA DEMO — jugadores y resultados de muestra</div>' if is_demo else ''
     lead_note = '' if has_results else '<div class="note2">La tabla está en cero hasta que arranque el torneo. Mientras, cada jugador ya puede ver su pronóstico en la galería ↓</div>'
 
-    html = demo.HEAD.replace('{TITLE}', 'Pronósticos y tabla') + EXTRA_CSS + f"""
+    # Open Graph (preview del link al pegarlo en WhatsApp) + botón Compartir al grupo
+    og = (f'<meta property="og:title" content="Quiniela Mundial 2026">'
+          f'<meta property="og:description" content="Mira cómo va la tabla — ¿sigues vivo?">'
+          f'<meta property="og:image" content="{SITE_URL}/og.png">'
+          f'<meta property="og:url" content="{SITE_URL}/"><meta property="og:type" content="website">'
+          f'<meta name="twitter:card" content="summary_large_image">')
+    share_text = urllib.parse.quote(f'📊 Quiniela Mundial 2026 — mira cómo va la tabla 👀\n{SITE_URL}/')
+    share_href = f'https://wa.me/?text={share_text}'
+
+    head = demo.HEAD.replace('{TITLE}', 'Pronósticos y tabla').replace('</head>', og + '</head>')
+    html = head + EXTRA_CSS + f"""
 <header><div class="kick">Copa Mundial FIFA · Canadá · México · EE.UU.</div>
 <h1>Quiniela 2026</h1>
 <nav><a class="on" href="index.html">Posiciones</a><a href="calendario.html">Calendario</a></nav>
+<a class="share" href="{share_href}" target="_blank" rel="noopener">📲 Compartir al grupo</a>
 {demobanner}</header>
 
 <div class="state">{state}</div>
@@ -261,6 +273,10 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 
 
 EXTRA_CSS = """<style>
+.share{display:inline-block;margin:12px auto 0;background:#25d366;color:#06210f;font-weight:800;
+font-size:14px;text-decoration:none;padding:9px 20px;border-radius:24px;box-shadow:0 4px 14px #25d36644}
+.share:hover{background:#1ebe5a}
+header{display:flex;flex-direction:column;align-items:center}
 .note2{text-align:center;color:var(--mut);font-size:13px;margin:-6px 0 12px}
 .b.seal{background:#23284a;color:var(--mut)}
 .lead td.nm a{color:var(--txt);text-decoration:none;border-bottom:1px dotted var(--line)}
