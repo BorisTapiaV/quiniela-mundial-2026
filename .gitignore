@@ -12,3 +12,4 @@ site/*.png
 
 # nada más se ignora: los CSV de data/ y el HTML de site/ SON entregables versionables
 site/p/_preview_*.png
+site/_prev_*.png

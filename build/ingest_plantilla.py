@@ -148,6 +148,7 @@ def main():
         w.writerow(['goleador', esp.get('goleador', '')])
         w.writerow(['primer_eliminado', esp.get('primer_eliminado', '')])
         w.writerow(['sorpresa', esp.get('sorpresa', '')])
+        w.writerow(['jugador', player or ''])    # nombre real (preserva tildes; el slug las pierde)
 
     # ----- reporte -----
     print(f'Jugador: {player!r}  ->  slug: {slug}')

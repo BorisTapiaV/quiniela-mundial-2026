@@ -111,7 +111,7 @@ def render(slug, eq, fixture, terceros):
     pb = engine.full_bracket(gs, ko, eq, fixture, terceros)
     ISO = {c: eq[c]['iso'] for c in eq}
     NM = {c: eq[c]['nombre_es'] for c in eq}
-    name = display_name(slug)
+    name = esp.get('jugador') or display_name(slug)   # nombre real (con tildes) si la ingesta lo guardó
 
     def flag(code, big=False):
         if not code or code not in ISO:
