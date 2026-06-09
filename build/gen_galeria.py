@@ -36,6 +36,10 @@ PRED = os.path.join(HERE, 'data', 'predicciones')
 SITE = os.path.join(HERE, 'site')
 SITE_URL = 'https://quiniela-mundial-2026-1780886848.netlify.app'
 DENY = {'CASA'}
+APODOS_DEMO = {'Manuel Fuentes': 'El Profe', 'Rodrigo Salazar': 'Rodo', 'Felipe Cárdenas': 'Pipe',
+               'Cristóbal Reyes': 'Cris', 'Matías Ibáñez': 'Mati', 'Sebastián Vergara': 'Seba',
+               'Diego Fuentealba': 'El Mago', 'Tomás Navarro': 'Tomi', 'Ignacio Bravo': 'Nacho',
+               'Vicente Cáceres': 'Vicho'}
 
 
 def slug_url(slug):
@@ -44,6 +48,17 @@ def slug_url(slug):
 
 def display_name(slug):
     return ' '.join(w.capitalize() for w in slug.replace('_', ' ').split())
+
+
+def load_apodos():
+    """data/apodos.csv (slug,apodo) opcional → dict. Gancho nominal (research #1: identidad)."""
+    p = os.path.join(HERE, 'data', 'apodos.csv')
+    d = {}
+    if os.path.exists(p):
+        for r in csv.DictReader(open(p, encoding='utf-8')):
+            if r.get('apodo'):
+                d[r['slug']] = r['apodo'].strip()
+    return d
 
 
 def load_pred(slug):
@@ -115,6 +130,7 @@ def survivors_set(real_group, real_ko, real_view, eq, fixture, terceros):
 
 
 def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros, survivors, validated):
+    apodos = load_apodos()
     players = []
     for slug in slugs:
         gs, ko, esp = load_pred(slug)
@@ -124,6 +140,7 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
                    if mn in gs and engine._outcome(*gs[mn]) == engine._outcome(rl, rv))
         hx = sum(1 for mn, (rl, rv) in real_group.items() if gs.get(mn) == (rl, rv))
         players.append({'slug': slug, 'name': esp.get('jugador') or display_name(slug), 'url': f'p/{slug_url(slug)}.html',
+                        'apodo': apodos.get(slug, ''),
                         'sc': sc, 'champ': champ, 'h1x2': h1x2, 'hx': hx,
                         'gs': gs, 'ko': ko, 'esp': esp,
                         'alive': champ in survivors, 'validated': (validated is None or slug in validated)})
@@ -154,12 +171,15 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
     def flag(c, w=40):
         return f'<img class="flag" src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
 
+    def apo(p):
+        return f'<span class="apo">«{p["apodo"]}»</span>' if p.get('apodo') else ''
+
     # ---- galería (siempre) ----
     gallery = ''
     for p in sorted(players, key=lambda p: p['name']):
         ch = f'{flag(p["champ"], 60)}<div class="ggc">🏆 {NM.get(p["champ"], p["champ"])}</div>' if p['champ'] else '<div class="ggc">—</div>'
         gallery += (f'<a class="gg" href="{p["url"]}">{ch}'
-                    f'<div class="ggn">{p["name"]}</div>'
+                    f'<div class="ggn">{p["name"]}</div>{apo(p)}'
                     f'<div class="ggl">ver mi pronóstico →</div></a>')
 
     # ---- leaderboard (siempre; 0 si no hay resultados) ----
@@ -186,7 +206,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
         ch = f'{flag(p["champ"], 40)}<span>{NM.get(p["champ"], p["champ"])}</span>' if p['champ'] else '—'
         dcell = f'<td class="dl">{darrow(p.get("delta"))}</td>' if show_delta else ''
         lb += (f'<tr class="{"" if p["validated"] else "unval"}"><td class="rk">{medal}</td>'
-               f'<td class="nm"><a href="{p["url"]}">{p["name"]}</a> {tick}</td>'
+               f'<td class="nm"><a href="{p["url"]}">{p["name"]}</a> {tick}{apo(p)}</td>'
                f'<td class="cp">{ch}</td>'
                f'<td>{sc["grupo"]}</td><td>{sc["avance"]}</td><td class="tot">{sc["total"]}</td>'
                f'{dcell}<td>{badge}</td></tr>')
@@ -233,6 +253,20 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
             st = 'dead' if not p['alive'] else 'alive'
             cg += (f'<div class="cg {st}">{flag(p["champ"], 80)}<div class="cgn">{p["name"]}</div>'
                    f'<div class="cgc">{"💀 eliminado" if not p["alive"] else "🟢 en carrera"} · {NM.get(p["champ"], p["champ"])}</div></div>')
+        # Liga de Consolación (ESPN ladder): los de fuera del podio compiten aparte
+        cons_html = ''
+        if len(players) > 3:
+            crows = ''
+            for j, p in enumerate(players[3:], 1):
+                med = '🏅' if j == 1 else str(j + 3)
+                deadc = '' if p['alive'] else 'dead'
+                crows += (f'<tr class="{deadc}"><td class="rk">{med}</td>'
+                          f'<td class="nm">{flag(p["champ"], 22)}<span>{p["name"]}</span>{apo(p)}</td>'
+                          f'<td class="tot">{p["sc"]["total"]}</td></tr>')
+            cons_html = (
+                '<h2 class="sec">🪜 Liga de Consolación '
+                '<span class="note">(el campeonato de los que hoy están fuera del podio — aquí hasta el último pelea su propia corona)</span></h2>'
+                f'<table class="lead cons"><tr><th>#</th><th>Jugador</th><th>Total</th></tr>{crows}</table>')
         evo = demo.evolution_svg(ranks, miles, [p['name'] for p in players]) if ranks else ''
         evo_sec = f'<h2 class="sec">📈 Evolución del ranking</h2><div class="evo">{evo}</div>' if evo else ''
         rich = f"""
@@ -247,7 +281,8 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 <div class="subc"><div class="t">🎯 Rey del marcador exacto</div><div class="w">{rx['name']}</div><div class="x">{rx['hx']} clavados</div></div>
 </div>
 <h2 class="sec">💀 Supervivencia de campeones</h2>
-<div class="cgrid">{cg}</div>"""
+<div class="cgrid">{cg}</div>
+{cons_html}"""
 
     demobanner = '<div class="demo">⚠ VISTA DEMO — jugadores y resultados de muestra</div>' if is_demo else ''
     lead_note = '' if has_results else '<div class="note2">La tabla está en cero hasta que arranque el torneo. Mientras, cada jugador ya puede ver su pronóstico en la galería ↓</div>'
@@ -301,6 +336,9 @@ header{display:flex;flex-direction:column;align-items:center}
 .lead td.nm a:hover{color:var(--gold)}
 .lead td.dl{text-align:center;width:56px;font-weight:700}
 .up{color:#16d97b}.dn{color:#ff8aa0}.eq{color:#5a648c}
+.lead.cons td.tot{color:#b9c2e8}
+.apo{color:#ffd24a;font-size:12px;font-weight:600;font-style:italic;margin-left:6px}
+.gg .apo{display:block;margin:2px 0 0}
 .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
 .gg{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 12px;text-align:center;text-decoration:none;color:var(--txt);transition:.15s}
 .gg:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -367,6 +405,7 @@ def run_demo():
         hx = sum(1 for mn, (rl, rv) in rg.items() if gs[mn] == (rl, rv))
         slug = name.upper().replace(' ', '_')
         players.append({'slug': slug, 'name': name, 'url': f'p/{slug_url(slug)}.html', 'sc': sc,
+                        'apodo': APODOS_DEMO.get(name, ''),
                         'champ': champ, 'h1x2': h1x2, 'hx': hx, 'gs': gs, 'ko': ko, 'esp': esp,
                         'alive': champ in surv, 'validated': name not in unval})
     players.sort(key=lambda p: (-p['sc']['total'], -p['hx'], p['slug']))

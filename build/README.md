@@ -119,6 +119,8 @@ EDGE="/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 
 > **Fix motor (2026-06-09):** `score_player` ahora gatea el avance R32 a "grupos completos" (`len(real_group)>=72`). Antes contaba ~32 equipos "clasificados" aun con grupos sin jugar → puntajes fantasma pre-torneo. Ahora pre-torneo = 0. Selftest sin regresión (los grupos completos siguen contando R32).
 
-### Pendiente
-- ✅ Plantilla (`gen_plantilla.py`) + ingesta (`ingest_plantilla.py`) + páginas + galería + tarjeta + base de resultados/snapshots.
-- Resto del plan de enganche: sub-competencia de consolación (#4), ganchos nominales/apodos (#5).
+### Enganche — mecánicas del deep research (`docs/ENGANCHE_DEEP_RESEARCH.md`)
+- ✅ #1+#2 tarjeta de liga completa a WhatsApp (`gen_tarjeta.py`) + botón Compartir.
+- ✅ #3 rey de la jornada + #4 delta ▲▼ (tarjeta + columna ± del leaderboard, vía snapshots).
+- ✅ #6 **Liga de Consolación** (`gen_galeria.py`): los de fuera del podio compiten aparte (🏅 líder de consolación) — anti-abandono del rezagado (ESPN ladder).
+- ✅ #5 **ganchos nominales**: `data/apodos.csv` (slug,apodo) opcional → apodos «...» en leaderboard/galería/consolación; banda personal en la página individual (`gen_jugador.py`): "tu campeón juega el …", "tu campeón sigue vivo/cayó", "vas Nº de M — a X pts del podio".

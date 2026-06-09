@@ -43,6 +43,8 @@ header .sub{color:var(--mut)}
 color:#a8f0c8;border-radius:12px;padding:12px 18px;text-align:center;font-size:14px}
 .recibido b{color:#d6ffe7}
 .recibido small{display:block;color:#6fbf93;margin-top:4px}
+.apo-band{color:#ffd24a;font-style:italic;font-weight:700;font-size:19px;margin-top:6px}
+.hooks{max-width:760px;margin:12px auto 0;background:#151c34;border:1px solid #2a3358;border-radius:12px;padding:11px 16px;color:#e8ecf7;font-size:14px}
 nav{display:flex;gap:8px;justify-content:center;margin:10px 0}
 nav a{color:var(--mut);text-decoration:none;font-size:13px;padding:5px 14px;border:1px solid var(--line);border-radius:20px}
 .champ{display:flex;justify-content:center;margin:22px 0 8px}
@@ -89,6 +91,45 @@ def slug_url(slug):
 
 def display_name(slug):
     return ' '.join(w.capitalize() for w in slug.replace('_', ' ').split())
+
+
+def _load_apodos():
+    p = os.path.join(HERE, 'data', 'apodos.csv'); d = {}
+    if os.path.exists(p):
+        for r in csv.DictReader(open(p, encoding='utf-8')):
+            if r.get('apodo'):
+                d[r['slug']] = r['apodo'].strip()
+    return d
+
+
+def _load_results():
+    rg, rk = {}, {}
+    p = os.path.join(HERE, 'data', 'resultados.csv')
+    if os.path.exists(p):
+        for r in csv.DictReader(open(p, encoding='utf-8')):
+            if r.get('gl') not in (None, '') and r.get('gv') not in (None, ''):
+                rg[int(r['match_no'])] = (int(r['gl']), int(r['gv']))
+    p = os.path.join(HERE, 'data', 'resultados_ko.csv')
+    if os.path.exists(p):
+        for r in csv.DictReader(open(p, encoding='utf-8')):
+            if r.get('ganador'):
+                rk[int(r['match_no'])] = r['ganador'].strip().upper()
+    return rg, rk
+
+
+def _survivors(rg, rk, rv, eq, fixture, terceros):
+    if len(rg) < 72:
+        return set(eq)
+    r32 = engine.build_r32(engine.compute_all_standings(engine.group_results_by_group(rg, fixture), eq), fixture, terceros)
+    qual = set()
+    for a, b in r32.values():
+        qual.update((a, b))
+    los = set()
+    for mn, w in rk.items():
+        a, b = rv['teams'].get(mn, (None, None))
+        if a and b:
+            los.add(b if w == a else a)
+    return qual - los
 
 
 def load_pred(slug):
@@ -153,6 +194,34 @@ def render(slug, eq, fixture, terceros):
         ei.append(f'🎁 Sorpresa: <b>{esp["sorpresa"]}</b>')
     esp_html = ('<div class="bronze">' + ' &nbsp;·&nbsp; '.join(ei) + '</div>') if ei else ''
 
+    # ---- ganchos personales (research #1: identidad + obsesión) ----
+    apodo = _load_apodos().get(slug, '')
+    rg, rk = _load_results()
+    hooks = []
+    if champ:
+        cm = [m for m in fixture if m['fase'] == 'grupos' and champ in (m['local'], m['visita'])]
+        nx = next((m for m in cm if m['match_no'] not in rg), None)
+        if nx:
+            opp = nx['visita'] if nx['local'] == champ else nx['local']
+            hooks.append(f'📅 {NM.get(champ, champ)} juega el {nx["fecha"][5:]} vs {NM.get(opp, opp)}')
+    if rg or rk:
+        rv = engine.full_bracket(rg, rk, eq, fixture, terceros)
+        alive = champ in _survivors(rg, rk, rv, eq, fixture, terceros)
+        hooks.append('🟢 tu campeón sigue vivo' if alive else '💀 tu campeón cayó')
+        import snapshot
+        players = snapshot.load_players()
+        if len(players) > 1:
+            st = snapshot.compute_standings(players, rg, rk, eq, fixture, terceros)
+            me = next((r for r in st if r['slug'] == slug), None)
+            if me:
+                if me['pos'] <= 3:
+                    hooks.append(f'🎯 Vas {me["pos"]}º de {len(st)} — en zona de premio 🏆')
+                else:
+                    gap = st[2]['total'] - me['total']
+                    hooks.append(f'🎯 Vas {me["pos"]}º de {len(st)} — a {gap} pts del podio')
+    apodo_html = f'<div class="apo-band">«{apodo}»</div>' if apodo else ''
+    hooks_html = ('<div class="hooks">' + ' &nbsp;·&nbsp; '.join(hooks) + '</div>') if hooks else ''
+
     allst = engine.compute_all_standings(engine.group_results_by_group(gs, fixture), eq)
     groups_html = ''
     for g in 'ABCDEFGHIJKL':
@@ -179,8 +248,10 @@ def render(slug, eq, fixture, terceros):
   <div class="kick">Copa Mundial FIFA · Canadá · México · EE.UU.</div>
   <h1>Tu Quiniela 2026</h1>
   <div class="sub">Pronóstico de <b>{name}</b></div>
+  {apodo_html}
   <div class="recibido">✓ <b>Recibido y registrado</b> — {nfilled}/72 marcadores de grupo + tu cuadro completo.
     <small>Este es tu link privado. No lo compartas hasta el cierre ({DEADLINE}).</small></div>
+  {hooks_html}
   <nav><a href="../calendario.html">Calendario del torneo</a></nav>
 </header>
 
