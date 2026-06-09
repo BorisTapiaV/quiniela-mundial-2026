@@ -29,6 +29,7 @@ except Exception:
     pass
 import engine
 import gen_demo_site as demo            # helpers: sim_ko, noisy_group, load_mf, compute_evolution, evolution_svg, clp, fmtdate, HEAD, CUOTA, DIST
+import snapshot                          # delta ▲▼ por jornada (vs último cierre)
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRED = os.path.join(HERE, 'data', 'predicciones')
@@ -126,7 +127,12 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
                         'sc': sc, 'champ': champ, 'h1x2': h1x2, 'hx': hx,
                         'gs': gs, 'ko': ko, 'esp': esp,
                         'alive': champ in survivors, 'validated': (validated is None or slug in validated)})
-    players.sort(key=lambda p: (-p['sc']['total'], -p['hx']))
+    players.sort(key=lambda p: (-p['sc']['total'], -p['hx'], p['slug']))
+    # delta ▲▼ vs el último snapshot de jornada (data/historico/)
+    prev = snapshot.read_last()
+    for i, p in enumerate(players, 1):
+        pe = prev.get(p['slug'])
+        p['delta'] = (pe['pos'] - i) if pe else None
     return players
 
 
@@ -157,6 +163,17 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
                     f'<div class="ggl">ver mi pronóstico →</div></a>')
 
     # ---- leaderboard (siempre; 0 si no hay resultados) ----
+    show_delta = any(p.get('delta') is not None for p in players)
+
+    def darrow(d):
+        if d is None:
+            return '<span class="eq">—</span>'
+        if d > 0:
+            return f'<span class="up">▲{d}</span>'
+        if d < 0:
+            return f'<span class="dn">▼{abs(d)}</span>'
+        return '<span class="eq">=</span>'
+
     lb = ''
     for i, p in enumerate(players, 1):
         sc = p['sc']
@@ -167,11 +184,12 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
         else:
             badge = '<span class="b seal">🔒 sellado</span>'
         ch = f'{flag(p["champ"], 40)}<span>{NM.get(p["champ"], p["champ"])}</span>' if p['champ'] else '—'
+        dcell = f'<td class="dl">{darrow(p.get("delta"))}</td>' if show_delta else ''
         lb += (f'<tr class="{"" if p["validated"] else "unval"}"><td class="rk">{medal}</td>'
                f'<td class="nm"><a href="{p["url"]}">{p["name"]}</a> {tick}</td>'
                f'<td class="cp">{ch}</td>'
                f'<td>{sc["grupo"]}</td><td>{sc["avance"]}</td><td class="tot">{sc["total"]}</td>'
-               f'<td>{badge}</td></tr>')
+               f'{dcell}<td>{badge}</td></tr>')
 
     # ---- premios (pozo siempre; asignación al top-3 solo con resultados) ----
     nval = sum(1 for p in players if p['validated'])
@@ -255,7 +273,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 
 <h2 class="sec">🏁 Tabla de posiciones</h2>
 {lead_note}
-<table class="lead"><tr><th>#</th><th>Jugador</th><th>Su campeón</th><th>Grupos</th><th>KO</th><th>Total</th><th>Estado</th></tr>{lb}</table>
+<table class="lead"><tr><th>#</th><th>Jugador</th><th>Su campeón</th><th>Grupos</th><th>KO</th><th>Total</th>{'<th title="cambio desde la jornada anterior">±</th>' if show_delta else ''}<th>Estado</th></tr>{lb}</table>
 
 {premios}
 
@@ -281,6 +299,8 @@ header{display:flex;flex-direction:column;align-items:center}
 .b.seal{background:#23284a;color:var(--mut)}
 .lead td.nm a{color:var(--txt);text-decoration:none;border-bottom:1px dotted var(--line)}
 .lead td.nm a:hover{color:var(--gold)}
+.lead td.dl{text-align:center;width:56px;font-weight:700}
+.up{color:#16d97b}.dn{color:#ff8aa0}.eq{color:#5a648c}
 .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
 .gg{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 12px;text-align:center;text-decoration:none;color:var(--txt);transition:.15s}
 .gg:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -349,7 +369,14 @@ def run_demo():
         players.append({'slug': slug, 'name': name, 'url': f'p/{slug_url(slug)}.html', 'sc': sc,
                         'champ': champ, 'h1x2': h1x2, 'hx': hx, 'gs': gs, 'ko': ko, 'esp': esp,
                         'alive': champ in surv, 'validated': name not in unval})
-    players.sort(key=lambda p: (-p['sc']['total'], -p['hx']))
+    players.sort(key=lambda p: (-p['sc']['total'], -p['hx'], p['slug']))
+    # delta ▲▼ demo: comparar contra el corte previo (16avos jugados, <=88)
+    rk_prev = {mn: w for mn, w in rk_full.items() if mn <= 88}
+    rv_prev = engine.full_bracket(rg, rk_prev, eq, fixture, terceros)
+    ptot = {p['slug']: engine.score_player(p['gs'], p['ko'], rv_prev, rg, p['esp'], {}, eq, fixture, terceros)['total'] for p in players}
+    porder = sorted(ptot, key=lambda s: -ptot[s]); ppos = {s: i + 1 for i, s in enumerate(porder)}
+    for i, p in enumerate(players, 1):
+        p['delta'] = ppos[p['slug']] - i
     ranks, miles = demo.compute_evolution(players, rg, rk_full, fixture, eq, terceros)
     has, state = state_line(rg, rk, real_view, NM)
     out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=True)

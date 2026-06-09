@@ -51,18 +51,20 @@ def ranks_from(totals):
     return {slug: i + 1 for i, slug in enumerate(order)}
 
 
-def build_state(players, rg_now, rk_now, rg_prev, rk_prev, eq, fixture, terceros, NM, ISO, jornada_label):
+def build_state(players, rg_now, rk_now, prev_map, eq, fixture, terceros, NM, ISO, jornada_label):
+    """prev_map = {slug: {'total':int,'pos':int}} del snapshot anterior (o {} si no hay)."""
     t_now, rv_now = score_at(players, rg_now, rk_now, eq, fixture, terceros)
-    t_prev, _ = score_at(players, rg_prev, rk_prev, eq, fixture, terceros)
-    r_now = ranks_from(t_now); r_prev = ranks_from(t_prev)
+    r_now = ranks_from(t_now)
     by = {p['slug']: p for p in players}
     rows = []
     for slug in sorted(t_now, key=lambda s: -t_now[s]):
         p = by[slug]
+        pe = prev_map.get(slug)
         rows.append({
             'slug': slug, 'name': p['name'], 'champ': p['champ'],
-            'total': t_now[slug], 'round_pts': t_now[slug] - t_prev[slug],
-            'delta': r_prev[slug] - r_now[slug],          # + = subió
+            'total': t_now[slug],
+            'round_pts': t_now[slug] - (pe['total'] if pe else 0),   # vs snapshot anterior (o todo si 1ª jornada)
+            'delta': (pe['pos'] - r_now[slug]) if pe else None,       # + = subió · None = sin referencia
             'pos': r_now[slug],
         })
     # equipos aún vivos (no eliminados) para badge campeón
@@ -71,8 +73,9 @@ def build_state(players, rg_now, rk_now, rg_prev, rk_prev, eq, fixture, terceros
         r['alive'] = r['champ'] in surv
     lider = rows[0]
     rey = max(rows, key=lambda r: r['round_pts'])
-    subio = max(rows, key=lambda r: r['delta'])
-    cayo = min(rows, key=lambda r: r['delta'])
+    movers = [r for r in rows if r['delta'] is not None]
+    subio = max(movers, key=lambda r: r['delta']) if movers else None
+    cayo = min(movers, key=lambda r: r['delta']) if movers else None
     muertos = [r for r in rows if not r['alive']]
     return {'rows': rows, 'lider': lider, 'rey': rey, 'subio': subio, 'cayo': cayo,
             'muertos': muertos, 'jornada': jornada_label, 'NM': NM, 'ISO': ISO}
@@ -104,11 +107,19 @@ def render(st, fecha_label):
     lider, rey, subio, cayo = st['lider'], st['rey'], st['subio'], st['cayo']
 
     def arrow(d):
+        if d is None:
+            return '<span class="eq">—</span>'
         if d > 0:
             return f'<span class="up">▲{d}</span>'
         if d < 0:
             return f'<span class="dn">▼{abs(d)}</span>'
-        return '<span class="eq">—</span>'
+        return '<span class="eq">=</span>'
+
+    # tiles de movimiento (pueden no existir si es la 1ª jornada / sin snapshot previo)
+    subio_name = subio['name'].split()[0] if subio else '—'
+    subio_x = f"▲{subio['delta']}" if (subio and subio['delta'] > 0) else '—'
+    cayo_name = cayo['name'].split()[0] if cayo else '—'
+    cayo_x = f"▼{abs(cayo['delta'])}" if (cayo and cayo['delta'] < 0) else '—'
 
     # mini-tabla: top 5 + el último (cubrir liga completa, incl. el del fondo)
     rows = st['rows']
@@ -193,8 +204,8 @@ padding-top:18px;border-top:1px solid #2a3358}}
 
   <div class="tiles">
     <div class="tile"><div class="t">👑 Rey de la jornada</div><div class="w">{rey['name'].split()[0]}</div><div class="x">+{rey['round_pts']} pts</div></div>
-    <div class="tile"><div class="t">📈 Trepó</div><div class="w">{subio['name'].split()[0]}</div><div class="x">{('▲' + str(subio['delta'])) if subio['delta'] > 0 else '—'}</div></div>
-    <div class="tile dn"><div class="t">📉 Se hundió</div><div class="w">{cayo['name'].split()[0]}</div><div class="x">{('▼' + str(abs(cayo['delta']))) if cayo['delta'] < 0 else '—'}</div></div>
+    <div class="tile"><div class="t">📈 Trepó</div><div class="w">{subio_name}</div><div class="x">{subio_x}</div></div>
+    <div class="tile dn"><div class="t">📉 Se hundió</div><div class="w">{cayo_name}</div><div class="x">{cayo_x}</div></div>
   </div>
 
   {muertos_html}
@@ -255,7 +266,10 @@ def run_demo():
             esp = {'campeon': engine.full_bracket(gs, ko, eq, fixture, terceros)['champion']}
         players.append({'slug': name.upper().replace(' ', '_'), 'name': name, 'gs': gs, 'ko': ko, 'esp': esp,
                         'champ': engine.full_bracket(gs, ko, eq, fixture, terceros)['champion']})
-    st = build_state(players, rg, rk_now, rg, rk_prev, eq, fixture, terceros, NM, ISO, 'Tras los Octavos de Final')
+    t_prev, _ = score_at(players, rg, rk_prev, eq, fixture, terceros)
+    r_prev = ranks_from(t_prev)
+    prev_map = {s: {'total': t_prev[s], 'pos': r_prev[s]} for s in t_prev}
+    st = build_state(players, rg, rk_now, prev_map, eq, fixture, terceros, NM, ISO, 'Tras los Octavos de Final')
     render_png(render(st, 'Vista de muestra'))
 
 
@@ -300,14 +314,10 @@ def run_real():
                     rk[int(r['match_no'])] = r['ganador']
         return rg, rk
     rg_now, rk_now = load_res('')
-    prevdir = os.path.join(HERE, 'data', 'historico')
-    rg_prev, rk_prev = (rg_now, rk_now)
-    if os.path.isdir(prevdir):
-        snaps = sorted(f for f in os.listdir(prevdir) if f.endswith('.csv') and 'ko' not in f and 'especiales' not in f)
-        # (best-effort: si hay snapshot previo, úsalo; si no, delta=0)
-    st = build_state(players, rg_now, rk_now, rg_prev, rk_prev, eq, fixture, terceros, NM, ISO,
+    import snapshot
+    prev_map = snapshot.read_last()          # delta vs el último cierre de jornada
+    st = build_state(players, rg_now, rk_now, prev_map, eq, fixture, terceros, NM, ISO,
                      'Estado actual' if rg_now else 'El torneo aún no comienza')
-    import datetime  # noqa
     render_png(render(st, 'hoy'))
 
 

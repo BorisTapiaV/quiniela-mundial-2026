@@ -102,9 +102,23 @@ EDGE="/c/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 
 ---
 
-## Hacia producción (Paso 7)
+## Torneo en vivo — base de resultados + snapshots (Paso 8)
 
-1. ✅ Plantilla Excel en blanco (`gen_plantilla.py`) → repartir → cada jugador llena → ingerir con `ingest_plantilla.py` a `data/predicciones/<slug>.csv`.
-2. Cargar `data/resultados.csv` (parcial, lo jugado) a medida que avanza el torneo.
-3. Un `gen_site.py` de producción: lee todas las predicciones + resultados → motor → leaderboard en vivo + vistas.
-4. Deploy de `site/` a Netlify (regenerar al entrar resultados).
+| Script | Qué hace |
+|--------|----------|
+| `seed_resultados.py` | Crea las plantillas EN BLANCO `data/resultados.csv` (72 grupos: gl/gv) + `resultados_ko.csv` (32 KO: ganador) + `resultados_especiales.csv`. NO sobrescribe si ya tienen datos (`--force` para regenerar). |
+| `snapshot.py` | Snapshots por jornada en `data/historico/<NN>_<label>.csv` (slug,total,pos) + cálculo del **delta ▲▼** (posición vs el último snapshot). Lo consumen `gen_galeria` (columna ±) y `gen_tarjeta` (tiles + columna). |
+| `actualizar.py` ★ | **Orquestador.** `python build/actualizar.py` regenera páginas + portada + tarjeta (delta vs último cierre). `--cierre "MD1"` además **guarda un snapshot** (punto de comparación de la próxima vez). Cuando los grupos están completos, imprime los cruces reales del R32 para llenar el KO. |
+
+**Flujo diario de Boris:**
+1. Llenar lo jugado en `data/resultados.csv` (gl/gv) y `data/resultados_ko.csv` (ganador = código).
+2. `python build/actualizar.py` → regenera todo con el delta del día.
+3. Mandar `tarjetas/tarjeta-dia.png` al grupo de WhatsApp.
+4. Al cerrar la jornada/día: `python build/actualizar.py --cierre "MD2 grupos"` (guarda snapshot).
+5. `netlify deploy --dir=site --prod --site <id>` para publicar.
+
+> **Fix motor (2026-06-09):** `score_player` ahora gatea el avance R32 a "grupos completos" (`len(real_group)>=72`). Antes contaba ~32 equipos "clasificados" aun con grupos sin jugar → puntajes fantasma pre-torneo. Ahora pre-torneo = 0. Selftest sin regresión (los grupos completos siguen contando R32).
+
+### Pendiente
+- ✅ Plantilla (`gen_plantilla.py`) + ingesta (`ingest_plantilla.py`) + páginas + galería + tarjeta + base de resultados/snapshots.
+- Resto del plan de enganche: sub-competencia de consolación (#4), ganchos nominales/apodos (#5).

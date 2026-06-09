@@ -277,8 +277,12 @@ def score_player(pred_group, pred_ko, real_bracket, real_group,
     grupo = sum(score_group_match(pred_group[mn], real_group[mn])
                 for mn in real_group if mn in pred_group)
     avance, det = 0, {}
+    groups_done = len(real_group) >= 72       # nadie "clasifica a R32" hasta que terminan los grupos
     for rnd, wt in W_ADV.items():
-        n = len(pb['sets'][rnd] & real_bracket['sets'][rnd])
+        if rnd == 'R32' and not groups_done:
+            n = 0                              # grupos en curso/sin jugar: avance R32 aún no cuenta
+        else:
+            n = len(pb['sets'][rnd] & real_bracket['sets'][rnd])
         det[rnd] = n * wt; avance += n * wt
     esp = 0
     if pb['champion'] and pb['champion'] == real_bracket['champion']:
