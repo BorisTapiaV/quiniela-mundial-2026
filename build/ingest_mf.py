@@ -13,7 +13,8 @@ import engine
 
 XLSM = os.path.expanduser('~/Downloads/MF_2026_Pronosticos.xlsm')
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SLUG = 'MF'
+SLUG = sys.argv[1] if len(sys.argv) > 1 else 'MF'     # uso: python build/ingest_mf.py PAULO_SALAS "Paulo Salas"
+NAME = sys.argv[2] if len(sys.argv) > 2 else ''       # nombre real del dueño del pronóstico
 
 NAME2CODE = {
     'Alemania':'GER','Arabia Saudí':'KSA','Argelia':'ALG','Argentina':'ARG','Australia':'AUS',
@@ -92,15 +93,16 @@ def main():
     with open(os.path.join(HERE, f'data/predicciones/{SLUG}_especiales.csv'), 'w', encoding='utf-8', newline='') as f:
         w = csv.writer(f); w.writerow(['clave', 'valor'])
         w.writerow(['campeon', campeon or ''])
-        w.writerow(['goleador', ''])           # MF no llenó (hoja Goleador vacía)
+        w.writerow(['goleador', ''])           # hoja Goleador vacía en el .xlsm
         w.writerow(['primer_eliminado', ''])
         w.writerow(['sorpresa', ''])
+        w.writerow(['jugador', NAME])          # nombre real del dueño del pronóstico
 
-    print('INGESTA MF completa:')
-    print('  grupos: 72 marcadores → MF.csv')
-    print(f'  KO: {len(ko_winners)} ganadores → MF_ko.csv  (penales resueltos: M73={nm[ko_winners[73]]})')
-    print(f'  consistencia bracket motor vs picks MF: {"OK (0 inconsistencias)" if not inconsist else "FALLA en "+str(inconsist)}')
-    print('\nBracket COMPLETO predicho por MF:')
+    print(f'INGESTA {SLUG} completa{" (" + NAME + ")" if NAME else ""}:')
+    print(f'  grupos: 72 marcadores → {SLUG}.csv')
+    print(f'  KO: {len(ko_winners)} ganadores → {SLUG}_ko.csv  (penales resueltos: M73={nm[ko_winners[73]]})')
+    print(f'  consistencia bracket motor vs picks: {"OK (0 inconsistencias)" if not inconsist else "FALLA en "+str(inconsist)}')
+    print(f'\nBracket COMPLETO predicho por {NAME or SLUG}:')
     print('  R16 :', ', '.join(nm[pb['win'][m]] for m in range(89, 97)))
     print('  QF  :', ', '.join(nm[pb['win'][m]] for m in range(97, 101)))
     print('  SF  :', ', '.join(nm[pb['win'][m]] for m in (101, 102)))
