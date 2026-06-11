@@ -12,7 +12,7 @@ El puntaje real nunca depende de las fórmulas del Excel, solo de estos CSV + en
 
 Uso:  python build/ingest_plantilla.py <archivo.xlsx> [slug]
 """
-import sys, os, csv, re
+import sys, os, csv, re, unicodedata
 from openpyxl import load_workbook
 try:
     sys.stdout.reconfigure(encoding='utf-8')   # consola Windows: permitir ✓/⚠
@@ -78,12 +78,15 @@ def main():
             group_scores[m['match_no']] = (gl, gv)
             rows_out.append((m['match_no'], m['local'], m['visita'], gl, gv))
 
-    # mapeo NOMBRE -> código (los dropdowns guardan nombres completos); acepta código directo también
-    name2code = {v['nombre_es'].strip().upper(): c for c, v in eq.items()}
+    # mapeo NOMBRE -> código (los dropdowns guardan nombres completos); acepta código directo también.
+    # Normaliza acentos+mayúsculas: algunos Excel/visores guardan "MEXICO"/"BELGICA" sin tilde.
+    def _norm(s):
+        return unicodedata.normalize('NFKD', str(s)).encode('ascii', 'ignore').decode().strip().upper()
+    name2code = {_norm(v['nombre_es']): c for c, v in eq.items()}
     def to_code(val):
         if not val:
             return ''
-        up = str(val).strip().upper()
+        up = _norm(val)
         if up in name2code:
             return name2code[up]
         if up in eq:                       # ya es un código (ESP, FRA…)
