@@ -85,6 +85,16 @@ header{display:flex;flex-direction:column;align-items:center}
 .lvsub{font-weight:500;opacity:.85}
 .lvdot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#ff3b5c;animation:lvp 1.4s infinite}
 @keyframes lvp{0%{box-shadow:0 0 0 0 #ff3b5c88}70%{box-shadow:0 0 0 8px #ff3b5c00}100%{box-shadow:0 0 0 0 #ff3b5c00}}
+.rday{margin:8px 0 14px}
+.rdate{color:var(--gold);font-size:12px;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:10px}
+.rmatch{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.rsc{display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;flex-wrap:wrap}
+.rsc .flag{width:30px;border-radius:3px;box-shadow:0 2px 6px #0007}
+.rsc .rt{font-weight:600;min-width:88px;text-align:center}
+.rscore{font-size:22px;font-weight:800;color:var(--gold);padding:0 4px}
+.rscore i{color:var(--mut);font-style:normal;margin:0 3px}
+.rwho{font-size:12px;color:var(--mut);text-align:center;margin-top:7px}
+.rwho.hit{color:#16d97b;font-weight:600}.rwho.gan{color:#b9c2e8}.rwho.none{color:#6b7398;font-style:italic}
 </style>
 <header><img class="brand-logo" src="fisio-fc.png" alt="Fisioterapia & Futbolito FC">
 <div class="kick">Copa Mundial FIFA 2026 · Canadá · México · EE.UU.</div>
@@ -101,6 +111,8 @@ header{display:flex;flex-direction:column;align-items:center}
 <h2 class="sec">🏁 Tabla de posiciones</h2>
 
 <table class="lead"><tr><th>#</th><th>Jugador</th><th>Su campeón</th><th>Grupos</th><th>KO</th><th>Total</th><th>Estado</th></tr><tr class=""><td class="rk">🥇</td><td class="nm"><a href="p/carlos-salgado.html">Carlos Salgado</a> <span class="vtick" title="validado">✓</span></td><td class="cp"><img class="flag" src="https://flagcdn.com/w40/pt.png" alt=""><span>Portugal</span></td><td>5</td><td>0</td><td class="tot">5</td><td><span class="b alive">🟢 vivo</span></td></tr><tr class=""><td class="rk">🥈</td><td class="nm"><a href="p/casa.html">Boris Tapia V (La Casa)</a> <span class="vtick" title="validado">✓</span></td><td class="cp"><img class="flag" src="https://flagcdn.com/w40/es.png" alt=""><span>España</span></td><td>5</td><td>0</td><td class="tot">5</td><td><span class="b alive">🟢 vivo</span></td></tr><tr class=""><td class="rk">🥉</td><td class="nm"><a href="p/andres-acosta.html">Andrés Acosta (Colombia)</a> <span class="vtick" title="validado">✓</span></td><td class="cp"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt=""><span>Francia</span></td><td>3</td><td>0</td><td class="tot">3</td><td><span class="b alive">🟢 vivo</span></td></tr><tr class=""><td class="rk">4</td><td class="nm"><a href="p/jorge-vasquez.html">Jorge Vásquez</a> <span class="vtick" title="validado">✓</span></td><td class="cp">—</td><td>2</td><td>0</td><td class="tot">2</td><td><span class="b seal">— sin campeón</span></td></tr><tr class=""><td class="rk">5</td><td class="nm"><a href="p/paulo-salas.html">Paulo Salas</a> <span class="vtick" title="validado">✓</span></td><td class="cp"><img class="flag" src="https://flagcdn.com/w40/es.png" alt=""><span>España</span></td><td>2</td><td>0</td><td class="tot">2</td><td><span class="b alive">🟢 vivo</span></td></tr></table>
+
+<h2 class="sec">📋 Resultados por día <span class="note">(lo más reciente arriba)</span></h2><div class="rday"><div class="rdate">11 jun</div><div class="rmatch"><div class="rsc"><img class="flag" src="https://flagcdn.com/w40/mx.png" alt=""><span class="rt">México</span><span class="rscore">2<i>-</i>0</span><span class="rt">Sudáfrica</span><img class="flag" src="https://flagcdn.com/w40/za.png" alt=""></div><div class="rwho hit">🎯 clavaron: Carlos Salgado, Boris Tapia V (La Casa)</div><div class="rwho gan">✓ ganador: Andrés Acosta (Colombia), Jorge Vásquez, Paulo Salas</div></div></div>
 
 <h2 class="sec">💰 Premios</h2><div class="pot">Pozo actual <b>$50.000</b> · 5/5 validados · cuota $10.000<span class="potnote">reparto 🥇 50% · 🥈 30% · 🥉 20%</span></div><div class="prizes"><div class="prow"><div class="pm">🥇 Carlos Salgado</div><div class="pa">$25.000</div><span class="pg">✓ en juego</span></div><div class="prow"><div class="pm">🥈 Boris Tapia V (La Casa)</div><div class="pa">$15.000</div><span class="pg">✓ en juego</span></div><div class="prow"><div class="pm">🥉 Andrés Acosta (Colombia)</div><div class="pa">$10.000</div><span class="pg">✓ en juego</span></div></div><div class="potfoot">El que no valida igual aparece y ve <b>lo que dejaría de ganar</b> — pero no lo cobra.</div>
 

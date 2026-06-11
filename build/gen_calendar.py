@@ -26,6 +26,13 @@ def main():
             if r.get('abierta') == '1':
                 abierta.add(int(r['match_no']))
     fxno = {m['match_no']: m for m in fixture}
+    # resultados jugados (B): marcador en los partidos ya disputados
+    res = {}
+    rpath = os.path.join(HERE, 'data', 'resultados.csv')
+    if os.path.exists(rpath):
+        for r in csv.DictReader(open(rpath, encoding='utf-8')):
+            if r.get('gl') not in (None, '') and r.get('gv') not in (None, ''):
+                res[int(r['match_no'])] = (r['gl'], r['gv'])
     MESN = {6: 'jun', 7: 'jul'}
     cuadro_rows = ''
     for mn in sorted(abierta):
@@ -56,9 +63,13 @@ def main():
             evs = ''
             for m in by_day.get(iso, []):
                 if m['fase'] == 'grupos':
-                    a, b = m['local'], m['visita']
-                    tvb = '<span class="tvb" title="TV abierta · Chilevisión">📺</span>' if m['match_no'] in abierta else ''
-                    evs += (f'<div class="ev{" free" if m["match_no"] in abierta else ""}"><span class="h">{m["hora_chile"]}</span>'
+                    a, b = m['local'], m['visita']; mn = m['match_no']
+                    tvb = '<span class="tvb" title="TV abierta · Chilevisión">📺</span>' if mn in abierta else ''
+                    if mn in res:
+                        head = f'<span class="sc">{res[mn][0]}-{res[mn][1]}</span>'; evcls = ' played'
+                    else:
+                        head = f'<span class="h">{m["hora_chile"]}</span>'; evcls = ' free' if mn in abierta else ''
+                    evs += (f'<div class="ev{evcls}">{head}'
                             f'{flag(a)}<b>{a}</b><i>vs</i>{flag(b)}<b>{b}</b>{tvb}</div>')
                 else:
                     evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
@@ -140,6 +151,8 @@ h2.sec{font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--g
 .ev img{width:15px;border-radius:2px;flex:0 0 auto}.ev b{font-weight:600}.ev i{color:var(--mut);font-style:normal;margin:0 1px}
 .ev.ko{background:#241a33}.ev.ko b{color:var(--gold)}
 footer{text-align:center;color:var(--mut);font-size:12px;margin:30px 0 10px}
+.ev.played{background:#10301c;border-color:#1f6b3f}
+.ev .sc{color:#16d97b;font-weight:800;background:#0c2418;border-radius:4px;padding:0 4px;margin-right:2px}
 @media(max-width:760px){.ev{font-size:10px}.cell{min-height:60px}}
 </style></head><body><div class="wrap">"""
 

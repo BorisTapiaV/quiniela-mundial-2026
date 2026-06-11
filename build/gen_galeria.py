@@ -167,6 +167,16 @@ def state_line(real_group, real_ko, real_view, NM):
     return True, f'🏆 <b>Torneo cerrado</b> · campeón <b>{NM.get(champ, champ)}</b>'
 
 
+MESES = ['', 'ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
+
+
+def fmt_fecha(s):
+    try:
+        y, m, d = s.split('-'); return f'{int(d)} {MESES[int(m)]}'
+    except Exception:
+        return s
+
+
 def build_matches_json(NM, ISO):
     """Datos de los 104 partidos (kickoff en UTC) para el indicador 'en juego' client-side."""
     import json as _json
@@ -215,7 +225,7 @@ _band(); setInterval(_band,30000);
 """
 
 
-def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, is_demo, n_played=0):
+def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, is_demo, n_played=0, real_group=None):
     def flag(c, w=40):
         return f'<img class="flag" src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
 
@@ -357,6 +367,36 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
     share_text = urllib.parse.quote(f'📊 Quiniela Mundial 2026 — mira cómo va la tabla 👀\n{SITE_URL}/')
     share_href = f'https://wa.me/?text={share_text}'
 
+    # ---- Resultados por día (A): marcador + quién acertó, lo más reciente arriba ----
+    results_html = ''
+    if real_group:
+        byday = {}
+        for mn, (gl, gv) in real_group.items():
+            m = fxno.get(mn)
+            if not m or m.get('fase') != 'grupos':
+                continue
+            byday.setdefault(m['fecha'], []).append((mn, gl, gv, m))
+        daysec = ''
+        for fecha in sorted(byday, reverse=True):
+            rows = ''
+            for mn, gl, gv, m in sorted(byday[fecha], key=lambda t: -t[0]):
+                la, vi = m['local'], m['visita']
+                clav = [pp['name'] for pp in players if pp['gs'].get(mn) == (gl, gv)]
+                gana = [pp['name'] for pp in players if pp['gs'].get(mn) and pp['gs'].get(mn) != (gl, gv)
+                        and engine._outcome(*pp['gs'][mn]) == engine._outcome(gl, gv)]
+                who = ''
+                if clav:
+                    who += f'<div class="rwho hit">🎯 clavaron: {", ".join(clav)}</div>'
+                if gana:
+                    who += f'<div class="rwho gan">✓ ganador: {", ".join(gana)}</div>'
+                if not clav and not gana:
+                    who = '<div class="rwho none">nadie acertó</div>'
+                rows += (f'<div class="rmatch"><div class="rsc">{flag(la, 40)}<span class="rt">{NM.get(la, la)}</span>'
+                         f'<span class="rscore">{gl}<i>-</i>{gv}</span><span class="rt">{NM.get(vi, vi)}</span>{flag(vi, 40)}</div>{who}</div>')
+            daysec += f'<div class="rday"><div class="rdate">{fmt_fecha(fecha)}</div>{rows}</div>'
+        if daysec:
+            results_html = f'<h2 class="sec">📋 Resultados por día <span class="note">(lo más reciente arriba)</span></h2>{daysec}'
+
     head = demo.HEAD.replace('{TITLE}', 'Pronósticos y tabla').replace('</head>', og + '</head>')
     html = head + EXTRA_CSS + f"""
 <header><img class="brand-logo" src="fisio-fc.png" alt="Fisioterapia & Futbolito FC">
@@ -374,6 +414,8 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 <h2 class="sec">🏁 Tabla de posiciones</h2>
 {lead_note}
 <table class="lead"><tr><th>#</th><th>Jugador</th><th>Su campeón</th><th>Grupos</th><th>KO</th><th>Total</th>{'<th title="cambio desde la jornada anterior">±</th>' if show_delta else ''}<th>Estado</th></tr>{lb}</table>
+
+{results_html}
 
 {premios}
 
@@ -426,6 +468,16 @@ header{display:flex;flex-direction:column;align-items:center}
 .lvsub{font-weight:500;opacity:.85}
 .lvdot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#ff3b5c;animation:lvp 1.4s infinite}
 @keyframes lvp{0%{box-shadow:0 0 0 0 #ff3b5c88}70%{box-shadow:0 0 0 8px #ff3b5c00}100%{box-shadow:0 0 0 0 #ff3b5c00}}
+.rday{margin:8px 0 14px}
+.rdate{color:var(--gold);font-size:12px;letter-spacing:.12em;text-transform:uppercase;border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:10px}
+.rmatch{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.rsc{display:flex;align-items:center;justify-content:center;gap:8px;font-size:15px;flex-wrap:wrap}
+.rsc .flag{width:30px;border-radius:3px;box-shadow:0 2px 6px #0007}
+.rsc .rt{font-weight:600;min-width:88px;text-align:center}
+.rscore{font-size:22px;font-weight:800;color:var(--gold);padding:0 4px}
+.rscore i{color:var(--mut);font-style:normal;margin:0 3px}
+.rwho{font-size:12px;color:var(--mut);text-align:center;margin-top:7px}
+.rwho.hit{color:#16d97b;font-weight:600}.rwho.gan{color:#b9c2e8}.rwho.none{color:#6b7398;font-style:italic}
 </style>"""
 
 
@@ -450,7 +502,7 @@ def run_real():
     ranks = miles = None
     if has and len(rg) > 0:
         ranks, miles = demo.compute_evolution(players, rg, rk, fixture, eq, terceros)
-    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=False, n_played=len(rg))
+    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=False, n_played=len(rg), real_group=rg)
     print(f'{out} generado · {len(players)} jugadores · estado: {"con resultados" if has else "pre-torneo"}')
 
 
@@ -498,7 +550,7 @@ def run_demo():
         p['delta'] = ppos[p['slug']] - i
     ranks, miles = demo.compute_evolution(players, rg, rk_full, fixture, eq, terceros)
     has, state = state_line(rg, rk, real_view, NM)
-    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=True, n_played=len(rg))
+    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=True, n_played=len(rg), real_group=rg)
     print(f'{out} (DEMO) generado · {len(players)} jugadores · líder {players[0]["name"]} {players[0]["sc"]["total"]}')
 
 
