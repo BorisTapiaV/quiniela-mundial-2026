@@ -298,8 +298,11 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 
     head = demo.HEAD.replace('{TITLE}', 'Pronósticos y tabla').replace('</head>', og + '</head>')
     html = head + EXTRA_CSS + f"""
-<header><div class="kick">Copa Mundial FIFA · Canadá · México · EE.UU.</div>
+<header><img class="brand-logo" src="fisio-fc.png" alt="Fisioterapia & Futbolito FC">
+<div class="kick">Copa Mundial FIFA 2026 · Canadá · México · EE.UU.</div>
 <h1>Quiniela 2026</h1>
+<div class="sponsor">⚽ El fútbol lo ponemos nosotros, la fisioterapia la pone la edad
+<span class="sponsor-sub">patrocinado por el kinesiólogo de confianza y el ibuprofeno 600 💊🧊</span></div>
 <nav><a class="on" href="index.html">Posiciones</a><a href="calendario.html">Calendario</a></nav>
 <a class="share" href="{share_href}" target="_blank" rel="noopener">📲 Compartir al grupo</a>
 {demobanner}</header>
@@ -346,6 +349,10 @@ header{display:flex;flex-direction:column;align-items:center}
 .ggc{color:var(--gold);font-size:12px;margin-top:8px}
 .ggn{font-weight:700;font-size:15px;margin-top:6px}
 .ggl{color:var(--mut);font-size:12px;margin-top:6px}
+.brand-logo{width:84px;height:84px;border-radius:18px;object-fit:cover;box-shadow:0 6px 20px #0008;border:2px solid var(--line);display:block;margin:2px auto 8px}
+.sponsor{color:var(--gold);font-size:14px;font-weight:700;font-style:italic;margin:8px auto 2px;max-width:600px;line-height:1.35}
+.sponsor-sub{display:block;color:var(--mut);font-weight:500;font-style:normal;font-size:12px;margin-top:3px}
+@media(max-width:560px){.brand-logo{width:66px;height:66px}.sponsor{font-size:12px;padding:0 10px}}
 </style>"""
 
 

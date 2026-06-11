@@ -71,8 +71,10 @@ def main():
         months_html += f'<h2 class="sec">{MESNOM[mes]} 2026</h2><div class="cal">{grid}</div>'
 
     html = HEAD + f"""
-<header><div class="kick">Copa Mundial FIFA · Canadá · México · EE.UU.</div>
+<header><img class="brand-logo" src="fisio-fc.png" alt="Fisioterapia & Futbolito FC">
+<div class="kick">Copa Mundial FIFA 2026 · Canadá · México · EE.UU.</div>
 <h1>Quiniela 2026</h1>
+<div class="sponsor">⚽ El fútbol lo ponemos nosotros, la fisioterapia la pone la edad</div>
 <nav><a href="index.html">Posiciones</a><a class="on" href="calendario.html">Calendario</a></nav></header>
 <div class="legend">🕐 <b>Todas las horas en HORA DE CHILE</b> · banderas: fase de grupos · las eliminatorias muestran la ronda</div>
 <div class="tv">
@@ -103,6 +105,8 @@ HEAD = """<!doctype html><html lang="es"><head><meta charset="utf-8">
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0b1020,#0e1530);color:var(--txt);font:15px/1.4 system-ui,'Segoe UI',Roboto,sans-serif}
 .wrap{max-width:1180px;margin:0 auto;padding:24px}
 header{text-align:center;padding:24px 0 6px}.kick{color:var(--gold);letter-spacing:.18em;font-size:12px;text-transform:uppercase}
+.brand-logo{width:64px;height:64px;border-radius:14px;object-fit:cover;box-shadow:0 5px 16px #0008;border:2px solid var(--line);display:block;margin:0 auto 6px}
+.sponsor{color:var(--gold);font-size:13px;font-weight:700;font-style:italic;margin:6px auto 2px;max-width:560px}
 h1{margin:6px 0 4px;font-size:30px}
 nav{display:flex;gap:8px;justify-content:center;margin:8px 0}
 nav a{color:var(--mut);text-decoration:none;font-size:13px;padding:5px 14px;border:1px solid var(--line);border-radius:20px}
