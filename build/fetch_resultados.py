@@ -129,6 +129,8 @@ def main():
         gl, gv = sc.get('home'), sc.get('away')
         stage = m.get('stage')
         if stage == 'GROUP_STAGE':
+            if gl is None or gv is None:
+                continue                      # FINISHED pero el marcador aún no está publicado (delay del tier gratis)
             mn = pair2mn.get(frozenset((ca, cb)))
             if mn is None:
                 print(f'  ⚠ par de grupo no encontrado en fixture: {NM.get(ca,ca)} vs {NM.get(cb,cb)}')
