@@ -1,22 +1,21 @@
 name: Actualizar quiniela (resultados + deploy)
 
-# Trae los resultados de football-data.org, regenera el sitio y deploya por CLI a Netlify.
-# (El sitio NO usa el auto-deploy de Git de Netlify — está conectado a otro repo y detenido.
-#  Por eso deployamos directo con el CLI.)
+# Cada 15 min en horario de partidos: consulta football-data (gratis) y SOLO regenera +
+# deploya si entró un resultado nuevo. Si no cambió nada, no gasta deploy (ahorra créditos
+# Netlify + minutos GitHub). Guarda los resultados en el repo para comparar la próxima vez.
 #
-# Secrets necesarios (Settings -> Secrets and variables -> Actions):
-#   FOOTBALL_DATA_TOKEN  -> token de football-data.org
-#   NETLIFY_AUTH_TOKEN   -> personal access token de Netlify (nfp_...)
-#   NETLIFY_SITE_ID      -> 3ca883c4-5ee1-4606-9062-2922a1810df9
+# Secrets: FOOTBALL_DATA_TOKEN · NETLIFY_AUTH_TOKEN · NETLIFY_SITE_ID
 
 on:
   schedule:
     # Cada 15 min SOLO en horario de partidos (UTC). Chile = UTC-4 en jun-jul.
-    # Los resultados aterrizan ~18:00–06:00 UTC (~14:00–02:00 Chile). Fuera de eso no corre
-    # → ahorra minutos de GitHub Actions (repo privado = 2.000 min/mes gratis).
+    # Los resultados aterrizan ~18:00–06:00 UTC (~14:00–02:00 Chile).
     - cron: '*/15 18-23 * * *'
     - cron: '*/15 0-6 * * *'
-  workflow_dispatch:            # botón para correrlo a mano cuando quieras
+  workflow_dispatch:
+
+permissions:
+  contents: write               # para guardar los resultados nuevos en el repo
 
 concurrency:
   group: actualizar-quiniela
@@ -33,19 +32,39 @@ jobs:
           python-version: '3.12'
 
       - name: Traer resultados (football-data.org)
+        id: fetch
         env:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
-        run: python build/fetch_resultados.py
+        run: |
+          python build/fetch_resultados.py
+          if git diff --quiet -- data/resultados.csv data/resultados_ko.csv data/resultados_especiales.csv; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Sin resultados nuevos — no se regenera ni se deploya."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "¡Resultado nuevo! Regenerando y deployando."
+          fi
 
-      - name: Regenerar sitio (sin tarjeta — no hay navegador en CI)
+      - name: Regenerar sitio (solo si hubo cambio)
+        if: steps.fetch.outputs.changed == 'true'
         run: |
           python build/gen_jugador.py
           python build/gen_galeria.py
           python build/gen_calendar.py
 
-      - name: Deploy a Netlify (prod)
+      - name: Deploy a Netlify (solo si hubo cambio)
+        if: steps.fetch.outputs.changed == 'true'
         run: >
           npx --yes netlify-cli deploy
           --dir=site --prod
           --site ${{ secrets.NETLIFY_SITE_ID }}
           --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+      - name: Guardar resultados en el repo (para comparar la próxima vez)
+        if: steps.fetch.outputs.changed == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/resultados.csv data/resultados_ko.csv data/resultados_especiales.csv site/
+          git commit -m "Auto: resultados nuevos ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push
