@@ -187,15 +187,32 @@ def main():
             print(f'  M{mn}: {NM.get(fx["local"])} {grupo_res[mn][0]}-{grupo_res[mn][1]} {NM.get(fx["visita"])}')
         return
 
-    with open(os.path.join(DATA, 'resultados.csv'), 'w', encoding='utf-8', newline='') as f:
-        w = csv.DictWriter(f, fieldnames=fields)
-        w.writeheader(); w.writerows(rows)
-    if ko_out:
-        with open(os.path.join(DATA, 'resultados_ko.csv'), 'w', encoding='utf-8', newline='') as f:
+    wrote = False
+    # Grupos: reescribir SOLO si cambió algún marcador real (evita churn por line-endings → commit/deploy espurio).
+    if nwritten > 0:
+        with open(os.path.join(DATA, 'resultados.csv'), 'w', encoding='utf-8', newline='') as f:
+            w = csv.DictWriter(f, fieldnames=fields)
+            w.writeheader(); w.writerows(rows)
+        wrote = True
+
+    # KO: reescribir SOLO si el set de ganadores difiere del archivo existente.
+    ko_path = os.path.join(DATA, 'resultados_ko.csv')
+    existing_ko = {}
+    if os.path.exists(ko_path):
+        for r in csv.DictReader(open(ko_path, encoding='utf-8')):
+            if r.get('ganador'):
+                existing_ko[int(r['match_no'])] = r['ganador'].strip().upper()
+    if ko_out and ko_out != existing_ko:
+        with open(ko_path, 'w', encoding='utf-8', newline='') as f:
             w = csv.writer(f); w.writerow(['match_no', 'ganador'])
             for mn in sorted(ko_out):
                 w.writerow([mn, ko_out[mn]])
-    print(f'\n✓ Escrito. Corre: python build/actualizar.py  (y luego deploy)')
+        wrote = True
+
+    if wrote:
+        print('\n✓ Escrito (cambios reales). Corre: python build/actualizar.py')
+    else:
+        print('\n= Sin cambios reales — no se reescribió nada (no dispara commit/deploy).')
 
 
 if __name__ == '__main__':
