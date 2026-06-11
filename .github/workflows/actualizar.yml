@@ -11,8 +11,12 @@ name: Actualizar quiniela (resultados + deploy)
 
 on:
   schedule:
-    - cron: '0 * * * *'        # cada hora (UTC). Ajustable. Desactivar tras el torneo.
-  workflow_dispatch:            # botón para correrlo a mano
+    # Cada 15 min SOLO en horario de partidos (UTC). Chile = UTC-4 en jun-jul.
+    # Los resultados aterrizan ~18:00–06:00 UTC (~14:00–02:00 Chile). Fuera de eso no corre
+    # → ahorra minutos de GitHub Actions (repo privado = 2.000 min/mes gratis).
+    - cron: '*/15 18-23 * * *'
+    - cron: '*/15 0-6 * * *'
+  workflow_dispatch:            # botón para correrlo a mano cuando quieras
 
 concurrency:
   group: actualizar-quiniela
