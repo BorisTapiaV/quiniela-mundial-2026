@@ -177,7 +177,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
     # ---- galería (siempre) ----
     gallery = ''
     for p in sorted(players, key=lambda p: p['name']):
-        ch = f'{flag(p["champ"], 60)}<div class="ggc">🏆 {NM.get(p["champ"], p["champ"])}</div>' if p['champ'] else '<div class="ggc">—</div>'
+        ch = f'{flag(p["champ"], 80)}<div class="ggc">🏆 {NM.get(p["champ"], p["champ"])}</div>' if p['champ'] else '<div class="ggc">—</div>'
         gallery += (f'<a class="gg" href="{p["url"]}">{ch}'
                     f'<div class="ggn">{p["name"]}</div>{apo(p)}'
                     f'<div class="ggl">ver mi pronóstico →</div></a>')
@@ -261,7 +261,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
                 med = '🏅' if j == 1 else str(j + 3)
                 deadc = '' if p['alive'] else 'dead'
                 crows += (f'<tr class="{deadc}"><td class="rk">{med}</td>'
-                          f'<td class="nm">{flag(p["champ"], 22)}<span>{p["name"]}</span>{apo(p)}</td>'
+                          f'<td class="nm">{flag(p["champ"], 20)}<span>{p["name"]}</span>{apo(p)}</td>'
                           f'<td class="tot">{p["sc"]["total"]}</td></tr>')
             cons_html = (
                 '<h2 class="sec">🪜 Liga de Consolación '
