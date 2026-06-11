@@ -215,7 +215,7 @@ _band(); setInterval(_band,30000);
 """
 
 
-def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, is_demo):
+def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, is_demo, n_played=0):
     def flag(c, w=40):
         return f'<img class="flag" src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
 
@@ -322,9 +322,17 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
                 f'<table class="lead cons"><tr><th>#</th><th>Jugador</th><th>Total</th></tr>{crows}</table>')
         evo = demo.evolution_svg(ranks, miles, [p['name'] for p in players]) if ranks else ''
         evo_sec = f'<h2 class="sec">📈 Evolución del ranking</h2><div class="evo">{evo}</div>' if evo else ''
+        # Precisión por jugador: acertó ganador (1X2+) + marcadores exactos, sobre los partidos jugados
+        prec_rows = ''
+        for p in sorted(players, key=lambda q: (-q['h1x2'], -q['hx'], q['name'])):
+            prec_rows += (f'<tr><td class="nm">{p["name"]}{apo(p)}</td><td>{n_played}</td>'
+                          f'<td class="tot">{p["h1x2"]}</td><td>{p["hx"]}</td></tr>')
+        prec_html = (f'<h2 class="sec">🎯 Precisión en fase de grupos <span class="note">(sobre {n_played} partido(s) jugado(s))</span></h2>'
+                     f'<table class="lead prec"><tr><th>Jugador</th><th>Jugados</th><th>Acertó ganador</th><th>🎯 Exactos</th></tr>{prec_rows}</table>')
         rich = f"""
 <h2 class="sec">📊 La carrera <span class="note">(verde = grupos · dorado = eliminatorias)</span></h2>
 <div class="race">{race}</div>
+{prec_html}
 {evo_sec}
 <h2 class="sec">🏅 Sub-campeonatos</h2>
 <div class="subs">
@@ -442,7 +450,7 @@ def run_real():
     ranks = miles = None
     if has and len(rg) > 0:
         ranks, miles = demo.compute_evolution(players, rg, rk, fixture, eq, terceros)
-    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=False)
+    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=False, n_played=len(rg))
     print(f'{out} generado · {len(players)} jugadores · estado: {"con resultados" if has else "pre-torneo"}')
 
 
@@ -490,7 +498,7 @@ def run_demo():
         p['delta'] = ppos[p['slug']] - i
     ranks, miles = demo.compute_evolution(players, rg, rk_full, fixture, eq, terceros)
     has, state = state_line(rg, rk, real_view, NM)
-    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=True)
+    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=True, n_played=len(rg))
     print(f'{out} (DEMO) generado · {len(players)} jugadores · líder {players[0]["name"]} {players[0]["sc"]["total"]}')
 
 
