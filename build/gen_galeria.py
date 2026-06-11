@@ -248,7 +248,12 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
         medal = ['🥇', '🥈', '🥉'][i - 1] if i <= 3 else f'{i}'
         tick = '<span class="vtick" title="validado">✓</span>' if p['validated'] else '<span class="vpend" title="sin validar">○</span>'
         if has_results:
-            badge = '<span class="b dead">💀 su campeón cayó</span>' if not p['alive'] else '<span class="b alive">🟢 vivo</span>'
+            if not p['champ']:
+                badge = '<span class="b seal">— sin campeón</span>'
+            elif not p['alive']:
+                badge = '<span class="b dead">💀 su campeón cayó</span>'
+            else:
+                badge = '<span class="b alive">🟢 vivo</span>'
         else:
             badge = '<span class="b seal">🔒 sellado</span>'
         ch = f'{flag(p["champ"], 40)}<span>{NM.get(p["champ"], p["champ"])}</span>' if p['champ'] else '—'
