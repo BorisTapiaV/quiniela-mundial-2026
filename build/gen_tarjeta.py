@@ -27,8 +27,8 @@ import gen_demo_site as demo
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRED = os.path.join(HERE, 'data', 'predicciones')
 OUTDIR = os.path.join(HERE, 'tarjetas')
-SITE_URL = 'quiniela-mundial-2026-1780886848.netlify.app'
-DENY = {'CASA'}
+SITE_URL = '2026-mundial.netlify.app'
+DENY = set()                        # La Casa (Boris Tapia V) pública, cuenta en el recap. {'CASA'} para ocultarla.
 
 
 def display_name(slug):

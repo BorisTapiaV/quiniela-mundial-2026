@@ -34,7 +34,7 @@ import snapshot                          # delta ▲▼ por jornada (vs último 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRED = os.path.join(HERE, 'data', 'predicciones')
 SITE = os.path.join(HERE, 'site')
-SITE_URL = 'https://quiniela-mundial-2026-1780886848.netlify.app'
+SITE_URL = 'https://2026-mundial.netlify.app'
 DENY = set()                          # La Casa (Boris Tapia V) pública. {'CASA'} para volver a ocultarla.
 APODOS_DEMO = {'Manuel Fuentes': 'El Profe', 'Rodrigo Salazar': 'Rodo', 'Felipe Cárdenas': 'Pipe',
                'Cristóbal Reyes': 'Cris', 'Matías Ibáñez': 'Mati', 'Sebastián Vergara': 'Seba',
