@@ -1,0 +1,4 @@
+# El sitio ya viene pre-generado en site/ (HTML estático). Netlify solo lo publica.
+# Sin build command: no hay que compilar nada, los .html ya están commiteados.
+[build]
+  publish = "site"

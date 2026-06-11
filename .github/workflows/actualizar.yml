@@ -1,15 +1,18 @@
-name: Actualizar quiniela (resultados + deploy)
+name: Actualizar quiniela (resultados)
 
-# Auto-actualiza los resultados desde football-data.org y redeploya el sitio.
-# Requiere 3 secrets en el repo (Settings -> Secrets and variables -> Actions):
+# Trae los resultados desde football-data.org, regenera el sitio y hace push.
+# Netlify (conectado a este repo por GitHub) deploya solo al recibir el push.
+#
+# Único secret necesario (Settings -> Secrets and variables -> Actions):
 #   FOOTBALL_DATA_TOKEN  -> token de football-data.org
-#   NETLIFY_AUTH_TOKEN   -> personal access token de Netlify
-#   NETLIFY_SITE_ID      -> 9ab38d9a-c3b6-4faf-8bc1-545c096677ae
 
 on:
   schedule:
     - cron: '0 * * * *'        # cada hora (UTC). Ajustable. Desactivar tras el torneo.
   workflow_dispatch:            # botón para correrlo a mano
+
+permissions:
+  contents: write               # para hacer push de los resultados + sitio regenerado
 
 concurrency:
   group: actualizar-quiniela
@@ -36,9 +39,14 @@ jobs:
           python build/gen_galeria.py
           python build/gen_calendar.py
 
-      - name: Deploy a Netlify (prod)
-        run: >
-          npx --yes netlify-cli deploy
-          --dir=site --prod
-          --site ${{ secrets.NETLIFY_SITE_ID }}
-          --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      - name: Commit y push si hay cambios (Netlify deploya solo)
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/resultados*.csv site/ data/historico/ 2>/dev/null || git add data/resultados*.csv site/
+          if git diff --cached --quiet; then
+            echo "Sin cambios — nada que deployar."
+          else
+            git commit -m "Auto: resultados + sitio ($(date -u +%Y-%m-%dT%H:%MZ))"
+            git push
+          fi
