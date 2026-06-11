@@ -82,6 +82,19 @@ text-align:center;margin:0 0 10px}
 footer{text-align:center;color:var(--mut);font-size:12px;margin:30px 0 10px}
 footer .legend span{margin:0 8px}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:0}
+nav a.back{color:var(--gold);border-color:var(--gold)}
+@media(max-width:560px){
+  .wrap{padding:14px}
+  header{padding:18px 0 6px}
+  header h1{font-size:23px}
+  .recibido,.hooks{padding:10px 12px;font-size:13px}
+  nav{flex-wrap:wrap}
+  .bracket{gap:10px}
+  .round{min-width:150px}
+  .groups{grid-template-columns:1fr}
+  .scrollhint{display:block}
+}
+.scrollhint{display:none;color:var(--mut);font-size:11px;text-align:center;margin:-8px 0 6px}
 """
 
 
@@ -249,10 +262,10 @@ def render(slug, eq, fixture, terceros):
   <h1>Tu Quiniela 2026</h1>
   <div class="sub">Pronóstico de <b>{name}</b></div>
   {apodo_html}
-  <div class="recibido">✓ <b>Recibido y registrado</b> — {nfilled}/72 marcadores de grupo + tu cuadro completo.
-    <small>Este es tu link privado. No lo compartas hasta el cierre ({DEADLINE}).</small></div>
+  <div class="recibido">✓ <b>Recibido y registrado</b> — {nfilled}/72 marcadores de grupo + tu cuadro.
+    <small>Pronóstico sellado. ¡Suerte!</small></div>
   {hooks_html}
-  <nav><a href="../calendario.html">Calendario del torneo</a></nav>
+  <nav><a class="back" href="../index.html">← Tabla de posiciones</a><a href="../calendario.html">Calendario</a></nav>
 </header>
 
 <div class="champ">{champ_html}</div>
@@ -260,6 +273,7 @@ def render(slug, eq, fixture, terceros):
 {esp_html}
 
 <h2 class="sec">Tu cuadro de eliminatorias</h2>
+<div class="scrollhint">→ desliza para ver todas las rondas</div>
 <div class="bracket">{bracket_cols}</div>
 
 <h2 class="sec">Tu fase de grupos (posiciones que implican tus marcadores)</h2>
