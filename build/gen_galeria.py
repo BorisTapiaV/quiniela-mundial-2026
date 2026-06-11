@@ -167,6 +167,54 @@ def state_line(real_group, real_ko, real_view, NM):
     return True, f'🏆 <b>Torneo cerrado</b> · campeón <b>{NM.get(champ, champ)}</b>'
 
 
+def build_matches_json(NM, ISO):
+    """Datos de los 104 partidos (kickoff en UTC) para el indicador 'en juego' client-side."""
+    import json as _json
+    from datetime import datetime as _dt, timedelta as _td
+    rounds = {**{n: '16avos' for n in range(73, 89)}, **{n: 'Octavos' for n in range(89, 97)},
+              **{n: 'Cuartos' for n in range(97, 101)}, 101: 'Semifinal', 102: 'Semifinal', 103: '3er puesto', 104: 'Final'}
+    out = []
+    with open(os.path.join(HERE, 'data', 'fixture.csv'), encoding='utf-8') as f:
+        for r in csv.DictReader(f):
+            mn = int(r['match_no']); fecha = r['fecha']; hora = (r.get('hora_chile') or r.get('hora') or '00:00').strip()
+            try:
+                ko = (_dt.strptime(f'{fecha} {hora}', '%Y-%m-%d %H:%M') + _td(hours=4)).strftime('%Y-%m-%dT%H:%M:00Z')
+            except Exception:
+                continue
+            la, vi = r['local'], r['visita']
+            if la in ISO and vi in ISO:
+                out.append({'n': mn, 'ko': ko, 'h': NM.get(la, la), 'a': NM.get(vi, vi), 'hi': ISO[la], 'ai': ISO[vi], 'hc': hora})
+            else:
+                out.append({'n': mn, 'ko': ko, 'h': rounds.get(mn, 'Eliminatorias'), 'a': '', 'hi': '', 'ai': '', 'hc': hora})
+    return _json.dumps(out, ensure_ascii=False)
+
+
+# JS client-side del indicador "en juego" / "próximo partido" (sin API: usa el horario + reloj del navegador)
+LIVE_JS = """
+function _fl(i){return i?('<img src="https://flagcdn.com/w20/'+i+'.png" class="lf" alt="">'):'';}
+function _left(ms){var s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor(s%3600/60);return h>0?(h+'h '+m+'m'):(m+'m');}
+function _band(){
+  var now=Date.now(), DUR=135*60*1000, el=document.getElementById('liveband');
+  if(!el)return;
+  var live=M.filter(function(x){var k=Date.parse(x.ko);return k<=now&&now<k+DUR;});
+  if(live.length){
+    el.innerHTML=live.map(function(x){return '<span class="lvdot"></span> EN JUEGO: '+_fl(x.hi)+' <b>'+x.h+'</b>'+(x.a?(' vs <b>'+x.a+'</b> '+_fl(x.ai)):'');}).join(' &nbsp;·&nbsp; ')+' <span class="lvsub">— los puntos entran cuando termina el partido</span>';
+    el.className='liveband live'; el.hidden=false;
+    var st=document.querySelector('.state');
+    if(st && /no comienza/.test(st.textContent)){st.innerHTML='⚽ <b>¡El Mundial está en marcha!</b> Pronósticos sellados — la tabla se mueve cuando termina cada partido.';}
+    return;
+  }
+  var up=M.filter(function(x){return Date.parse(x.ko)>now;}).sort(function(a,b){return Date.parse(a.ko)-Date.parse(b.ko);})[0];
+  if(up){
+    el.innerHTML='⏳ Próximo: '+_fl(up.hi)+' <b>'+up.h+'</b>'+(up.a?(' vs <b>'+up.a+'</b> '+_fl(up.ai)):'')+' <span class="lvsub">— empieza en '+_left(Date.parse(up.ko)-now)+' ('+up.hc+' hora Chile)</span>';
+    el.className='liveband next'; el.hidden=false; return;
+  }
+  el.hidden=true;
+}
+_band(); setInterval(_band,30000);
+"""
+
+
 def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, is_demo):
     def flag(c, w=40):
         return f'<img class="flag" src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
@@ -308,6 +356,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 {demobanner}</header>
 
 <div class="state">{state}</div>
+<div id="liveband" class="liveband" hidden></div>
 
 <h2 class="sec">🏁 Tabla de posiciones</h2>
 {lead_note}
@@ -320,6 +369,9 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 {rich}
 <footer>Banderas: flagcdn.com (dominio público) · gen_galeria.py{' · datos de muestra' if is_demo else ''}</footer>
 </div></body></html>"""
+
+    html = html.replace('</body></html>',
+                        '<script>\nvar M=' + build_matches_json(NM, ISO) + ';' + LIVE_JS + '</script>\n</body></html>')
 
     os.makedirs(SITE, exist_ok=True)
     out = os.path.join(SITE, 'index.html')           # la galería + leaderboard ES la portada
@@ -353,6 +405,14 @@ header{display:flex;flex-direction:column;align-items:center}
 .sponsor{color:var(--gold);font-size:14px;font-weight:700;font-style:italic;margin:8px auto 2px;max-width:600px;line-height:1.35}
 .sponsor-sub{display:block;color:var(--mut);font-weight:500;font-style:normal;font-size:12px;margin-top:3px}
 @media(max-width:560px){.brand-logo{width:66px;height:66px}.sponsor{font-size:12px;padding:0 10px}}
+.liveband{margin:10px auto 0;max-width:760px;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;text-align:center}
+.liveband.live{background:#2a1224;border:1px solid #c0392b;color:#ffd0d8}
+.liveband.next{background:#141d36;border:1px solid var(--line);color:var(--mut)}
+.liveband .lf{width:18px;vertical-align:-4px;border-radius:2px;margin:0 3px}
+.liveband b{color:#fff}.liveband.next b{color:var(--txt)}
+.lvsub{font-weight:500;opacity:.85}
+.lvdot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#ff3b5c;animation:lvp 1.4s infinite}
+@keyframes lvp{0%{box-shadow:0 0 0 0 #ff3b5c88}70%{box-shadow:0 0 0 8px #ff3b5c00}100%{box-shadow:0 0 0 0 #ff3b5c00}}
 </style>"""
 
 
