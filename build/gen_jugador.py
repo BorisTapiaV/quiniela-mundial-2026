@@ -25,7 +25,7 @@ import engine
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRED = os.path.join(HERE, 'data', 'predicciones')
 OUTDIR = os.path.join(HERE, 'site', 'p')
-DENY = {'CASA'}                     # La Casa es privada: nunca como página de jugador
+DENY = set()                        # La Casa (Boris Tapia V) pública. {'CASA'} para volver a ocultarla.
 DEADLINE = '11-jun-2026'
 
 CSS = """
