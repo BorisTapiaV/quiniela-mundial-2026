@@ -1,18 +1,18 @@
-name: Actualizar quiniela (resultados)
+name: Actualizar quiniela (resultados + deploy)
 
-# Trae los resultados desde football-data.org, regenera el sitio y hace push.
-# Netlify (conectado a este repo por GitHub) deploya solo al recibir el push.
+# Trae los resultados de football-data.org, regenera el sitio y deploya por CLI a Netlify.
+# (El sitio NO usa el auto-deploy de Git de Netlify — está conectado a otro repo y detenido.
+#  Por eso deployamos directo con el CLI.)
 #
-# Único secret necesario (Settings -> Secrets and variables -> Actions):
+# Secrets necesarios (Settings -> Secrets and variables -> Actions):
 #   FOOTBALL_DATA_TOKEN  -> token de football-data.org
+#   NETLIFY_AUTH_TOKEN   -> personal access token de Netlify (nfp_...)
+#   NETLIFY_SITE_ID      -> 3ca883c4-5ee1-4606-9062-2922a1810df9
 
 on:
   schedule:
     - cron: '0 * * * *'        # cada hora (UTC). Ajustable. Desactivar tras el torneo.
   workflow_dispatch:            # botón para correrlo a mano
-
-permissions:
-  contents: write               # para hacer push de los resultados + sitio regenerado
 
 concurrency:
   group: actualizar-quiniela
@@ -39,14 +39,9 @@ jobs:
           python build/gen_galeria.py
           python build/gen_calendar.py
 
-      - name: Commit y push si hay cambios (Netlify deploya solo)
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/resultados*.csv site/ data/historico/ 2>/dev/null || git add data/resultados*.csv site/
-          if git diff --cached --quiet; then
-            echo "Sin cambios — nada que deployar."
-          else
-            git commit -m "Auto: resultados + sitio ($(date -u +%Y-%m-%dT%H:%MZ))"
-            git push
-          fi
+      - name: Deploy a Netlify (prod)
+        run: >
+          npx --yes netlify-cli deploy
+          --dir=site --prod
+          --site ${{ secrets.NETLIFY_SITE_ID }}
+          --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
