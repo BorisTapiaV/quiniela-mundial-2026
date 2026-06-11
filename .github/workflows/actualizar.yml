@@ -1,0 +1,44 @@
+name: Actualizar quiniela (resultados + deploy)
+
+# Auto-actualiza los resultados desde football-data.org y redeploya el sitio.
+# Requiere 3 secrets en el repo (Settings -> Secrets and variables -> Actions):
+#   FOOTBALL_DATA_TOKEN  -> token de football-data.org
+#   NETLIFY_AUTH_TOKEN   -> personal access token de Netlify
+#   NETLIFY_SITE_ID      -> 9ab38d9a-c3b6-4faf-8bc1-545c096677ae
+
+on:
+  schedule:
+    - cron: '0 * * * *'        # cada hora (UTC). Ajustable. Desactivar tras el torneo.
+  workflow_dispatch:            # botón para correrlo a mano
+
+concurrency:
+  group: actualizar-quiniela
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Traer resultados (football-data.org)
+        env:
+          FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
+        run: python build/fetch_resultados.py
+
+      - name: Regenerar sitio (sin tarjeta — no hay navegador en CI)
+        run: |
+          python build/gen_jugador.py
+          python build/gen_galeria.py
+          python build/gen_calendar.py
+
+      - name: Deploy a Netlify (prod)
+        run: >
+          npx --yes netlify-cli deploy
+          --dir=site --prod
+          --site ${{ secrets.NETLIFY_SITE_ID }}
+          --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
