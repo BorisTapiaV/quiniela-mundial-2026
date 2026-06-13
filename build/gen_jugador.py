@@ -29,73 +29,144 @@ DENY = set()                        # La Casa (Boris Tapia V) pública. {'CASA'}
 DEADLINE = '11-jun-2026'
 
 CSS = """
-:root{--bg:#0b1020;--card:#151c34;--card2:#1c2545;--line:#2a3358;--txt:#e8ecf7;--mut:#8d97bf;
---green:#16d97b;--gold:#ffd24a;--win:#1f8a55;}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+:root{--bg0:#070b18;--bg1:#0c1226;--card:#121a33;--card2:#18224a;--line:#26305a;--line2:#36427e;
+--txt:#eef1fb;--mut:#949ec7;--mut2:#6b76a3;--green:#22e08c;--gold:#ffd35a;--gold2:#ffae3c;--win:#1c7d4e;--rad:16px;}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#0b1020,#0e1530);color:var(--txt);
-font:15px/1.4 system-ui,'Segoe UI',Roboto,sans-serif}
-.wrap{max-width:1280px;margin:0 auto;padding:24px}
-header{text-align:center;padding:28px 0 8px}
-header .kick{color:var(--gold);letter-spacing:.18em;font-size:12px;text-transform:uppercase}
-header h1{margin:6px 0 2px;font-size:30px}
-header .sub{color:var(--mut)}
-.recibido{max-width:760px;margin:14px auto 0;background:#10301c;border:1px solid #1f6b3f;
-color:#a8f0c8;border-radius:12px;padding:12px 18px;text-align:center;font-size:14px}
-.recibido b{color:#d6ffe7}
-.recibido small{display:block;color:#6fbf93;margin-top:4px}
-.apo-band{color:#ffd24a;font-style:italic;font-weight:700;font-size:19px;margin-top:6px}
-.hooks{max-width:760px;margin:12px auto 0;background:#151c34;border:1px solid #2a3358;border-radius:12px;padding:11px 16px;color:#e8ecf7;font-size:14px}
-nav{display:flex;gap:8px;justify-content:center;margin:10px 0}
-nav a{color:var(--mut);text-decoration:none;font-size:13px;padding:5px 14px;border:1px solid var(--line);border-radius:20px}
-.champ{display:flex;justify-content:center;margin:22px 0 8px}
-.champ-card{background:linear-gradient(160deg,#2a2140,#3a2c1a);border:1px solid #4a3a20;
-border-radius:18px;padding:18px 30px;text-align:center;box-shadow:0 10px 40px #0006}
-.champ-card .flag.big{width:78px;border-radius:5px;box-shadow:0 4px 14px #0008}
-.champ-name{font-size:24px;font-weight:700;margin-top:8px}
-.champ-label{color:var(--gold);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
-.bronze{text-align:center;color:var(--mut);margin:6px 0 24px}
-.bronze .flag{vertical-align:-3px}
-h2.sec{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
-border-bottom:1px solid var(--line);padding-bottom:8px;margin:30px 0 16px}
-.bracket{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
-.round{min-width:185px;flex:1}
-.round h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);
-text-align:center;margin:0 0 10px}
-.match{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
-.match.empty{color:var(--mut);text-align:center;padding:14px;background:transparent;border-style:dashed}
-.team{display:flex;align-items:center;gap:8px;padding:7px 9px;font-size:13px}
+body{margin:0;color:var(--txt);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+font:15px/1.55 'Outfit',system-ui,'Segoe UI',Roboto,sans-serif;
+background:
+ radial-gradient(900px 480px at 50% -160px,rgba(255,178,60,.10),transparent 70%),
+ radial-gradient(1100px 600px at 85% 8%,rgba(34,120,224,.10),transparent 65%),
+ linear-gradient(180deg,#070b18,#0b1124 45%,#080d1e);
+ background-attachment:fixed;min-height:100vh}
+.wrap{max-width:1180px;margin:0 auto;padding:24px}
+header{text-align:center;padding:26px 0 6px}
+.brand-logo{width:60px;height:60px;border-radius:15px;object-fit:cover;display:block;margin:0 auto 10px;
+border:1.5px solid var(--line2);box-shadow:0 8px 26px #0009,0 0 0 4px rgba(255,211,90,.05)}
+.kick{color:var(--gold);letter-spacing:.22em;font-size:11px;font-weight:600;text-transform:uppercase}
+header h1{margin:8px 0 2px;font-size:34px;font-weight:800;letter-spacing:-.01em;
+background:linear-gradient(180deg,#fff,#b9c4ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+header .sub{color:var(--mut);font-size:15px}
+header .sub b{color:var(--txt)}
+.apo-band{color:var(--gold);font-style:italic;font-weight:700;font-size:18px;margin-top:6px}
+.recibido{max-width:680px;margin:16px auto 0;background:linear-gradient(180deg,rgba(34,224,140,.10),rgba(34,224,140,.04));
+border:1px solid rgba(34,224,140,.30);color:#bdf6d8;border-radius:13px;padding:11px 18px;font-size:13.5px}
+.recibido b{color:#e2fff0}
+.recibido small{display:block;color:#7fcaa3;margin-top:3px}
+.hooks{max-width:680px;margin:12px auto 0;background:rgba(255,255,255,.035);border:1px solid var(--line);
+border-radius:13px;padding:11px 16px;color:var(--txt);font-size:13.5px}
+nav{display:flex;gap:9px;justify-content:center;margin:16px 0 4px;flex-wrap:wrap}
+nav a{color:var(--mut);text-decoration:none;font-size:13px;font-weight:500;padding:7px 16px;
+border:1px solid var(--line);border-radius:22px;transition:.15s}
+nav a:hover{border-color:var(--line2);color:var(--txt);background:rgba(255,255,255,.03)}
+nav a.back{color:var(--gold);border-color:rgba(255,211,90,.4)}
+nav a.back:hover{background:rgba(255,211,90,.08)}
+
+/* ---- Hero campeón ---- */
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;
+margin:34px auto 8px;padding:30px 20px 26px;max-width:420px;
+background:linear-gradient(165deg,rgba(58,44,26,.55),rgba(38,30,52,.45));
+border:1px solid rgba(255,180,60,.28);border-radius:24px;
+box-shadow:0 20px 60px -20px #000,inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
+.hero::before{content:"";position:absolute;top:-90px;left:50%;transform:translateX(-50%);
+width:260px;height:260px;border-radius:50%;
+background:radial-gradient(circle,rgba(255,200,80,.35),transparent 60%);pointer-events:none}
+.hero .flag.big{width:96px;height:auto;border-radius:7px;position:relative;
+box-shadow:0 10px 30px #000a,0 0 0 1px rgba(255,255,255,.12)}
+.hero-name{font-size:30px;font-weight:800;margin-top:14px;letter-spacing:-.01em;position:relative}
+.hero-label{position:relative;margin-top:6px;color:#0b0a06;background:linear-gradient(180deg,var(--gold),var(--gold2));
+font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 14px;border-radius:20px;
+box-shadow:0 4px 14px rgba(255,174,60,.35)}
+
+/* ---- Tarjetas resumen ---- */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0 6px}
+.scard{background:linear-gradient(180deg,var(--card),rgba(18,26,51,.6));border:1px solid var(--line);
+border-radius:var(--rad);padding:14px 16px;display:flex;flex-direction:column;gap:5px;transition:.15s}
+.scard:hover{border-color:var(--line2);transform:translateY(-2px)}
+.scard .k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut2);font-weight:600;
+display:flex;align-items:center;gap:6px}
+.scard .v{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.scard .v .flag{width:26px}
+
+h2.sec{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:600;
+display:flex;align-items:center;gap:12px;margin:38px 0 18px}
+h2.sec::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+/* ---- Bracket ---- */
+.bracket{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px}
+.round{min-width:190px;flex:1}
+.round h3{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut2);font-weight:600;
+text-align:center;margin:0 0 12px}
+.match{background:linear-gradient(180deg,var(--card),rgba(18,26,51,.55));border:1px solid var(--line);
+border-radius:12px;margin-bottom:11px;overflow:hidden;box-shadow:0 4px 14px -8px #000}
+.match.empty{color:var(--mut2);text-align:center;padding:15px;background:transparent;border-style:dashed;box-shadow:none}
+.team{display:flex;align-items:center;gap:9px;padding:8px 11px;font-size:13px}
 .team+.team{border-top:1px solid var(--line)}
-.team.win{background:var(--win);font-weight:700}
+.team.win{background:linear-gradient(90deg,rgba(28,125,78,.55),rgba(28,125,78,.18));font-weight:700}
+.team.champ{background:linear-gradient(90deg,rgba(255,180,60,.28),rgba(255,180,60,.07));font-weight:700;color:#ffe7ad}
 .team span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.flag{width:26px;height:auto;border-radius:3px;box-shadow:0 1px 3px #0007;flex:0 0 auto}
-.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.gcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-.gcard h4{margin:0 0 8px;font-size:13px;color:var(--gold)}
-.gcard table{width:100%;border-collapse:collapse;font-size:12px}
-.gcard td,.gcard th{padding:3px 4px;text-align:center;color:var(--txt)}
-.gcard th{color:var(--mut);font-weight:500}
-.gcard td.p{color:var(--mut);width:14px}
-.gcard td.t{text-align:left;display:flex;align-items:center;gap:6px}
-.gcard td.t .flag{width:20px}
-.gcard tr.q1 td.p{color:var(--green);font-weight:700}
-.gcard tr.q3 td.p{color:var(--gold);font-weight:700}
-footer{text-align:center;color:var(--mut);font-size:12px;margin:30px 0 10px}
-footer .legend span{margin:0 8px}
+.flag{width:27px;height:auto;border-radius:4px;box-shadow:0 1px 3px #0008;flex:0 0 auto}
+
+/* ---- Grupos ---- */
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:13px}
+.gcard{background:linear-gradient(180deg,var(--card),rgba(18,26,51,.55));border:1px solid var(--line);
+border-radius:var(--rad);padding:13px 15px}
+.gcard h4{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.gcard table{width:100%;border-collapse:collapse;font-size:12.5px}
+.gcard td,.gcard th{padding:5px 4px;text-align:center}
+.gcard th{color:var(--mut2);font-weight:500;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+.gcard tr+tr td{border-top:1px solid rgba(255,255,255,.04)}
+.gcard td.p{color:var(--mut2);width:16px;font-weight:600}
+.gcard td.t{text-align:left;display:flex;align-items:center;gap:7px}
+.gcard td.t .flag{width:21px}
+.gcard tr.q1{background:linear-gradient(90deg,rgba(34,224,140,.08),transparent)}
+.gcard tr.q1 td.p{color:var(--green);font-weight:800}
+.gcard tr.q3{background:linear-gradient(90deg,rgba(255,211,90,.07),transparent)}
+.gcard tr.q3 td.p{color:var(--gold);font-weight:800}
+
+h2.sec .note{font-weight:500;letter-spacing:0;text-transform:none;color:var(--mut2);font-size:12px}
+/* ---- Aciertos fase de grupos ---- */
+.hits{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.hcard{position:relative;background:linear-gradient(180deg,var(--card),rgba(18,26,51,.55));
+border:1px solid var(--line);border-radius:var(--rad);padding:13px 14px 12px;overflow:hidden;transition:.15s}
+.hcard.miss{opacity:.62}
+.hcard.part{border-color:rgba(34,224,140,.32)}
+.hcard.exact{border-color:rgba(255,180,60,.55);
+background:linear-gradient(180deg,rgba(58,44,26,.55),rgba(28,22,12,.4));
+box-shadow:0 10px 34px -16px rgba(255,174,60,.6),inset 0 1px 0 rgba(255,255,255,.05)}
+.hcard.exact::before{content:"";position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;
+background:radial-gradient(circle,rgba(255,200,80,.22),transparent 65%);pointer-events:none}
+.hbadge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.hcard.exact .hbadge{color:#0b0a06;background:linear-gradient(180deg,var(--gold),var(--gold2));box-shadow:0 3px 12px rgba(255,174,60,.4)}
+.hcard.part .hbadge{color:#bdf6d8;background:rgba(34,224,140,.16);border:1px solid rgba(34,224,140,.4)}
+.hcard.miss .hbadge{color:var(--mut2);background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:9px;font-size:13.5px;padding:3px 0}
+.hrow .flag{width:24px}
+.hrow span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hrow b{font-variant-numeric:tabular-nums;font-size:15px}
+.hcard.exact .hrow b{color:var(--gold)}
+.hreal{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);
+font-size:11.5px;color:var(--mut2);letter-spacing:.02em}
+.hreal b{color:var(--mut);font-variant-numeric:tabular-nums}
+footer{text-align:center;color:var(--mut);font-size:12px;margin:40px 0 14px}
+footer .legend span{margin:0 10px}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:0}
-nav a.back{color:var(--gold);border-color:var(--gold)}
-.brand-logo{width:58px;height:58px;border-radius:13px;object-fit:cover;box-shadow:0 5px 16px #0008;border:2px solid var(--line);display:block;margin:0 auto 8px}
+.scrollhint{display:none;color:var(--mut2);font-size:11px;text-align:center;margin:-6px 0 8px}
 @media(max-width:560px){
   .wrap{padding:14px}
-  header{padding:18px 0 6px}
-  header h1{font-size:23px}
-  .recibido,.hooks{padding:10px 12px;font-size:13px}
-  nav{flex-wrap:wrap}
+  header{padding:18px 0 4px}
+  header h1{font-size:26px}
+  .hero{margin-top:24px;padding:24px 16px 22px}
+  .hero .flag.big{width:80px}
+  .hero-name{font-size:25px}
+  .recibido,.hooks{padding:10px 13px;font-size:13px}
+  .summary{grid-template-columns:1fr 1fr;gap:10px}
   .bracket{gap:10px}
-  .round{min-width:150px}
+  .round{min-width:154px}
   .groups{grid-template-columns:1fr}
   .scrollhint{display:block}
 }
-.scrollhint{display:none;color:var(--mut);font-size:11px;text-align:center;margin:-8px 0 6px}
 """
 
 
@@ -174,8 +245,15 @@ def render(slug, eq, fixture, terceros):
         w = 'w80' if big else 'w40'
         return f'<img class="flag{" big" if big else ""}" src="https://flagcdn.com/{w}/{ISO[code]}.png" alt="" loading="lazy">'
 
+    champ = esp.get('campeon')
+
     def chip(code, win=False):
-        cls = 'team win' if win else 'team'
+        if win and code and code == champ:
+            cls = 'team champ'
+        elif win:
+            cls = 'team win'
+        else:
+            cls = 'team'
         return f'<div class="{cls}">{flag(code)}<span>{NM.get(code, code)}</span></div>'
 
     def match_card(mn):
@@ -192,21 +270,32 @@ def render(slug, eq, fixture, terceros):
         cards = ''.join(match_card(m) for m in rng)
         bracket_cols += f'<div class="round"><h3>{title}</h3>{cards}</div>'
 
-    champ = esp.get('campeon')
-    champ_html = (f'<div class="champ-card">{flag(champ, big=True)}'
-                  f'<div class="champ-name">{NM.get(champ, champ)}</div>'
-                  f'<div class="champ-label">Tu campeón</div></div>') if champ else ''
+    # ---- Hero del campeón ----
+    hero_html = (f'<div class="hero">{flag(champ, big=True)}'
+                 f'<div class="hero-name">{NM.get(champ, champ)}</div>'
+                 f'<div class="hero-label">★ Campeón pronosticado</div></div>') if champ else ''
+
+    # ---- Tarjetas de resumen (subcampeón derivado del bracket + 3º + especiales) ----
+    fa, fb = pb['teams'].get(104, (None, None))
+    subcampeon = fb if champ == fa else (fa if champ == fb else None)   # el otro finalista
     tercero = pb['win'].get(103)
-    tercero_html = f'<div class="bronze">🥉 3er puesto: {flag(tercero)} <b>{NM.get(tercero, tercero)}</b></div>' if tercero else ''
-    ei = []
+    cards = []
+    if subcampeon:
+        cards.append(('🥈', 'Subcampeón', f'{flag(subcampeon)}<span>{NM.get(subcampeon, subcampeon)}</span>'))
+    if tercero:
+        cards.append(('🥉', '3er puesto', f'{flag(tercero)}<span>{NM.get(tercero, tercero)}</span>'))
     if esp.get('goleador'):
-        ei.append(f'⚽ Goleador: <b>{esp["goleador"]}</b>')
+        cards.append(('⚽', 'Goleador', f'<span>{esp["goleador"]}</span>'))
     if esp.get('primer_eliminado'):
         pe = esp['primer_eliminado']
-        ei.append(f'💀 1º eliminado: {flag(pe)} <b>{NM.get(pe, pe)}</b>')
+        cards.append(('💀', '1º eliminado', f'{flag(pe)}<span>{NM.get(pe, pe)}</span>'))
     if esp.get('sorpresa'):
-        ei.append(f'🎁 Sorpresa: <b>{esp["sorpresa"]}</b>')
-    esp_html = ('<div class="bronze">' + ' &nbsp;·&nbsp; '.join(ei) + '</div>') if ei else ''
+        cards.append(('🎁', 'Sorpresa', f'<span>{esp["sorpresa"]}</span>'))
+    summary_html = ''
+    if cards:
+        summary_html = '<div class="summary">' + ''.join(
+            f'<div class="scard"><div class="k">{ico} {lbl}</div><div class="v">{val}</div></div>'
+            for ico, lbl, val in cards) + '</div>'
 
     # ---- ganchos personales (research #1: identidad + obsesión) ----
     apodo = _load_apodos().get(slug, '')
@@ -250,6 +339,37 @@ def render(slug, eq, fixture, terceros):
                         f'<tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr>'
                         f'{rows}</table></div>')
 
+    # ---- Aciertos en fase de grupos (partidos ya jugados) ----
+    FX = {m['match_no']: m for m in fixture}
+    hits, n_clav = [], 0
+    for mn in sorted(rg):
+        if mn > 72 or mn not in gs:
+            continue
+        m = FX.get(mn)
+        if not m or m.get('fase') != 'grupos':
+            continue
+        (pl, pv), (rl, rv) = gs[mn], rg[mn]
+        pts = engine.score_group_match((pl, pv), (rl, rv))
+        if pts == 5:
+            kind, badge = 'exact', '🎯 Clavado +5'; n_clav += 1
+        elif pts == 3:
+            kind, badge = 'part', '✓ Diferencia +3'
+        elif pts == 2:
+            kind, badge = 'part', '✓ Ganador +2'
+        else:
+            kind, badge = 'miss', '✗ +0'
+        L, V = m['local'], m['visita']
+        hits.append(
+            f'<div class="hcard {kind}"><span class="hbadge">{badge}</span>'
+            f'<div class="hrow">{flag(L)}<span>{NM.get(L, L)}</span><b>{pl}</b></div>'
+            f'<div class="hrow">{flag(V)}<span>{NM.get(V, V)}</span><b>{pv}</b></div>'
+            f'<div class="hreal">Resultado real: <b>{rl}-{rv}</b></div></div>')
+    hits_html = ''
+    if hits:
+        note = f'{n_clav} clavado{"s" if n_clav != 1 else ""} de {len(hits)} jugado{"s" if len(hits) != 1 else ""}'
+        hits_html = (f'<h2 class="sec">🎯 Tus aciertos en fase de grupos <span class="note">({note})</span></h2>'
+                     f'<div class="hits">{"".join(hits)}</div>')
+
     nfilled = len([1 for v in gs.values()])
     html = f"""<!doctype html>
 <html lang="es"><head><meta charset="utf-8">
@@ -270,13 +390,14 @@ def render(slug, eq, fixture, terceros):
   <nav><a class="back" href="../index.html">← Tabla de posiciones</a><a href="../calendario.html">Calendario</a></nav>
 </header>
 
-<div class="champ">{champ_html}</div>
-{tercero_html}
-{esp_html}
+{hero_html}
+{summary_html}
 
 <h2 class="sec">Tu cuadro de eliminatorias</h2>
 <div class="scrollhint">→ desliza para ver todas las rondas</div>
 <div class="bracket">{bracket_cols}</div>
+
+{hits_html}
 
 <h2 class="sec">Tu fase de grupos (posiciones que implican tus marcadores)</h2>
 <div class="groups">{groups_html}</div>

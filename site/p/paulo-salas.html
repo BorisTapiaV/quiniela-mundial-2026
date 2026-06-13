@@ -4,73 +4,144 @@
 <meta name="robots" content="noindex">
 <title>Tu pronóstico · Paulo Salas · Quiniela Mundial 2026</title>
 <style>
-:root{--bg:#0b1020;--card:#151c34;--card2:#1c2545;--line:#2a3358;--txt:#e8ecf7;--mut:#8d97bf;
---green:#16d97b;--gold:#ffd24a;--win:#1f8a55;}
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
+:root{--bg0:#070b18;--bg1:#0c1226;--card:#121a33;--card2:#18224a;--line:#26305a;--line2:#36427e;
+--txt:#eef1fb;--mut:#949ec7;--mut2:#6b76a3;--green:#22e08c;--gold:#ffd35a;--gold2:#ffae3c;--win:#1c7d4e;--rad:16px;}
 *{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#0b1020,#0e1530);color:var(--txt);
-font:15px/1.4 system-ui,'Segoe UI',Roboto,sans-serif}
-.wrap{max-width:1280px;margin:0 auto;padding:24px}
-header{text-align:center;padding:28px 0 8px}
-header .kick{color:var(--gold);letter-spacing:.18em;font-size:12px;text-transform:uppercase}
-header h1{margin:6px 0 2px;font-size:30px}
-header .sub{color:var(--mut)}
-.recibido{max-width:760px;margin:14px auto 0;background:#10301c;border:1px solid #1f6b3f;
-color:#a8f0c8;border-radius:12px;padding:12px 18px;text-align:center;font-size:14px}
-.recibido b{color:#d6ffe7}
-.recibido small{display:block;color:#6fbf93;margin-top:4px}
-.apo-band{color:#ffd24a;font-style:italic;font-weight:700;font-size:19px;margin-top:6px}
-.hooks{max-width:760px;margin:12px auto 0;background:#151c34;border:1px solid #2a3358;border-radius:12px;padding:11px 16px;color:#e8ecf7;font-size:14px}
-nav{display:flex;gap:8px;justify-content:center;margin:10px 0}
-nav a{color:var(--mut);text-decoration:none;font-size:13px;padding:5px 14px;border:1px solid var(--line);border-radius:20px}
-.champ{display:flex;justify-content:center;margin:22px 0 8px}
-.champ-card{background:linear-gradient(160deg,#2a2140,#3a2c1a);border:1px solid #4a3a20;
-border-radius:18px;padding:18px 30px;text-align:center;box-shadow:0 10px 40px #0006}
-.champ-card .flag.big{width:78px;border-radius:5px;box-shadow:0 4px 14px #0008}
-.champ-name{font-size:24px;font-weight:700;margin-top:8px}
-.champ-label{color:var(--gold);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-top:2px}
-.bronze{text-align:center;color:var(--mut);margin:6px 0 24px}
-.bronze .flag{vertical-align:-3px}
-h2.sec{font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);
-border-bottom:1px solid var(--line);padding-bottom:8px;margin:30px 0 16px}
-.bracket{display:flex;gap:14px;overflow-x:auto;padding-bottom:10px}
-.round{min-width:185px;flex:1}
-.round h3{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--mut);
-text-align:center;margin:0 0 10px}
-.match{background:var(--card);border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden}
-.match.empty{color:var(--mut);text-align:center;padding:14px;background:transparent;border-style:dashed}
-.team{display:flex;align-items:center;gap:8px;padding:7px 9px;font-size:13px}
+body{margin:0;color:var(--txt);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+font:15px/1.55 'Outfit',system-ui,'Segoe UI',Roboto,sans-serif;
+background:
+ radial-gradient(900px 480px at 50% -160px,rgba(255,178,60,.10),transparent 70%),
+ radial-gradient(1100px 600px at 85% 8%,rgba(34,120,224,.10),transparent 65%),
+ linear-gradient(180deg,#070b18,#0b1124 45%,#080d1e);
+ background-attachment:fixed;min-height:100vh}
+.wrap{max-width:1180px;margin:0 auto;padding:24px}
+header{text-align:center;padding:26px 0 6px}
+.brand-logo{width:60px;height:60px;border-radius:15px;object-fit:cover;display:block;margin:0 auto 10px;
+border:1.5px solid var(--line2);box-shadow:0 8px 26px #0009,0 0 0 4px rgba(255,211,90,.05)}
+.kick{color:var(--gold);letter-spacing:.22em;font-size:11px;font-weight:600;text-transform:uppercase}
+header h1{margin:8px 0 2px;font-size:34px;font-weight:800;letter-spacing:-.01em;
+background:linear-gradient(180deg,#fff,#b9c4ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+header .sub{color:var(--mut);font-size:15px}
+header .sub b{color:var(--txt)}
+.apo-band{color:var(--gold);font-style:italic;font-weight:700;font-size:18px;margin-top:6px}
+.recibido{max-width:680px;margin:16px auto 0;background:linear-gradient(180deg,rgba(34,224,140,.10),rgba(34,224,140,.04));
+border:1px solid rgba(34,224,140,.30);color:#bdf6d8;border-radius:13px;padding:11px 18px;font-size:13.5px}
+.recibido b{color:#e2fff0}
+.recibido small{display:block;color:#7fcaa3;margin-top:3px}
+.hooks{max-width:680px;margin:12px auto 0;background:rgba(255,255,255,.035);border:1px solid var(--line);
+border-radius:13px;padding:11px 16px;color:var(--txt);font-size:13.5px}
+nav{display:flex;gap:9px;justify-content:center;margin:16px 0 4px;flex-wrap:wrap}
+nav a{color:var(--mut);text-decoration:none;font-size:13px;font-weight:500;padding:7px 16px;
+border:1px solid var(--line);border-radius:22px;transition:.15s}
+nav a:hover{border-color:var(--line2);color:var(--txt);background:rgba(255,255,255,.03)}
+nav a.back{color:var(--gold);border-color:rgba(255,211,90,.4)}
+nav a.back:hover{background:rgba(255,211,90,.08)}
+
+/* ---- Hero campeón ---- */
+.hero{position:relative;display:flex;flex-direction:column;align-items:center;
+margin:34px auto 8px;padding:30px 20px 26px;max-width:420px;
+background:linear-gradient(165deg,rgba(58,44,26,.55),rgba(38,30,52,.45));
+border:1px solid rgba(255,180,60,.28);border-radius:24px;
+box-shadow:0 20px 60px -20px #000,inset 0 1px 0 rgba(255,255,255,.05);overflow:hidden}
+.hero::before{content:"";position:absolute;top:-90px;left:50%;transform:translateX(-50%);
+width:260px;height:260px;border-radius:50%;
+background:radial-gradient(circle,rgba(255,200,80,.35),transparent 60%);pointer-events:none}
+.hero .flag.big{width:96px;height:auto;border-radius:7px;position:relative;
+box-shadow:0 10px 30px #000a,0 0 0 1px rgba(255,255,255,.12)}
+.hero-name{font-size:30px;font-weight:800;margin-top:14px;letter-spacing:-.01em;position:relative}
+.hero-label{position:relative;margin-top:6px;color:#0b0a06;background:linear-gradient(180deg,var(--gold),var(--gold2));
+font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 14px;border-radius:20px;
+box-shadow:0 4px 14px rgba(255,174,60,.35)}
+
+/* ---- Tarjetas resumen ---- */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:20px 0 6px}
+.scard{background:linear-gradient(180deg,var(--card),rgba(18,26,51,.6));border:1px solid var(--line);
+border-radius:var(--rad);padding:14px 16px;display:flex;flex-direction:column;gap:5px;transition:.15s}
+.scard:hover{border-color:var(--line2);transform:translateY(-2px)}
+.scard .k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut2);font-weight:600;
+display:flex;align-items:center;gap:6px}
+.scard .v{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.scard .v .flag{width:26px}
+
+h2.sec{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:600;
+display:flex;align-items:center;gap:12px;margin:38px 0 18px}
+h2.sec::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+
+/* ---- Bracket ---- */
+.bracket{display:flex;gap:14px;overflow-x:auto;padding-bottom:12px}
+.round{min-width:190px;flex:1}
+.round h3{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut2);font-weight:600;
+text-align:center;margin:0 0 12px}
+.match{background:linear-gradient(180deg,var(--card),rgba(18,26,51,.55));border:1px solid var(--line);
+border-radius:12px;margin-bottom:11px;overflow:hidden;box-shadow:0 4px 14px -8px #000}
+.match.empty{color:var(--mut2);text-align:center;padding:15px;background:transparent;border-style:dashed;box-shadow:none}
+.team{display:flex;align-items:center;gap:9px;padding:8px 11px;font-size:13px}
 .team+.team{border-top:1px solid var(--line)}
-.team.win{background:var(--win);font-weight:700}
+.team.win{background:linear-gradient(90deg,rgba(28,125,78,.55),rgba(28,125,78,.18));font-weight:700}
+.team.champ{background:linear-gradient(90deg,rgba(255,180,60,.28),rgba(255,180,60,.07));font-weight:700;color:#ffe7ad}
 .team span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.flag{width:26px;height:auto;border-radius:3px;box-shadow:0 1px 3px #0007;flex:0 0 auto}
-.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
-.gcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
-.gcard h4{margin:0 0 8px;font-size:13px;color:var(--gold)}
-.gcard table{width:100%;border-collapse:collapse;font-size:12px}
-.gcard td,.gcard th{padding:3px 4px;text-align:center;color:var(--txt)}
-.gcard th{color:var(--mut);font-weight:500}
-.gcard td.p{color:var(--mut);width:14px}
-.gcard td.t{text-align:left;display:flex;align-items:center;gap:6px}
-.gcard td.t .flag{width:20px}
-.gcard tr.q1 td.p{color:var(--green);font-weight:700}
-.gcard tr.q3 td.p{color:var(--gold);font-weight:700}
-footer{text-align:center;color:var(--mut);font-size:12px;margin:30px 0 10px}
-footer .legend span{margin:0 8px}
+.flag{width:27px;height:auto;border-radius:4px;box-shadow:0 1px 3px #0008;flex:0 0 auto}
+
+/* ---- Grupos ---- */
+.groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:13px}
+.gcard{background:linear-gradient(180deg,var(--card),rgba(18,26,51,.55));border:1px solid var(--line);
+border-radius:var(--rad);padding:13px 15px}
+.gcard h4{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.gcard table{width:100%;border-collapse:collapse;font-size:12.5px}
+.gcard td,.gcard th{padding:5px 4px;text-align:center}
+.gcard th{color:var(--mut2);font-weight:500;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+.gcard tr+tr td{border-top:1px solid rgba(255,255,255,.04)}
+.gcard td.p{color:var(--mut2);width:16px;font-weight:600}
+.gcard td.t{text-align:left;display:flex;align-items:center;gap:7px}
+.gcard td.t .flag{width:21px}
+.gcard tr.q1{background:linear-gradient(90deg,rgba(34,224,140,.08),transparent)}
+.gcard tr.q1 td.p{color:var(--green);font-weight:800}
+.gcard tr.q3{background:linear-gradient(90deg,rgba(255,211,90,.07),transparent)}
+.gcard tr.q3 td.p{color:var(--gold);font-weight:800}
+
+h2.sec .note{font-weight:500;letter-spacing:0;text-transform:none;color:var(--mut2);font-size:12px}
+/* ---- Aciertos fase de grupos ---- */
+.hits{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.hcard{position:relative;background:linear-gradient(180deg,var(--card),rgba(18,26,51,.55));
+border:1px solid var(--line);border-radius:var(--rad);padding:13px 14px 12px;overflow:hidden;transition:.15s}
+.hcard.miss{opacity:.62}
+.hcard.part{border-color:rgba(34,224,140,.32)}
+.hcard.exact{border-color:rgba(255,180,60,.55);
+background:linear-gradient(180deg,rgba(58,44,26,.55),rgba(28,22,12,.4));
+box-shadow:0 10px 34px -16px rgba(255,174,60,.6),inset 0 1px 0 rgba(255,255,255,.05)}
+.hcard.exact::before{content:"";position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;
+background:radial-gradient(circle,rgba(255,200,80,.22),transparent 65%);pointer-events:none}
+.hbadge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.hcard.exact .hbadge{color:#0b0a06;background:linear-gradient(180deg,var(--gold),var(--gold2));box-shadow:0 3px 12px rgba(255,174,60,.4)}
+.hcard.part .hbadge{color:#bdf6d8;background:rgba(34,224,140,.16);border:1px solid rgba(34,224,140,.4)}
+.hcard.miss .hbadge{color:var(--mut2);background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:9px;font-size:13.5px;padding:3px 0}
+.hrow .flag{width:24px}
+.hrow span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hrow b{font-variant-numeric:tabular-nums;font-size:15px}
+.hcard.exact .hrow b{color:var(--gold)}
+.hreal{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.06);
+font-size:11.5px;color:var(--mut2);letter-spacing:.02em}
+.hreal b{color:var(--mut);font-variant-numeric:tabular-nums}
+footer{text-align:center;color:var(--mut);font-size:12px;margin:40px 0 14px}
+footer .legend span{margin:0 10px}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:0}
-nav a.back{color:var(--gold);border-color:var(--gold)}
-.brand-logo{width:58px;height:58px;border-radius:13px;object-fit:cover;box-shadow:0 5px 16px #0008;border:2px solid var(--line);display:block;margin:0 auto 8px}
+.scrollhint{display:none;color:var(--mut2);font-size:11px;text-align:center;margin:-6px 0 8px}
 @media(max-width:560px){
   .wrap{padding:14px}
-  header{padding:18px 0 6px}
-  header h1{font-size:23px}
-  .recibido,.hooks{padding:10px 12px;font-size:13px}
-  nav{flex-wrap:wrap}
+  header{padding:18px 0 4px}
+  header h1{font-size:26px}
+  .hero{margin-top:24px;padding:24px 16px 22px}
+  .hero .flag.big{width:80px}
+  .hero-name{font-size:25px}
+  .recibido,.hooks{padding:10px 13px;font-size:13px}
+  .summary{grid-template-columns:1fr 1fr;gap:10px}
   .bracket{gap:10px}
-  .round{min-width:150px}
+  .round{min-width:154px}
   .groups{grid-template-columns:1fr}
   .scrollhint{display:block}
 }
-.scrollhint{display:none;color:var(--mut);font-size:11px;text-align:center;margin:-8px 0 6px}
 </style></head>
 <body><div class="wrap">
 <header>
@@ -85,13 +156,14 @@ nav a.back{color:var(--gold);border-color:var(--gold)}
   <nav><a class="back" href="../index.html">← Tabla de posiciones</a><a href="../calendario.html">Calendario</a></nav>
 </header>
 
-<div class="champ"><div class="champ-card"><img class="flag big" src="https://flagcdn.com/w80/es.png" alt="" loading="lazy"><div class="champ-name">España</div><div class="champ-label">Tu campeón</div></div></div>
-<div class="bronze">🥉 3er puesto: <img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"> <b>Francia</b></div>
-
+<div class="hero"><img class="flag big" src="https://flagcdn.com/w80/es.png" alt="" loading="lazy"><div class="hero-name">España</div><div class="hero-label">★ Campeón pronosticado</div></div>
+<div class="summary"><div class="scard"><div class="k">🥈 Subcampeón</div><div class="v"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div></div><div class="scard"><div class="k">🥉 3er puesto</div><div class="v"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div></div></div>
 
 <h2 class="sec">Tu cuadro de eliminatorias</h2>
 <div class="scrollhint">→ desliza para ver todas las rondas</div>
-<div class="bracket"><div class="round"><h3>16avos</h3><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/mx.png" alt="" loading="lazy"><span>México</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ch.png" alt="" loading="lazy"><span>Suiza</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/de.png" alt="" loading="lazy"><span>Alemania</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/tr.png" alt="" loading="lazy"><span>Turquía</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/nl.png" alt="" loading="lazy"><span>Países Bajos</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ma.png" alt="" loading="lazy"><span>Marruecos</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/br.png" alt="" loading="lazy"><span>Brasil</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/jp.png" alt="" loading="lazy"><span>Japón</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/se.png" alt="" loading="lazy"><span>Suecia</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ec.png" alt="" loading="lazy"><span>Ecuador</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/no.png" alt="" loading="lazy"><span>Noruega</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/cz.png" alt="" loading="lazy"><span>Chequia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/gb-sct.png" alt="" loading="lazy"><span>Escocia</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/sn.png" alt="" loading="lazy"><span>Senegal</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="" loading="lazy"><span>Estados Unidos</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/at.png" alt="" loading="lazy"><span>Austria</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/be.png" alt="" loading="lazy"><span>Bélgica</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/kr.png" alt="" loading="lazy"><span>Corea del Sur</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/pt.png" alt="" loading="lazy"><span>Portugal</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/hr.png" alt="" loading="lazy"><span>Croacia</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/dz.png" alt="" loading="lazy"><span>Argelia</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ba.png" alt="" loading="lazy"><span>Bosnia y Herzegovina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/eg.png" alt="" loading="lazy"><span>Egipto</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/uy.png" alt="" loading="lazy"><span>Uruguay</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/co.png" alt="" loading="lazy"><span>Colombia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ci.png" alt="" loading="lazy"><span>Costa de Marfil</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/py.png" alt="" loading="lazy"><span>Paraguay</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ir.png" alt="" loading="lazy"><span>Irán</span></div></div></div><div class="round"><h3>Octavos</h3><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/de.png" alt="" loading="lazy"><span>Alemania</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/ch.png" alt="" loading="lazy"><span>Suiza</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/nl.png" alt="" loading="lazy"><span>Países Bajos</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/br.png" alt="" loading="lazy"><span>Brasil</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ec.png" alt="" loading="lazy"><span>Ecuador</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/cz.png" alt="" loading="lazy"><span>Chequia</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/pt.png" alt="" loading="lazy"><span>Portugal</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="" loading="lazy"><span>Estados Unidos</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/be.png" alt="" loading="lazy"><span>Bélgica</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/py.png" alt="" loading="lazy"><span>Paraguay</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/ba.png" alt="" loading="lazy"><span>Bosnia y Herzegovina</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/co.png" alt="" loading="lazy"><span>Colombia</span></div></div></div><div class="round"><h3>Cuartos</h3><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/nl.png" alt="" loading="lazy"><span>Países Bajos</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/be.png" alt="" loading="lazy"><span>Bélgica</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/br.png" alt="" loading="lazy"><span>Brasil</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/co.png" alt="" loading="lazy"><span>Colombia</span></div></div></div><div class="round"><h3>Semis</h3><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div></div></div><div class="round"><h3>Final</h3><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div></div></div></div>
+<div class="bracket"><div class="round"><h3>16avos</h3><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/mx.png" alt="" loading="lazy"><span>México</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ch.png" alt="" loading="lazy"><span>Suiza</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/de.png" alt="" loading="lazy"><span>Alemania</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/tr.png" alt="" loading="lazy"><span>Turquía</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/nl.png" alt="" loading="lazy"><span>Países Bajos</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ma.png" alt="" loading="lazy"><span>Marruecos</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/br.png" alt="" loading="lazy"><span>Brasil</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/jp.png" alt="" loading="lazy"><span>Japón</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/se.png" alt="" loading="lazy"><span>Suecia</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ec.png" alt="" loading="lazy"><span>Ecuador</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/no.png" alt="" loading="lazy"><span>Noruega</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/cz.png" alt="" loading="lazy"><span>Chequia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/gb-sct.png" alt="" loading="lazy"><span>Escocia</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/sn.png" alt="" loading="lazy"><span>Senegal</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="" loading="lazy"><span>Estados Unidos</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/at.png" alt="" loading="lazy"><span>Austria</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/be.png" alt="" loading="lazy"><span>Bélgica</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/kr.png" alt="" loading="lazy"><span>Corea del Sur</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/pt.png" alt="" loading="lazy"><span>Portugal</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/hr.png" alt="" loading="lazy"><span>Croacia</span></div></div><div class="match"><div class="team champ"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/dz.png" alt="" loading="lazy"><span>Argelia</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ba.png" alt="" loading="lazy"><span>Bosnia y Herzegovina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/eg.png" alt="" loading="lazy"><span>Egipto</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/uy.png" alt="" loading="lazy"><span>Uruguay</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/co.png" alt="" loading="lazy"><span>Colombia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ci.png" alt="" loading="lazy"><span>Costa de Marfil</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/py.png" alt="" loading="lazy"><span>Paraguay</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ir.png" alt="" loading="lazy"><span>Irán</span></div></div></div><div class="round"><h3>Octavos</h3><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/de.png" alt="" loading="lazy"><span>Alemania</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/ch.png" alt="" loading="lazy"><span>Suiza</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/nl.png" alt="" loading="lazy"><span>Países Bajos</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/br.png" alt="" loading="lazy"><span>Brasil</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ec.png" alt="" loading="lazy"><span>Ecuador</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/cz.png" alt="" loading="lazy"><span>Chequia</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/pt.png" alt="" loading="lazy"><span>Portugal</span></div><div class="team champ"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="" loading="lazy"><span>Estados Unidos</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/be.png" alt="" loading="lazy"><span>Bélgica</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/py.png" alt="" loading="lazy"><span>Paraguay</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/ba.png" alt="" loading="lazy"><span>Bosnia y Herzegovina</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/co.png" alt="" loading="lazy"><span>Colombia</span></div></div></div><div class="round"><h3>Cuartos</h3><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/nl.png" alt="" loading="lazy"><span>Países Bajos</span></div></div><div class="match"><div class="team champ"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/be.png" alt="" loading="lazy"><span>Bélgica</span></div></div><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/br.png" alt="" loading="lazy"><span>Brasil</span></div><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/co.png" alt="" loading="lazy"><span>Colombia</span></div></div></div><div class="round"><h3>Semis</h3><div class="match"><div class="team"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></div><div class="team champ"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div></div><div class="match"><div class="team win"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></div></div></div><div class="round"><h3>Final</h3><div class="match"><div class="team champ"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></div><div class="team"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></div></div></div></div>
+
+<h2 class="sec">🎯 Tus aciertos en fase de grupos <span class="note">(0 clavados de 2 jugados)</span></h2><div class="hits"><div class="hcard part"><span class="hbadge">✓ Ganador +2</span><div class="hrow"><img class="flag" src="https://flagcdn.com/w40/mx.png" alt="" loading="lazy"><span>México</span><b>1</b></div><div class="hrow"><img class="flag" src="https://flagcdn.com/w40/za.png" alt="" loading="lazy"><span>Sudáfrica</span><b>0</b></div><div class="hreal">Resultado real: <b>2-0</b></div></div><div class="hcard miss"><span class="hbadge">✗ +0</span><div class="hrow"><img class="flag" src="https://flagcdn.com/w40/kr.png" alt="" loading="lazy"><span>Corea del Sur</span><b>0</b></div><div class="hrow"><img class="flag" src="https://flagcdn.com/w40/cz.png" alt="" loading="lazy"><span>Chequia</span><b>1</b></div><div class="hreal">Resultado real: <b>2-1</b></div></div></div>
 
 <h2 class="sec">Tu fase de grupos (posiciones que implican tus marcadores)</h2>
 <div class="groups"><div class="gcard"><h4>Grupo A</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/cz.png" alt="" loading="lazy"><span>Chequia</span></td><td>9</td><td>+3</td><td>5</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/mx.png" alt="" loading="lazy"><span>México</span></td><td>4</td><td>+0</td><td>3</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/kr.png" alt="" loading="lazy"><span>Corea del Sur</span></td><td>2</td><td>-1</td><td>1</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/za.png" alt="" loading="lazy"><span>Sudáfrica</span></td><td>1</td><td>-2</td><td>1</td></tr></table></div><div class="gcard"><h4>Grupo B</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ba.png" alt="" loading="lazy"><span>Bosnia y Herzegovina</span></td><td>7</td><td>+4</td><td>5</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ch.png" alt="" loading="lazy"><span>Suiza</span></td><td>7</td><td>+2</td><td>3</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ca.png" alt="" loading="lazy"><span>Canadá</span></td><td>1</td><td>-3</td><td>1</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/qa.png" alt="" loading="lazy"><span>Catar</span></td><td>1</td><td>-3</td><td>1</td></tr></table></div><div class="gcard"><h4>Grupo C</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/br.png" alt="" loading="lazy"><span>Brasil</span></td><td>9</td><td>+5</td><td>7</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ma.png" alt="" loading="lazy"><span>Marruecos</span></td><td>6</td><td>+2</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/gb-sct.png" alt="" loading="lazy"><span>Escocia</span></td><td>3</td><td>-1</td><td>2</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ht.png" alt="" loading="lazy"><span>Haití</span></td><td>0</td><td>-6</td><td>0</td></tr></table></div><div class="gcard"><h4>Grupo D</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/us.png" alt="" loading="lazy"><span>Estados Unidos</span></td><td>6</td><td>+1</td><td>5</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/py.png" alt="" loading="lazy"><span>Paraguay</span></td><td>5</td><td>+1</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/tr.png" alt="" loading="lazy"><span>Turquía</span></td><td>4</td><td>+0</td><td>4</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/au.png" alt="" loading="lazy"><span>Australia</span></td><td>1</td><td>-2</td><td>3</td></tr></table></div><div class="gcard"><h4>Grupo E</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/de.png" alt="" loading="lazy"><span>Alemania</span></td><td>9</td><td>+4</td><td>7</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ec.png" alt="" loading="lazy"><span>Ecuador</span></td><td>6</td><td>+1</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ci.png" alt="" loading="lazy"><span>Costa de Marfil</span></td><td>3</td><td>-1</td><td>4</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/cw.png" alt="" loading="lazy"><span>Curazao</span></td><td>0</td><td>-4</td><td>2</td></tr></table></div><div class="gcard"><h4>Grupo F</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/nl.png" alt="" loading="lazy"><span>Países Bajos</span></td><td>9</td><td>+5</td><td>7</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/jp.png" alt="" loading="lazy"><span>Japón</span></td><td>4</td><td>-1</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/se.png" alt="" loading="lazy"><span>Suecia</span></td><td>2</td><td>-2</td><td>2</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/tn.png" alt="" loading="lazy"><span>Túnez</span></td><td>1</td><td>-2</td><td>3</td></tr></table></div><div class="gcard"><h4>Grupo G</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/be.png" alt="" loading="lazy"><span>Bélgica</span></td><td>9</td><td>+5</td><td>8</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ir.png" alt="" loading="lazy"><span>Irán</span></td><td>4</td><td>+1</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/eg.png" alt="" loading="lazy"><span>Egipto</span></td><td>4</td><td>+0</td><td>4</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/nz.png" alt="" loading="lazy"><span>Nueva Zelanda</span></td><td>0</td><td>-6</td><td>2</td></tr></table></div><div class="gcard"><h4>Grupo H</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="" loading="lazy"><span>España</span></td><td>9</td><td>+7</td><td>8</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/uy.png" alt="" loading="lazy"><span>Uruguay</span></td><td>6</td><td>+1</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/sa.png" alt="" loading="lazy"><span>Arabia Saudita</span></td><td>1</td><td>-4</td><td>2</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/cv.png" alt="" loading="lazy"><span>Cabo Verde</span></td><td>1</td><td>-4</td><td>1</td></tr></table></div><div class="gcard"><h4>Grupo I</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/fr.png" alt="" loading="lazy"><span>Francia</span></td><td>9</td><td>+4</td><td>6</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/no.png" alt="" loading="lazy"><span>Noruega</span></td><td>4</td><td>+1</td><td>5</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/sn.png" alt="" loading="lazy"><span>Senegal</span></td><td>2</td><td>-2</td><td>2</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/iq.png" alt="" loading="lazy"><span>Irak</span></td><td>1</td><td>-3</td><td>3</td></tr></table></div><div class="gcard"><h4>Grupo J</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="" loading="lazy"><span>Argentina</span></td><td>9</td><td>+5</td><td>7</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/dz.png" alt="" loading="lazy"><span>Argelia</span></td><td>4</td><td>+0</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/at.png" alt="" loading="lazy"><span>Austria</span></td><td>2</td><td>-2</td><td>2</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/jo.png" alt="" loading="lazy"><span>Jordania</span></td><td>1</td><td>-3</td><td>3</td></tr></table></div><div class="gcard"><h4>Grupo K</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/co.png" alt="" loading="lazy"><span>Colombia</span></td><td>7</td><td>+5</td><td>7</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/pt.png" alt="" loading="lazy"><span>Portugal</span></td><td>7</td><td>+4</td><td>5</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/cd.png" alt="" loading="lazy"><span>RD Congo</span></td><td>1</td><td>-4</td><td>1</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/uz.png" alt="" loading="lazy"><span>Uzbekistán</span></td><td>1</td><td>-5</td><td>0</td></tr></table></div><div class="gcard"><h4>Grupo L</h4><table><tr class="h"><th></th><th></th><th>Pts</th><th>DG</th><th>GF</th></tr><tr class="q1"><td class="p">1</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/gb-eng.png" alt="" loading="lazy"><span>Inglaterra</span></td><td>7</td><td>+3</td><td>5</td></tr><tr class="q1"><td class="p">2</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/hr.png" alt="" loading="lazy"><span>Croacia</span></td><td>7</td><td>+3</td><td>4</td></tr><tr class="q3"><td class="p">3</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/pa.png" alt="" loading="lazy"><span>Panamá</span></td><td>1</td><td>-2</td><td>2</td></tr><tr class=""><td class="p">4</td><td class="t"><img class="flag" src="https://flagcdn.com/w40/gh.png" alt="" loading="lazy"><span>Ghana</span></td><td>1</td><td>-4</td><td>1</td></tr></table></div></div>
