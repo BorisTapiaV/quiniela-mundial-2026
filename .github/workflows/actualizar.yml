@@ -45,15 +45,15 @@ jobs:
             echo "¡Resultado nuevo! Regenerando y deployando."
           fi
 
-      - name: Regenerar sitio (solo si hubo cambio)
-        if: steps.fetch.outputs.changed == 'true'
+      - name: Regenerar sitio (si hubo cambio o disparo manual)
+        if: steps.fetch.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           python build/gen_jugador.py
           python build/gen_galeria.py
           python build/gen_calendar.py
 
-      - name: Deploy a Netlify (solo si hubo cambio)
-        if: steps.fetch.outputs.changed == 'true'
+      - name: Deploy a Netlify (si hubo cambio o disparo manual)
+        if: steps.fetch.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
         run: >
           npx --yes netlify-cli deploy
           --dir=site --prod
