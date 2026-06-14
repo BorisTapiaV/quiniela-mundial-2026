@@ -5,7 +5,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 4,2026-06-12,21:00,Estadio Los Angeles,Estados Unidos,Paraguay,4,1
 5,2026-06-13,15:00,Estadio Bahía de San Francisco,Catar,Suiza,1,1
 6,2026-06-13,18:00,Estadio Nueva York/Nueva Jersey,Brasil,Marruecos,1,1
-7,2026-06-13,21:00,Estadio Boston,Haití,Escocia,,
+7,2026-06-13,21:00,Estadio Boston,Haití,Escocia,0,1
 8,2026-06-14,00:00,Estadio BC Place Vancouver,Australia,Turquía,,
 9,2026-06-14,13:00,Estadio Houston,Alemania,Curazao,,
 10,2026-06-14,16:00,Estadio Dallas,Países Bajos,Japón,,
