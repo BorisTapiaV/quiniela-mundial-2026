@@ -1,17 +1,17 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
-<!-- Updated: 2026-06-12 — Torneo EN VIVO (día 2). 5 jugadores, pozo $50.000. M1+M2 cargados. Cron auto-resultados andando solo. Sitio 2026-mundial.netlify.app. Git limpio (commit f271fb8). | Doc de estado vivo — el diseño/decisiones está en README.md, el detalle histórico en la memoria project_quiniela_mundial_2026.md -->
+<!-- Updated: 2026-06-14 — Torneo EN VIVO (día 4). 5 jugadores, pozo $50.000. M1–M9 cargados (cron auto, sin intervención). La Casa 1º con 27 pts. Sitio 2026-mundial.netlify.app. Local sincronizado a origin/main (commit d55afa0). | Doc de estado vivo — el diseño/decisiones está en README.md, el detalle histórico en la memoria project_quiniela_mundial_2026.md -->
 <!-- Mantener: dashboard puro. Estado + pendientes + datos operativos + puntos de entrada. -->
 
 ---
 
-## Estado al 2026-06-12 — torneo EN VIVO (fase de grupos, día 2)
+## Estado al 2026-06-14 — torneo EN VIVO (fase de grupos, día 4)
 
-El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. No requiere intervención salvo cargar jugadores nuevos o arreglar pendientes.
+El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. No requiere intervención salvo cargar jugadores nuevos o arreglar pendientes. **9/72 partidos de grupos cargados** sin tocar nada (commits auto el 13 y 14-jun).
 
 - **Sitio público:** https://2026-mundial.netlify.app
 - **Repo:** privado `github.com/BorisTapiaV/quiniela-mundial-2026`
-- **Último commit:** `f271fb8` (Auto: resultados nuevos 2026-06-12T04:08Z) · git limpio
+- **Último commit:** `d55afa0` (Auto: resultados nuevos 2026-06-14T19:14Z) · local sincronizado a origin/main
 - **Branding:** "Fisioterapia & Futbolito FC" (grupo WhatsApp 40+) — logo `site/fisio-fc.png`
 
 ---
@@ -28,14 +28,33 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-## 📊 Resultados cargados
+## 🏆 Tabla de posiciones (tras 9 partidos)
 
-| Match | Partido | Marcador | Cómo |
+| Pos | Jugador | Campeón | Pts |
+|:---:|---------|---------|:---:|
+| 🥇 | **Boris Tapia V (La Casa)** | España | **27** |
+| 🥈 | Carlos Salgado | Portugal | 17 |
+| 🥉 | Jorge Vásquez | — (sin campeón) | 14 |
+| 4 | Andrés Acosta (Colombia) | Francia | 13 |
+| 5 | Paulo Salas | España | 9 |
+
+La Casa lidera con margen (27 vs 17). KO aún sin puntuar (faltan grupos).
+
+---
+
+## 📊 Resultados cargados (M1–M9)
+
+| Match | Partido | Marcador | Fecha |
 |:-----:|---------|:--------:|------|
-| M1 | México – Sudáfrica | 2-0 | manual 11-jun (tier gratis dio FINISHED sin score) |
-| M2 | Corea del Sur – Chequia | 2-1 | auto |
-| M3 | Canadá – Bosnia | — | hoy 12-jun 15:00 |
-| M4 | Estados Unidos – Paraguay | — | hoy 12-jun 21:00 |
+| M1 | México – Sudáfrica | 2-0 | 11-jun (manual; tier gratis dio FINISHED sin score) |
+| M2 | Corea del Sur – Chequia | 2-1 | 11-jun (auto) |
+| M3 | Canadá – Bosnia | 1-1 | 12-jun |
+| M4 | Estados Unidos – Paraguay | 4-1 | 12-jun |
+| M5 | Catar – Suiza | 1-1 | 13-jun |
+| M6 | Brasil – Marruecos | 1-1 | 13-jun |
+| M7 | Haití – Escocia | 0-1 | 13-jun |
+| M8 | Australia – Turquía | 2-0 | 14-jun |
+| M9 | Alemania – Curazao | 7-1 | 14-jun |
 
 **Scoring M1 verificado:** Carlos + La Casa 5 (exacto 2-0) · Andrés 3 (dif +2) · Jorge + Paulo 2 (1X2).
 
@@ -81,4 +100,4 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-*Última actualización: 2026-06-12 — torneo en vivo día 2, 5 jugadores, M1+M2 cargados, automatización andando sola.*
+*Última actualización: 2026-06-14 — torneo en vivo día 4, 5 jugadores, M1–M9 cargados (cron auto), La Casa 1º con 27 pts. Local resincronizado a origin/main (estaba 6 commits atrás).*
