@@ -15,7 +15,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 14,2026-06-15,15:00,Estadio Seattle,Bélgica,Egipto,1,1
 15,2026-06-15,18:00,Estadio Miami,Arabia Saudita,Uruguay,1,1
 16,2026-06-15,21:00,Estadio Los Angeles,Irán,Nueva Zelanda,2,2
-17,2026-06-16,15:00,Estadio Nueva York/Nueva Jersey,Francia,Senegal,,
+17,2026-06-16,15:00,Estadio Nueva York/Nueva Jersey,Francia,Senegal,3,1
 18,2026-06-16,18:00,Estadio Boston,Irak,Noruega,,
 19,2026-06-16,21:00,Estadio Kansas City,Argentina,Argelia,,
 20,2026-06-17,00:00,Estadio Bahía de San Francisco,Austria,Jordania,,
