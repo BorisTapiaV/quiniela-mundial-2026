@@ -13,7 +13,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 12,2026-06-14,22:00,Estadio Monterrey,Suecia,Túnez,5,1
 13,2026-06-15,12:00,Estadio Atlanta,España,Cabo Verde,0,0
 14,2026-06-15,15:00,Estadio Seattle,Bélgica,Egipto,1,1
-15,2026-06-15,18:00,Estadio Miami,Arabia Saudita,Uruguay,,
+15,2026-06-15,18:00,Estadio Miami,Arabia Saudita,Uruguay,1,1
 16,2026-06-15,21:00,Estadio Los Angeles,Irán,Nueva Zelanda,,
 17,2026-06-16,15:00,Estadio Nueva York/Nueva Jersey,Francia,Senegal,,
 18,2026-06-16,18:00,Estadio Boston,Irak,Noruega,,
