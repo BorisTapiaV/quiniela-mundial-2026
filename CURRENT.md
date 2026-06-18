@@ -30,17 +30,17 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-## 🏆 Tabla de posiciones (tras 24 partidos)
+## 🏆 Tabla de posiciones (tras 25 partidos)
 
 | Pos | Jugador | Campeón | Pts | Exactos | Ganador |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Carlos Salgado** | Portugal | **42** | 5 | 13/24 |
-| 🥈 | Boris Tapia V (La Casa) | España | **41** | 4 | 13/24 |
-| 🥉 | Andrés Acosta (Colombia) | Francia | 28 | 3 | 8/24 |
-| 4 | Jorge Vásquez | — (sin campeón) | 25 | 1 | 10/24 |
-| 5 | Paulo Salas | España | 18 | 1 | 7/24 |
+| 🥇 | **Carlos Salgado** | Portugal | **47** | 6 | 14/25 |
+| 🥈 | Boris Tapia V (La Casa) | España | **46** | 5 | 14/25 |
+| 🥉 | Andrés Acosta (Colombia) | Francia | 31 | 3 | 9/25 |
+| 4 | Jorge Vásquez | — (sin campeón) | 25 | 1 | 10/25 |
+| 5 | Paulo Salas | España | 18 | 1 | 7/25 |
 
-**VUELCO en la punta:** La Casa venía 1º (37-35 el 15-jun) pero Carlos remató fuerte en M21–M24 y **quedó 42-41 arriba por 1 punto**. Empate en aciertos de ganador (13-13); Carlos pasó en exactos (5-4). Mano a mano. KO aún sin puntuar (faltan grupos).
+**VUELCO en la punta:** La Casa venía 1º (37-35 el 15-jun) pero Carlos remató fuerte en M21–M24 y pasó al frente. Tras M25 (CZE 1-1 RSA, ambos exacto +5) sigue **Carlos 47 – Boris 46, a 1 punto**. Empate en ganador (14-14); Carlos arriba en exactos (6-5). Mano a mano. KO aún sin puntuar. Faltan M26–M28 (18-jun) por entrar.
 
 ---
 
@@ -60,6 +60,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 | M22 | Inglaterra – Croacia | 4-2 | 17-jun |
 | M23 | Ghana – Panamá | 1-0 | 17-jun |
 | M24 | Uzbekistán – Colombia | 1-3 | 17-jun |
+| M25 | Chequia – Sudáfrica | 1-1 | 18-jun |
 
 **M1–M12 (11–14 jun):** México 2-0 RSA · KOR 2-1 CZE · CAN 1-1 BIH · USA 4-1 PAR · QAT 1-1 SUI · BRA 1-1 MAR · HAI 0-1 SCO · AUS 2-0 TUR · GER 7-1 CUW · NED 2-2 JPN · CIV 1-0 ECU · SWE 5-1 TUN.
 
@@ -107,4 +108,4 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-*Última actualización: 2026-06-18 — torneo en vivo día 8, 5 jugadores, M1–M24 cargados. VUELCO: Carlos 42 pasó a La Casa 41. Falla del cron por presupuesto de Actions agotado (repo privado) → resuelta haciendo el repo PÚBLICO (Actions gratis ilimitado); M21–M24 cargados + deploy. Snapshot MD2 (día 8) cerrado. Local sincronizado a origin/main (commit af6667a + cambios de esta jornada).*
+*Última actualización: 2026-06-18 — torneo en vivo día 8, 5 jugadores, M1–M25 cargados. VUELCO: Carlos pasó a La Casa, 47-46 tras M25. Falla del cron por presupuesto de Actions agotado (repo privado) → resuelta haciendo el repo PÚBLICO (Actions gratis ilimitado); M21–M25 cargados + deploy. Snapshot MD2 cerrado. Recap predicciones 18-jun generado (recap/predicciones-2026-06-18.html). Faltan M26–M28 (entran solos por el cron). Local sincronizado a origin/main.*
