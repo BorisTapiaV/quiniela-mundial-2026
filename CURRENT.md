@@ -1,17 +1,19 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
-<!-- Updated: 2026-06-15 — Torneo EN VIVO (día 5). 5 jugadores, pozo $50.000. M1–M12 cargados (cron auto, sin intervención). La Casa 1º con 27 pts, pero Carlos cerró a 24 (la ventaja pasó de 10 a 3 pts). Sitio 2026-mundial.netlify.app. Local sincronizado a origin/main (commit 3f71456). Recap predicciones 15-jun generado (recap/predicciones-2026-06-15.html). | Doc de estado vivo — el diseño/decisiones está en README.md, el detalle histórico en la memoria project_quiniela_mundial_2026.md -->
+<!-- Updated: 2026-06-18 — Torneo EN VIVO (día 8). 5 jugadores, pozo $50.000. M1–M24 cargados. VUELCO: Carlos pasó a La Casa, 42-41 (venía 37-35 abajo, remató en M21–M24). FIX OPERATIVO: el cron murió 17-jun 20:00Z por presupuesto agotado de GitHub Actions (repo privado, 2000 min/mes gratis consumidos) → M21–M24 no cargaron + sitio congelado en M20. Solución: repo hecho PÚBLICO (Actions ilimitado gratis, $0, ya no quema budget); cron disparado a mano, cargó M21–M24 + deployó. Snapshot MD2 (día 8) cerrado. Sitio 2026-mundial.netlify.app. | Doc de estado vivo — el diseño/decisiones está en README.md, el detalle histórico en la memoria project_quiniela_mundial_2026.md -->
 <!-- Mantener: dashboard puro. Estado + pendientes + datos operativos + puntos de entrada. -->
 
 ---
 
-## Estado al 2026-06-15 — torneo EN VIVO (fase de grupos, día 5)
+## Estado al 2026-06-18 — torneo EN VIVO (fase de grupos, día 8)
 
-El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. No requiere intervención salvo cargar jugadores nuevos o arreglar pendientes. **12/72 partidos de grupos cargados** sin tocar nada (commits auto hasta el 15-jun). **Hoy 15-jun se juegan M13–M16** (ESP-CPV, BEL-EGY, KSA-URU, IRN-NZL).
+El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **24/72 partidos de grupos cargados.**
+
+⚠️ **Falla resuelta (18-jun):** el cron murió el **17-jun 20:00Z** porque se agotó el **presupuesto de GitHub Actions** (el repo era privado → solo 2000 min/mes gratis, consumidos por correr cada 15 min). Toda corrida moría al instante con *"Actions budget is preventing further use"* → **M21–M24 no cargaron y el sitio quedó congelado en M20**. **Solución aplicada:** el repo se hizo **PÚBLICO** (repos públicos = Actions ilimitado gratis, $0, no toca el budget de la cuenta; verificado que no hay secretos en el código — los tokens viven en GitHub Secrets, siguen ocultos). Cron disparado a mano → cargó M21–M24 + deployó. **El automático vuelve a correr gratis para siempre.**
 
 - **Sitio público:** https://2026-mundial.netlify.app
-- **Repo:** privado `github.com/BorisTapiaV/quiniela-mundial-2026`
-- **Último commit:** `3f71456` (Auto: resultados nuevos 2026-06-15T04:08Z) · local sincronizado a origin/main
+- **Repo:** **PÚBLICO** (desde 18-jun) `github.com/BorisTapiaV/quiniela-mundial-2026`
+- **Último commit:** `af6667a` (Auto: resultados nuevos 2026-06-18T11:25Z) · local sincronizado a origin/main
 - **Branding:** "Fisioterapia & Futbolito FC" (grupo WhatsApp 40+) — logo `site/fisio-fc.png`
 
 ---
@@ -28,38 +30,38 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-## 🏆 Tabla de posiciones (tras 12 partidos)
+## 🏆 Tabla de posiciones (tras 24 partidos)
 
-| Pos | Jugador | Campeón | Pts | Exactos | Δ desde M9 |
+| Pos | Jugador | Campeón | Pts | Exactos | Ganador |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **27** | 4 | +0 |
-| 🥈 | Carlos Salgado | Portugal | **24** | 3 | **+7** |
-| 🥉 | Andrés Acosta (Colombia) | Francia | 18 | 2 | +5 |
-| 4 | Jorge Vásquez | — (sin campeón) | 14 | 1 | +0 |
-| 5 | Paulo Salas | España | 9 | 1 | +0 |
+| 🥇 | **Carlos Salgado** | Portugal | **42** | 5 | 13/24 |
+| 🥈 | Boris Tapia V (La Casa) | España | **41** | 4 | 13/24 |
+| 🥉 | Andrés Acosta (Colombia) | Francia | 28 | 3 | 8/24 |
+| 4 | Jorge Vásquez | — (sin campeón) | 25 | 1 | 10/24 |
+| 5 | Paulo Salas | España | 18 | 1 | 7/24 |
 
-La Casa sigue 1º pero **la ventaja se achicó de 27-17 (10 pts) a 27-24 (3 pts)**: los 3 partidos nuevos (M10 NED 2-2 JPN · M11 CIV 1-0 ECU · M12 SWE 5-1 TUN) le dieron **+7 a Carlos** y **+5 a Andrés**, y **0 a La Casa**. KO aún sin puntuar (faltan grupos).
+**VUELCO en la punta:** La Casa venía 1º (37-35 el 15-jun) pero Carlos remató fuerte en M21–M24 y **quedó 42-41 arriba por 1 punto**. Empate en aciertos de ganador (13-13); Carlos pasó en exactos (5-4). Mano a mano. KO aún sin puntuar (faltan grupos).
 
 ---
 
-## 📊 Resultados cargados (M1–M12)
+## 📊 Resultados cargados (M1–M24)
 
 | Match | Partido | Marcador | Fecha |
 |:-----:|---------|:--------:|------|
-| M1 | México – Sudáfrica | 2-0 | 11-jun (manual; tier gratis dio FINISHED sin score) |
-| M2 | Corea del Sur – Chequia | 2-1 | 11-jun (auto) |
-| M3 | Canadá – Bosnia | 1-1 | 12-jun |
-| M4 | Estados Unidos – Paraguay | 4-1 | 12-jun |
-| M5 | Catar – Suiza | 1-1 | 13-jun |
-| M6 | Brasil – Marruecos | 1-1 | 13-jun |
-| M7 | Haití – Escocia | 0-1 | 13-jun |
-| M8 | Australia – Turquía | 2-0 | 14-jun |
-| M9 | Alemania – Curazao | 7-1 | 14-jun |
-| M10 | Países Bajos – Japón | 2-2 | 14-jun |
-| M11 | Costa de Marfil – Ecuador | 1-0 | 14-jun |
-| M12 | Suecia – Túnez | 5-1 | 14-jun |
+| M13 | España – Cabo Verde | 0-0 | 15-jun |
+| M14 | Bélgica – Egipto | 1-1 | 15-jun |
+| M15 | Arabia Saudita – Uruguay | 1-1 | 15-jun |
+| M16 | Irán – Nueva Zelanda | 2-2 | 15-jun |
+| M17 | Francia – Senegal | 3-1 | 16-jun |
+| M18 | Irak – Noruega | 1-4 | 16-jun |
+| M19 | Argentina – Argelia | 3-0 | 16-jun |
+| M20 | Austria – Jordania | 3-1 | 17-jun |
+| M21 | Portugal – RD Congo | 1-1 | 17-jun |
+| M22 | Inglaterra – Croacia | 4-2 | 17-jun |
+| M23 | Ghana – Panamá | 1-0 | 17-jun |
+| M24 | Uzbekistán – Colombia | 1-3 | 17-jun |
 
-**Scoring M1 verificado:** Carlos + La Casa 5 (exacto 2-0) · Andrés 3 (dif +2) · Jorge + Paulo 2 (1X2).
+**M1–M12 (11–14 jun):** México 2-0 RSA · KOR 2-1 CZE · CAN 1-1 BIH · USA 4-1 PAR · QAT 1-1 SUI · BRA 1-1 MAR · HAI 0-1 SCO · AUS 2-0 TUR · GER 7-1 CUW · NED 2-2 JPN · CIV 1-0 ECU · SWE 5-1 TUN.
 
 ---
 
@@ -81,7 +83,8 @@ La Casa sigue 1º pero **la ventaja se achicó de 27-17 (10 pts) a 27-24 (3 pts)
 - **Deploy:** 100% por CLI (`netlify deploy --dir=site --prod --site <id> --auth $NETLIFY_TOKEN`). **NO Git-auto.**
 - ⚠️ **Gotcha:** el sitio Netlify quedó conectado por error al repo `album-mundial-2026` → `stop_builds:true` vía API para que el álbum no lo pise.
 - **Cron:** `.github/workflows/actualizar.yml` — cada 15 min SOLO en ventana de partidos (`*/15 18-23` + `*/15 0-6` UTC = 14:00–02:00 Chile), **deploy-on-change** (solo si entra resultado nuevo). Ahorra créditos.
-- **3 GitHub Secrets:** `FOOTBALL_DATA_TOKEN` + `NETLIFY_AUTH_TOKEN` + `NETLIFY_SITE_ID`. Nunca en archivos.
+- ✅ **Repo PÚBLICO (desde 18-jun) = GitHub Actions ilimitado gratis.** Antes era privado → solo 2000 min/mes; correr cada 15 min los agotó y el cron murió 17-jun 20:00Z (*"Actions budget is preventing further use"*), congelando M21–M24. El budget de Actions es **a nivel de cuenta** (compartido por todos los repos privados), no por repo; un repo público no consume nada de esa bolsa. Por eso se hizo público solo este repo. Disparo manual: `gh workflow run actualizar.yml`.
+- **3 GitHub Secrets:** `FOOTBALL_DATA_TOKEN` + `NETLIFY_AUTH_TOKEN` + `NETLIFY_SITE_ID`. Nunca en archivos — siguen ocultos aunque el repo sea público (no se exponen al hacer público el repo).
 - **Tier gratis football-data:** cubre todo el WC (1 llamada/run), puntúa con resultado FINAL. **NO** da live minuto-a-minuto; status puede ir por delante del score (de ahí el caso M1 → fetch ignora FINISHED-sin-marcador).
 
 ---
@@ -104,4 +107,4 @@ La Casa sigue 1º pero **la ventaja se achicó de 27-17 (10 pts) a 27-24 (3 pts)
 
 ---
 
-*Última actualización: 2026-06-15 — torneo en vivo día 5, 5 jugadores, M1–M12 cargados (cron auto). La Casa 1º con 27 pts pero Carlos cerró a 24 (ventaja 10→3). Recap predicciones 15-jun generado. Local sincronizado a origin/main (commit 3f71456).*
+*Última actualización: 2026-06-18 — torneo en vivo día 8, 5 jugadores, M1–M24 cargados. VUELCO: Carlos 42 pasó a La Casa 41. Falla del cron por presupuesto de Actions agotado (repo privado) → resuelta haciendo el repo PÚBLICO (Actions gratis ilimitado); M21–M24 cargados + deploy. Snapshot MD2 (día 8) cerrado. Local sincronizado a origin/main (commit af6667a + cambios de esta jornada).*
