@@ -28,7 +28,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 27,2026-06-18,18:00,Estadio BC Place Vancouver,Canadá,Catar,6,0
 28,2026-06-18,21:00,Estadio Guadalajara,México,Corea del Sur,1,0
 29,2026-06-19,15:00,Estadio Seattle,Estados Unidos,Australia,2,0
-30,2026-06-19,18:00,Estadio Boston,Escocia,Marruecos,,
+30,2026-06-19,18:00,Estadio Boston,Escocia,Marruecos,0,1
 31,2026-06-19,20:30,Estadio Filadelfia,Brasil,Haití,,
 32,2026-06-19,23:00,Estadio Bahía de San Francisco,Turquía,Paraguay,,
 33,2026-06-20,13:00,Estadio Houston,Países Bajos,Suecia,,
