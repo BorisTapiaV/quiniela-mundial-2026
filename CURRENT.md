@@ -1,21 +1,21 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
-<!-- Updated: 2026-06-20 — Torneo EN VIVO (día 10). 5 jugadores, pozo $50.000. M1–M32 cargados (32/72). Mano a mano arriba: Carlos 64 – Boris 57 (brecha abierta de 4 a 7: Carlos acertó el triunfo de Paraguay en M32, Boris falló). M32 Turquía 0-1 Paraguay entró AUTOMÁTICO esta vez (cron 02:44 Chile, sin lag — a diferencia de M31). Hoy 20-jun se juegan M33 PB-Suecia (13:00), M34 Alemania-Costa de Marfil (16:00), M35 Ecuador-Curazao (20:00). Sitio 2026-mundial.netlify.app. | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
+<!-- Updated: 2026-06-21 — Torneo EN VIVO (día 11). 5 jugadores, pozo $50.000. M1–M36 cargados (36/72). Mano a mano arriba: Carlos 71 – Boris 66 (brecha recortada de 7 a 5: en M33–M36 Boris sumó +9 vs +7 de Carlos). M33–M36 entraron TODOS AUTOMÁTICO (cron sano; pull local de 4 auto-commits 19:14Z/22:33Z/02:39Z/07:31Z). M33 PB 5-1 Suecia, M34 Alemania 2-1 CIV, M35 Ecuador 0-0 Curazao, M36 Túnez 0-4 Japón. Hoy 21-jun: M37 España-Arabia (12:00), M38 Bélgica-Irán (15:00), M39 Uruguay-Cabo Verde (18:00), M40 NZ-Egipto (21:00). Sitio 2026-mundial.netlify.app. | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
 <!-- Mantener: dashboard puro. Estado + pendientes + datos operativos + puntos de entrada. -->
 
 ---
 
-## Estado al 2026-06-20 — torneo EN VIVO (fase de grupos, día 10)
+## Estado al 2026-06-21 — torneo EN VIVO (fase de grupos, día 11)
 
-El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **32/72 partidos de grupos cargados.**
+El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **36/72 partidos de grupos cargados.**
 
-✅ **M32 Turquía 0-1 Paraguay entró AUTOMÁTICO** (cron 02:44 Chile, sin lag) — esta vez el tier gratis publicó marcador a tiempo, a diferencia de M31. El cron sigue sano.
+✅ **M33–M36 entraron TODOS AUTOMÁTICO** (cron sano, 4 auto-commits). Hoy se hizo `git pull` para sincronizar la copia local que estaba 4 commits atrás del remoto. Resultados: M33 PB 5-1 Suecia, M34 Alemania 2-1 CIV, M35 Ecuador 0-0 Curazao, M36 Túnez 0-4 Japón.
 
-🗓️ **Hoy 20-jun se juegan 3:** M33 Países Bajos–Suecia (13:00), M34 Alemania–Costa de Marfil (16:00), M35 Ecuador–Curazao (20:00). Vigilar que carguen solos; si algún partido importante "no actualiza el puntaje", casi siempre es el lag del plan gratis (status adelanta al score, caso M1/M31), no el cron → cargar a mano.
+🗓️ **Hoy 21-jun se juegan 4:** M37 España–Arabia Saudita (12:00), M38 Bélgica–Irán (15:00), M39 Uruguay–Cabo Verde (18:00), M40 Nueva Zelanda–Egipto (21:00). Vigilar que carguen solos; si algún partido "no actualiza el puntaje", casi siempre es el lag del plan gratis (status adelanta al score, caso M1/M31), no el cron → cargar a mano.
 
 - **Sitio público:** https://2026-mundial.netlify.app
 - **Repo:** **PÚBLICO** `github.com/BorisTapiaV/quiniela-mundial-2026` (Actions ilimitado gratis)
-- **Último commit:** `661e466` (Auto: M32 Turquía 0-1 Paraguay) · sitio en vivo confirmado 32/72
+- **Último commit:** `b36b0fb` (Auto: 2026-06-21T07:31Z, M36) · sitio en vivo 36/72
 - **Branding:** "Fisioterapia & Futbolito FC" (grupo WhatsApp 40+) — logo `site/fisio-fc.png`
 
 ---
@@ -32,24 +32,28 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-## 🏆 Tabla de posiciones (tras 32 partidos)
+## 🏆 Tabla de posiciones (tras 36 partidos)
 
 | Pos | Jugador | Campeón | Pts | Exactos | Ganador |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Carlos Salgado** | Portugal | **64** | 6 | 21/32 |
-| 🥈 | Boris Tapia V (La Casa) | España | **57** | 6 | 18/32 |
-| 🥉 | Andrés Acosta (Colombia) | Francia | 46 | 4 | 14/32 |
-| 4 | Jorge Vásquez | — (sin campeón) | 38 | 2 | 15/32 |
-| 5 | Paulo Salas | España | 30 | 3 | 10/32 |
+| 🥇 | **Carlos Salgado** | Portugal | **71** | 7 | 23/36 |
+| 🥈 | Boris Tapia V (La Casa) | España | **66** | 7 | 21/36 |
+| 🥉 | Andrés Acosta (Colombia) | Francia | 53 | 5 | 16/36 |
+| 4 | Jorge Vásquez | — (sin campeón) | 45 | 2 | 18/36 |
+| 5 | Paulo Salas | España | 39 | 4 | 13/36 |
 
-**Mano a mano arriba:** **Carlos 64 – Boris 57** (a 7 pts). En M32 (Turquía 0-1 Paraguay) Carlos acertó el triunfo de Paraguay (+3) y Boris falló → la brecha se abrió de 4 a 7. Sigue empate en exactos (6-6); Carlos arriba en ganador (21-18). Venían 47-46 en M25; M26–M32 ensancharon a Carlos. KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
+**Mano a mano arriba:** **Carlos 71 – Boris 66** (a 5 pts). En M33–M36 Boris sumó **+9** vs **+7** de Carlos → recortó la brecha de 7 a 5. **Empate en exactos (7-7)**; Carlos arriba en ganador (23-21). KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
 
 ---
 
-## 📊 Resultados cargados (M1–M32)
+## 📊 Resultados cargados (M1–M36)
 
 | Match | Partido | Marcador | Fecha |
 |:-----:|---------|:--------:|------|
+| M33 | Países Bajos – Suecia | 5-1 | 20-jun (auto) |
+| M34 | Alemania – Costa de Marfil | 2-1 | 20-jun (auto) |
+| M35 | Ecuador – Curazao | 0-0 | 20-jun (auto) |
+| M36 | Túnez – Japón | 0-4 | 21-jun (auto) |
 | M21 | Portugal – RD Congo | 1-1 | 17-jun |
 | M22 | Inglaterra – Croacia | 4-2 | 17-jun |
 | M23 | Ghana – Panamá | 1-0 | 17-jun |
@@ -71,7 +75,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 | # | Pendiente | Tipo |
 |:-:|-----------|------|
-| 1 | **Hoy 20-jun: M33 PB–Suecia (13:00), M34 Alemania–Costa de Marfil (16:00), M35 Ecuador–Curazao (20:00)** — verificar que carguen solos; si el tier gratis demora, cargar manual | vigilar |
+| 1 | **Hoy 21-jun: M37 España–Arabia (12:00), M38 Bélgica–Irán (15:00), M39 Uruguay–Cabo Verde (18:00), M40 NZ–Egipto (21:00)** — verificar que carguen solos; si el tier gratis demora, cargar manual | vigilar |
 | 2 | **Jorge** completa bracket KO + campeón (hoy vacío; compite igual en grupos) | esperar jugador |
 | 3 | **Andrés** — M24 grupo en blanco + M83 KO inconsistente (llave deriva UZB-CRO, eligió Colombia) | esperar/arreglar |
 | 4 | Recap tarjeta WhatsApp compartible (se genera **local**, no en CI) | opcional |
@@ -111,4 +115,4 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-*Última actualización: 2026-06-20 — torneo en vivo día 10, 5 jugadores, M1–M32 cargados (32/72). Carlos 64 – Boris 57 (mano a mano, a 7 pts; brecha abierta en M32 Turquía 0-1 Paraguay, KO aún sin puntuar). M32 entró AUTOMÁTICO (cron 02:44 Chile, sin lag). Hoy 20-jun: M33/M34/M35. Commit `661e466`, sitio en vivo confirmado 32/72.*
+*Última actualización: 2026-06-21 — torneo en vivo día 11, 5 jugadores, M1–M36 cargados (36/72). Carlos 71 – Boris 66 (mano a mano, a 5 pts; brecha recortada de 7 a 5 en M33–M36, empate en exactos 7-7, KO aún sin puntuar). M33–M36 entraron TODOS AUTOMÁTICO (pull local de 4 auto-commits). Hoy 21-jun: M37/M38/M39/M40. Commit `b36b0fb`, sitio en vivo 36/72.*
