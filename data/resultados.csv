@@ -38,7 +38,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 37,2026-06-21,12:00,Estadio Atlanta,España,Arabia Saudita,4,0
 38,2026-06-21,15:00,Estadio Los Angeles,Bélgica,Irán,0,0
 39,2026-06-21,18:00,Estadio Miami,Uruguay,Cabo Verde,2,2
-40,2026-06-21,21:00,Estadio BC Place Vancouver,Nueva Zelanda,Egipto,,
+40,2026-06-21,21:00,Estadio BC Place Vancouver,Nueva Zelanda,Egipto,1,3
 41,2026-06-22,13:00,Estadio Dallas,Argentina,Austria,,
 42,2026-06-22,17:00,Estadio Filadelfia,Francia,Irak,,
 43,2026-06-22,20:00,Estadio Nueva York/Nueva Jersey,Noruega,Senegal,,
