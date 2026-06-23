@@ -17,6 +17,17 @@ Características del diseño (no romper sin que Boris lo pida):
 - **Sin emojis de bandera** (en Windows se ven como letras): usar badge con código de 3 letras (`.code`).
 - Partidos ya jugados llevan badge `YA JUGADO` (`.played`); los pendientes muestran la sede (`.venue`).
 
+## Regla: las tarjetas de jornada llevan SOLO predicciones
+
+La tabla de posiciones NO va en el recap diario — el sitio
+(`2026-mundial.netlify.app`) ya la muestra en vivo, ese es su rol.
+El recap es la tarjeta de **pronósticos** para compartir por WhatsApp.
+
+**Excepción — tarjeta de cierre del Mundial:** para el recap final (campeón
+definido) sí tiene sentido congelar el podio. El bloque de tabla (CSS + HTML,
+diseño aprobado por Boris 23-jun) está guardado listo para pegar en
+`_FRAGMENTO_tabla-posiciones.html`.
+
 ## Cómo generar una fecha nueva
 
 1. Identificar los partidos de la fecha y su hora:

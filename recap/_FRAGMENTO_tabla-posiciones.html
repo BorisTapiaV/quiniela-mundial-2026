@@ -1,0 +1,58 @@
+<!--
+  FRAGMENTO REUTILIZABLE — Bloque "tabla de posiciones" para tarjetas recap.
+
+  NO usar en las tarjetas de jornada: el sitio (2026-mundial.netlify.app) YA muestra
+  la tabla en vivo, ese es su rol. En el recap diario va SOLO predicciones.
+
+  Reservado para la TARJETA DE CIERRE del Mundial (recap final, campeón definido):
+  ahí sí tiene sentido mostrar el podio congelado.
+
+  Cómo usar:
+   1. Pegar el bloque CSS de abajo antes de </style> en la tarjeta de cierre.
+   2. Pegar el bloque HTML justo después del <div class="head">...</div>.
+   3. Reemplazar nombres / campeón / exactos / puntos por los finales.
+   4. La fila del 1º lleva class="me" (resaltada verde). Ajustar al ganador real.
+
+  Diseño aprobado por Boris (23-jun-2026, "quedó bonito").
+-->
+
+<!-- ===== CSS (va antes de </style>) ===== -->
+<style>
+  .standings{
+    background:linear-gradient(180deg,var(--card),var(--bg1));
+    border:1px solid var(--line);border-radius:18px;
+    padding:16px 18px;margin-bottom:22px;box-shadow:0 6px 22px rgba(0,0,0,.28);
+  }
+  .standings .lead-title{
+    font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.3px;
+    margin-bottom:12px;display:flex;align-items:center;gap:8px;
+  }
+  .standings .lead-title .pill{
+    background:rgba(245,196,81,.14);color:var(--gold);border:1px solid rgba(245,196,81,.4);
+    border-radius:999px;padding:3px 10px;font-size:11px;font-weight:700;
+  }
+  .lb{width:100%;border-collapse:collapse}
+  .lb th,.lb td{padding:7px 8px;font-size:13.5px;text-align:left;border-bottom:1px solid var(--line)}
+  .lb th{color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.5px;font-weight:700}
+  .lb tr:last-child td{border-bottom:none}
+  .lb .pos{width:34px;text-align:center;font-size:15px}
+  .lb .pts{text-align:right;font-weight:800;font-size:16px}
+  .lb .ex{text-align:right;color:var(--mut);font-weight:700}
+  .lb .me td{background:rgba(34,211,166,.10)}
+  .lb .me .who{color:var(--accent);font-weight:800}
+  .lb .who{font-weight:600}
+  .lb .camp{color:var(--mut);font-size:12px}
+</style>
+
+<!-- ===== HTML (va después del <div class="head">...</div>) ===== -->
+<div class="standings">
+  <div class="lead-title">🏆 Tabla tras 44 de 72 partidos <span class="pill">🔥 Boris pasa al 1º — 82-82, gana el desempate por exactos (9 vs 7)</span></div>
+  <table class="lb">
+    <tr><th class="pos">#</th><th>Jugador</th><th>Campeón</th><th class="ex">🎯 Ex.</th><th class="pts">Pts</th></tr>
+    <tr class="me"><td class="pos">🥇</td><td class="who">Boris · La Casa</td><td class="camp">España</td><td class="ex">9</td><td class="pts">82</td></tr>
+    <tr><td class="pos">🥈</td><td class="who">Carlos Salgado</td><td class="camp">Portugal</td><td class="ex">7</td><td class="pts">82</td></tr>
+    <tr><td class="pos">🥉</td><td class="who">Andrés Acosta</td><td class="camp">Francia</td><td class="ex">6</td><td class="pts">62</td></tr>
+    <tr><td class="pos">4</td><td class="who">Jorge Vásquez</td><td class="camp">—</td><td class="ex">5</td><td class="pts">62</td></tr>
+    <tr><td class="pos">5</td><td class="who">Paulo Salas</td><td class="camp">España</td><td class="ex">6</td><td class="pts">55</td></tr>
+  </table>
+</div>
