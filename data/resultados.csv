@@ -44,7 +44,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 43,2026-06-22,20:00,Estadio Nueva York/Nueva Jersey,Noruega,Senegal,3,2
 44,2026-06-22,23:00,Estadio Bahía de San Francisco,Jordania,Argelia,1,2
 45,2026-06-23,13:00,Estadio Houston,Portugal,Uzbekistán,5,0
-46,2026-06-23,16:00,Estadio Boston,Inglaterra,Ghana,,
+46,2026-06-23,16:00,Estadio Boston,Inglaterra,Ghana,0,0
 47,2026-06-23,19:00,Estadio Toronto,Panamá,Croacia,,
 48,2026-06-23,22:00,Estadio Guadalajara,Colombia,RD Congo,,
 49,2026-06-24,15:00,Estadio BC Place Vancouver,Suiza,Canadá,,
