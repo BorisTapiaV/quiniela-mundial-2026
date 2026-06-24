@@ -46,7 +46,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 45,2026-06-23,13:00,Estadio Houston,Portugal,Uzbekistán,5,0
 46,2026-06-23,16:00,Estadio Boston,Inglaterra,Ghana,0,0
 47,2026-06-23,19:00,Estadio Toronto,Panamá,Croacia,0,1
-48,2026-06-23,22:00,Estadio Guadalajara,Colombia,RD Congo,,
+48,2026-06-23,22:00,Estadio Guadalajara,Colombia,RD Congo,1,0
 49,2026-06-24,15:00,Estadio BC Place Vancouver,Suiza,Canadá,,
 50,2026-06-24,15:00,Estadio Seattle,Bosnia y Herzegovina,Catar,,
 51,2026-06-24,18:00,Estadio Miami,Escocia,Brasil,,
