@@ -5,5 +5,5 @@ Reemplaza BASE por el dominio Netlify del sitio. Manda a cada uno SOLO su link.
 - **Andrés Acosta (Colombia)**: `BASE/p/andres-acosta.html`
 - **Carlos Salgado**: `BASE/p/carlos-salgado.html`
 - **Boris Tapia V (La Casa)**: `BASE/p/casa.html`
-- **Jorge Vásquez**: `BASE/p/jorge-vasquez.html`
+- **Jorge Vasquez**: `BASE/p/jorge-vasquez.html`
 - **Paulo Salas**: `BASE/p/paulo-salas.html`
