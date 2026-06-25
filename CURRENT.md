@@ -1,25 +1,25 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
-<!-- Updated: 2026-06-24 — Torneo EN VIVO (día 14). 5 jugadores, pozo $50.000. M1–M52 cargados (52/72). 📋 JORGE COMPLETÓ su bracket KO + campeón Francia (planilla de eliminatorias ingestada 24-jun, commit fc719fa → pendiente #2 cerrado). 🔥 BORIS RECUPERA EL 🥇: tras M49–M52, Boris 99 – Carlos 97 (Boris +8, Carlos +5 → lo repasó). Tras M45–M48 iban Carlos 92 – Boris 91; con la jornada de hoy Boris vuelve arriba y ahora lidera en AMBOS (pts + exactos 10 vs 8). Ganadores empatados 33–33. M45–M48 entraron TODOS AUTOMÁTICO (cron sano; commit b813fe3 05:09Z, copia local atrás → git pull, patrón conocido). M45 POR 5-0 UZB, M46 ENG 0-0 GHA, M47 PAN 0-1 CRO, M48 COL 1-0 COD. M49–M52 cargados automático 24-jun (SUI 2-1 CAN, BIH 3-1 QAT, SCO 0-3 BRA, MAR 4-2 HAI); faltan M53 Chequia–México + M54 Sudáfrica–Corea (21:00, cierran Grupo A). Recap predicciones 24-jun (6 partidos). Sitio 2026-mundial.netlify.app. | Anterior 2026-06-23 (día 13, 44/72): Boris alcanzó a Carlos 82–82 y lideró por desempate (exactos 9 vs 7); brecha de 5 cerrada en M41–M44 (Boris +12 vs Carlos +7). | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
+<!-- Updated: 2026-06-24 — Torneo EN VIVO (día 14). 5 jugadores, pozo $50.000. M1–M54 cargados (54/72) — Grupo A completo. 📋 JORGE COMPLETÓ su bracket KO + campeón Francia (planilla de eliminatorias ingestada 24-jun, commit fc719fa → pendiente #2 cerrado). 🔥 BORIS ESTIRA EL 🥇: tras la jornada completa, Boris 101 – Carlos 97 (+4). Boris lidera en los TRES criterios: pts (101-97), exactos (10-8) y ganadores (34-33). En M49–M54 Boris sumó +10, Carlos +5 (Carlos no puntuó en M53/M54). M45–M48 y M49–M54 entraron TODOS AUTOMÁTICO (cron sano). Resultados 24-jun: M49 SUI 2-1 CAN, M50 BIH 3-1 QAT, M51 SCO 0-3 BRA, M52 MAR 4-2 HAI, M53 CZE 0-3 MEX, M54 RSA 1-0 KOR. Recap predicciones 24-jun (6 partidos). Sitio 2026-mundial.netlify.app. | Anterior 2026-06-23 (día 13, 44/72): Boris alcanzó a Carlos 82–82 y lideró por desempate (exactos 9 vs 7); brecha de 5 cerrada en M41–M44 (Boris +12 vs Carlos +7). | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
 <!-- Mantener: dashboard puro. Estado + pendientes + datos operativos + puntos de entrada. -->
 
 ---
 
 ## Estado al 2026-06-24 — torneo EN VIVO (fase de grupos, día 14)
 
-El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **52/72 partidos de grupos cargados** (M49–M52 entraron automático 24-jun; faltan M53/M54).
+El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **54/72 partidos de grupos cargados** — los 6 de hoy (M49–M54) entraron automático; **Grupo A completo**.
 
 📋 **Jorge completó su bracket KO + campeón (Francia)** — entregó la planilla de fase eliminatoria el 24-jun, ingestada con `build/ingest_plantilla.py` (KO 32/32 ✓ consistente con el motor; especiales opcionales sin llenar). Commit `fc719fa`, desplegada. **Cierra el pendiente #2.**
 
-🔥 **BORIS RECUPERA EL 🥇:** tras M49–M52, **Boris 99 – Carlos 97** (Boris sumó +8, Carlos +5 → lo repasó). Tras M45–M48 iban Carlos 92 – Boris 91 con Carlos arriba; con la jornada de hoy Boris vuelve a liderar y ahora va arriba en **ambos** criterios (pts **y** exactos **10 vs 8**, 2º desempate del leaderboard: pts → exactos → campeón → FIFA). **Ganadores empatados 33–33** (Carlos venía arriba 31–29 y Boris lo alcanzó). El mano a mano sigue sin despegarse — se intercambian el 🥇 jornada a jornada.
+🔥 **BORIS ESTIRA EL 🥇:** tras la jornada completa de hoy, **Boris 101 – Carlos 97** (+4). Tras M45–M48 iban Carlos 92 – Boris 91 con Carlos arriba; Boris dio vuelta en M49–M52 (99-97) y con M53/M54 estiró a 101-97 (Carlos no puntuó en los dos últimos). Ahora **Boris lidera en los tres criterios**: pts (101-97), exactos (**10 vs 8**) y por primera vez ganadores (**34 vs 33**). El desempate del leaderboard es pts → exactos → campeón → FIFA.
 
 ✅ **M45–M48 entraron TODOS AUTOMÁTICO** (cron sano, commit `b813fe3` 05:09Z). La copia local estaba atrás → `git pull` la sincronizó (patrón ya conocido). Resultados: M45 Portugal 5-0 Uzbekistán, M46 Inglaterra 0-0 Ghana, M47 Panamá 0-1 Croacia, M48 Colombia 1-0 RD Congo.
 
-🗓️ **24-jun (matchday 2): M49–M52 ya cargados automático** — SUI 2-1 CAN, BIH 3-1 QAT, SCO 0-3 BRA, MAR 4-2 HAI. **Faltan M53 Chequia–México + M54 Sudáfrica–Corea del Sur** (21:00, cierran Grupo A) — vigilar que carguen solos; si algún partido "no actualiza el puntaje", casi siempre es el lag del plan gratis (status adelanta al score, caso M1/M31), no el cron → cargar a mano. **Recap predicciones 24-jun corregido a 6** (`recap/predicciones-2026-06-24.html`, incluye M53/M54).
+✅ **24-jun (matchday 2): los 6 cargados automático** — M49 SUI 2-1 CAN, M50 BIH 3-1 QAT, M51 SCO 0-3 BRA, M52 MAR 4-2 HAI, M53 CZE 0-3 MEX, M54 RSA 1-0 KOR. **Grupo A completo.** M53/M54 entraron con el lag típico del tier gratis (terminaron 21:00, football-data publicó el score ~30 min después → un `workflow_dispatch` los empujó, commit `e284903` 03:11Z). **Recap predicciones 24-jun a 6** (`recap/predicciones-2026-06-24.html`, incluye M53/M54).
 
 - **Sitio público:** https://2026-mundial.netlify.app
 - **Repo:** **PÚBLICO** `github.com/BorisTapiaV/quiniela-mundial-2026` (Actions ilimitado gratis)
-- **Último commit:** `fc719fa` (Jorge bracket KO + campeón) sobre auto `a5ab549` (M52) · sitio en vivo 52/72
+- **Último commit:** `e284903` (Auto: M53/M54, 2026-06-25T03:11Z) sobre `c262fd5` (dashboard) · sitio en vivo 54/72
 - **Branding:** "Fisioterapia & Futbolito FC" (grupo WhatsApp 40+) — logo `site/fisio-fc.png`
 
 ---
@@ -36,24 +36,26 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-## 🏆 Tabla de posiciones (tras 52 partidos)
+## 🏆 Tabla de posiciones (tras 54 partidos)
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **99** | 10 | 🟢 |
+| 🥇 | **Boris Tapia V (La Casa)** | España | **101** | 10 | 🟢 |
 | 🥈 | **Carlos Salgado** | Portugal | **97** | 8 | 🟢 |
 | 🥉 | Jorge Vásquez | Francia | 80 | 7 | 🟢 |
-| 4 | Andrés Acosta (Colombia) | Francia | 76 | 6 | 🟢 |
+| 4 | Andrés Acosta (Colombia) | Francia | 78 | 6 | 🟢 |
 | 5 | Paulo Salas | España | 75 | 7 | 🟢 |
 
-**Mano a mano arriba:** **Boris 99 – Carlos 97** (Boris +2). Tras M49–M52, Boris recuperó el 🥇 que Carlos le había quitado tras M45–M48. Ahora **Boris lidera en ambos criterios** — pts **y** exactos (**10 vs 8**), 2º desempate del leaderboard (`config/reglas-puntaje.md`: pts → exactos → campeón → FIFA). **Ganadores empatados 33–33** (Carlos venía arriba 31–29). **Jorge se afirma 3º** (80 pts), Andrés 4º (76), Paulo 5º (75). KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
+**Mano a mano arriba:** **Boris 101 – Carlos 97** (Boris +4). Boris dio vuelta el 🥇 en M49–M52 y lo estiró con M53/M54 (Carlos no puntuó en los dos últimos). Por primera vez **Boris lidera en los tres criterios**: pts, exactos (**10 vs 8**) y ganadores (**34 vs 33**) — desempate del leaderboard pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **Jorge se afirma 3º** (80 pts), Andrés 4º (78), Paulo 5º (75). KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
 
 ---
 
-## 📊 Resultados cargados (M1–M52)
+## 📊 Resultados cargados (M1–M54)
 
 | Match | Partido | Marcador | Fecha |
 |:-----:|---------|:--------:|------|
+| M53 | Chequia – México | 0-3 | 24-jun (auto) |
+| M54 | Sudáfrica – Corea del Sur | 1-0 | 24-jun (auto) |
 | M49 | Suiza – Canadá | 2-1 | 24-jun (auto) |
 | M50 | Bosnia – Catar | 3-1 | 24-jun (auto) |
 | M51 | Escocia – Brasil | 0-3 | 24-jun (auto) |
@@ -95,7 +97,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 | # | Pendiente | Tipo |
 |:-:|-----------|------|
-| 1 | **24-jun: M49–M52 ya cargados.** Faltan **M53 Chequia–México + M54 Sudáfrica–Corea del Sur** (21:00, cierran Grupo A) — verificar que carguen solos; si el tier gratis demora, cargar manual | vigilar |
+| 1 | ✅ **24-jun completo: M49–M54 cargados** (Grupo A cerrado, 54/72). **Próxima fecha 25-jun:** M55–M60 — Curazao-Costa de Marfil + Ecuador-Alemania (16:00), Japón-Suecia + Túnez-Países Bajos (19:00), Turquía-EE.UU. + Paraguay-Australia (22:00) — verificar que carguen solos; si el tier gratis demora, `gh workflow run actualizar.yml` | vigilar |
 | 2 | ✅ **RESUELTO 24-jun** — Jorge entregó planilla de eliminatorias: bracket KO 32/32 + campeón Francia ingestados (commit `fc719fa`). Solo faltan especiales opcionales | hecho |
 | 3 | **Andrés** — M24 grupo en blanco + M83 KO inconsistente (llave deriva UZB-CRO, eligió Colombia) | esperar/arreglar |
 | 4 | Recap tarjeta WhatsApp compartible (se genera **local**, no en CI) | opcional |
@@ -135,4 +137,4 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-*Última actualización: 2026-06-24 — torneo en vivo día 14, 5 jugadores, M1–M52 cargados (52/72). 📋 Jorge completó su bracket KO + campeón (Francia): planilla de eliminatorias ingestada (`build/ingest_plantilla.py`, KO 32/32 ✓ motor), commit `fc719fa`, desplegada → cierra pendiente #2. 🔥 Boris 99 – Carlos 97: Boris recupera el 🥇 tras M49–M52 (Boris +8, Carlos +5), ahora lidera en ambos (pts + exactos 10 vs 8); ganadores empatados 33–33. M49–M52 automático (SUI 2-1 CAN, BIH 3-1 QAT, SCO 0-3 BRA, MAR 4-2 HAI); faltan M53/M54 (21:00, cierran Grupo A). Recap 24-jun corregido a 6 (recuperado de commit local perdido en el reset). Sitio en vivo 52/72.*
+*Última actualización: 2026-06-24 — torneo en vivo día 14, 5 jugadores, M1–M54 cargados (54/72, Grupo A completo). 📋 Jorge completó su bracket KO + campeón (Francia): planilla de eliminatorias ingestada (`build/ingest_plantilla.py`, KO 32/32 ✓ motor), commit `fc719fa`, desplegada → cierra pendiente #2. 🔥 Boris 101 – Carlos 97: Boris dio vuelta el 🥇 en M49–M52 y lo estiró con M53/M54 (Carlos no puntuó); ahora lidera en los tres criterios — pts (101-97), exactos (10-8) y ganadores (34-33). Los 6 de hoy automático: M49 SUI 2-1 CAN, M50 BIH 3-1 QAT, M51 SCO 0-3 BRA, M52 MAR 4-2 HAI, M53 CZE 0-3 MEX, M54 RSA 1-0 KOR (M53/M54 con lag tier gratis, empujados por workflow_dispatch → commit `e284903`). Sitio en vivo 54/72.*
