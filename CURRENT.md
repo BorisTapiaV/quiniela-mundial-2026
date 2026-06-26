@@ -1,25 +1,25 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
-<!-- Updated: 2026-06-24 — Torneo EN VIVO (día 14). 5 jugadores, pozo $50.000. M1–M54 cargados (54/72) — Grupo A completo. 📋 JORGE COMPLETÓ su bracket KO + campeón Francia (planilla de eliminatorias ingestada 24-jun, commit fc719fa → pendiente #2 cerrado). 🔥 BORIS ESTIRA EL 🥇: tras la jornada completa, Boris 101 – Carlos 97 (+4). Boris lidera en los TRES criterios: pts (101-97), exactos (10-8) y ganadores (34-33). En M49–M54 Boris sumó +10, Carlos +5 (Carlos no puntuó en M53/M54). M45–M48 y M49–M54 entraron TODOS AUTOMÁTICO (cron sano). Resultados 24-jun: M49 SUI 2-1 CAN, M50 BIH 3-1 QAT, M51 SCO 0-3 BRA, M52 MAR 4-2 HAI, M53 CZE 0-3 MEX, M54 RSA 1-0 KOR. Recap predicciones 24-jun (6 partidos). Sitio 2026-mundial.netlify.app. | Anterior 2026-06-23 (día 13, 44/72): Boris alcanzó a Carlos 82–82 y lideró por desempate (exactos 9 vs 7); brecha de 5 cerrada en M41–M44 (Boris +12 vs Carlos +7). | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
+<!-- Updated: 2026-06-26 — Torneo EN VIVO (día 16). 5 jugadores, pozo $50.000. M1–M60 cargados (60/72). 🔥 BORIS ESTIRA EL 🥇 a +7: Boris 114 – Carlos 107. M55–M60 entraron TODOS AUTOMÁTICO (cron sano, 25-jun); en esa jornada Boris +13, Carlos +10. Boris sigue líder en los TRES criterios: pts (114-107), exactos (12-9) y ganadores (37-36). Resultados 25-jun: M55 CUW 0-2 CIV, M56 ECU 2-1 GER, M57 JPN 1-1 SWE, M58 TUN 1-3 NED, M59 TUR 3-2 USA, M60 PAR 0-0 AUS. Hoy 26-jun van M61–M66 (Noruega-Francia, Senegal-Irak, Cabo Verde-Arabia, Uruguay-España [campeón de Boris], Egipto-Irán, NZ-Bélgica) — aún sin jugar. Sitio 2026-mundial.netlify.app. | Anterior 2026-06-24 (día 14, 54/72): Jorge completó bracket KO+campeón (commit fc719fa); Boris 101 – Carlos 97 (+4), lidera tres criterios. | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
 <!-- Mantener: dashboard puro. Estado + pendientes + datos operativos + puntos de entrada. -->
 
 ---
 
-## Estado al 2026-06-24 — torneo EN VIVO (fase de grupos, día 14)
+## Estado al 2026-06-26 — torneo EN VIVO (fase de grupos, día 16)
 
-El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **54/72 partidos de grupos cargados** — los 6 de hoy (M49–M54) entraron automático; **Grupo A completo**.
+El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **60/72 partidos de grupos cargados** — M55–M60 (25-jun) entraron solos.
 
-📋 **Jorge completó su bracket KO + campeón (Francia)** — entregó la planilla de fase eliminatoria el 24-jun, ingestada con `build/ingest_plantilla.py` (KO 32/32 ✓ consistente con el motor; especiales opcionales sin llenar). Commit `fc719fa`, desplegada. **Cierra el pendiente #2.**
+🔥 **BORIS ESTIRA EL 🥇 a +7:** **Boris 114 – Carlos 107**. En la jornada del 25-jun (M55–M60) Boris sumó **+13** y Carlos **+10**, ampliando la brecha que venía en +4 (101-97 al M54). **Boris sigue líder en los tres criterios**: pts (114-107), exactos (**12 vs 9**) y ganadores (**37 vs 36**). El desempate del leaderboard es pts → exactos → campeón → FIFA.
 
-🔥 **BORIS ESTIRA EL 🥇:** tras la jornada completa de hoy, **Boris 101 – Carlos 97** (+4). Tras M45–M48 iban Carlos 92 – Boris 91 con Carlos arriba; Boris dio vuelta en M49–M52 (99-97) y con M53/M54 estiró a 101-97 (Carlos no puntuó en los dos últimos). Ahora **Boris lidera en los tres criterios**: pts (101-97), exactos (**10 vs 8**) y por primera vez ganadores (**34 vs 33**). El desempate del leaderboard es pts → exactos → campeón → FIFA.
+✅ **M55–M60 entraron TODOS AUTOMÁTICO** (cron sano, 25-jun). La copia local estaba 3 commits atrás → `git pull` la sincronizó (patrón ya conocido). Resultados: M55 Curazao 0-2 Costa de Marfil, M56 Ecuador 2-1 Alemania, M57 Japón 1-1 Suecia, M58 Túnez 1-3 Países Bajos, M59 Turquía 3-2 EE.UU., M60 Paraguay 0-0 Australia.
 
-✅ **M45–M48 entraron TODOS AUTOMÁTICO** (cron sano, commit `b813fe3` 05:09Z). La copia local estaba atrás → `git pull` la sincronizó (patrón ya conocido). Resultados: M45 Portugal 5-0 Uzbekistán, M46 Inglaterra 0-0 Ghana, M47 Panamá 0-1 Croacia, M48 Colombia 1-0 RD Congo.
+⏳ **Hoy 26-jun van M61–M66** (aún sin jugar): Noruega-Francia · Senegal-Irak (15:00) · **Cabo Verde-Arabia · Uruguay-España [M64, campeón de Boris]** (20:00) · Egipto-Irán · NZ-Bélgica (23:00). Deberían cargar solos; si el tier gratis demora → `gh workflow run actualizar.yml`. Tras M66 quedará 66/72 (faltarían M67–M72 del 27-jun para cerrar grupos).
 
-✅ **24-jun (matchday 2): los 6 cargados automático** — M49 SUI 2-1 CAN, M50 BIH 3-1 QAT, M51 SCO 0-3 BRA, M52 MAR 4-2 HAI, M53 CZE 0-3 MEX, M54 RSA 1-0 KOR. **Grupo A completo.** M53/M54 entraron con el lag típico del tier gratis (terminaron 21:00, football-data publicó el score ~30 min después → un `workflow_dispatch` los empujó, commit `e284903` 03:11Z). **Recap predicciones 24-jun a 6** (`recap/predicciones-2026-06-24.html`, incluye M53/M54).
+📋 **Jorge completó su bracket KO + campeón (Francia)** el 24-jun (commit `fc719fa`). Especiales opcionales sin llenar. **Pendiente #2 cerrado.**
 
 - **Sitio público:** https://2026-mundial.netlify.app
 - **Repo:** **PÚBLICO** `github.com/BorisTapiaV/quiniela-mundial-2026` (Actions ilimitado gratis)
-- **Último commit:** `e284903` (Auto: M53/M54, 2026-06-25T03:11Z) sobre `c262fd5` (dashboard) · sitio en vivo 54/72
+- **Último commit:** `e281eb7` (Auto: resultados nuevos, 2026-06-26T05:12Z) · sitio en vivo 60/72
 - **Branding:** "Fisioterapia & Futbolito FC" (grupo WhatsApp 40+) — logo `site/fisio-fc.png`
 
 ---
@@ -36,24 +36,30 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-## 🏆 Tabla de posiciones (tras 54 partidos)
+## 🏆 Tabla de posiciones (tras 60 partidos)
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **101** | 10 | 🟢 |
-| 🥈 | **Carlos Salgado** | Portugal | **97** | 8 | 🟢 |
-| 🥉 | Jorge Vásquez | Francia | 80 | 7 | 🟢 |
-| 4 | Andrés Acosta (Colombia) | Francia | 78 | 6 | 🟢 |
-| 5 | Paulo Salas | España | 75 | 7 | 🟢 |
+| 🥇 | **Boris Tapia V (La Casa)** | España | **114** | 12 | 🟢 |
+| 🥈 | **Carlos Salgado** | Portugal | **107** | 9 | 🟢 |
+| 🥉 | Paulo Salas | España | 87 | 8 | 🟢 |
+| 4 | Jorge Vásquez | Francia | 85 | 7 | 🟢 |
+| 5 | Andrés Acosta (Colombia) | Francia | 82 | 6 | 🟢 |
 
-**Mano a mano arriba:** **Boris 101 – Carlos 97** (Boris +4). Boris dio vuelta el 🥇 en M49–M52 y lo estiró con M53/M54 (Carlos no puntuó en los dos últimos). Por primera vez **Boris lidera en los tres criterios**: pts, exactos (**10 vs 8**) y ganadores (**34 vs 33**) — desempate del leaderboard pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **Jorge se afirma 3º** (80 pts), Andrés 4º (78), Paulo 5º (75). KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
+**Mano a mano arriba:** **Boris 114 – Carlos 107** (Boris +7). En M55–M60 Boris sumó +13 y Carlos +10, ampliando el +4 que traía. **Boris lidera en los tres criterios**: pts, exactos (**12 vs 9**) y ganadores (**37 vs 36**) — desempate del leaderboard pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **Paulo trepó al 3º** (87), Jorge 4º (85), Andrés 5º (82) — la pelea por el podio quedó apretada (87-85-82). KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
 
 ---
 
-## 📊 Resultados cargados (M1–M54)
+## 📊 Resultados cargados (M1–M60)
 
 | Match | Partido | Marcador | Fecha |
 |:-----:|---------|:--------:|------|
+| M60 | Paraguay – Australia | 0-0 | 25-jun (auto) |
+| M59 | Turquía – Estados Unidos | 3-2 | 25-jun (auto) |
+| M58 | Túnez – Países Bajos | 1-3 | 25-jun (auto) |
+| M57 | Japón – Suecia | 1-1 | 25-jun (auto) |
+| M56 | Ecuador – Alemania | 2-1 | 25-jun (auto) |
+| M55 | Curazao – Costa de Marfil | 0-2 | 25-jun (auto) |
 | M53 | Chequia – México | 0-3 | 24-jun (auto) |
 | M54 | Sudáfrica – Corea del Sur | 1-0 | 24-jun (auto) |
 | M49 | Suiza – Canadá | 2-1 | 24-jun (auto) |
@@ -97,7 +103,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 | # | Pendiente | Tipo |
 |:-:|-----------|------|
-| 1 | ✅ **24-jun completo: M49–M54 cargados** (Grupo A cerrado, 54/72). **Próxima fecha 25-jun:** M55–M60 — Curazao-Costa de Marfil + Ecuador-Alemania (16:00), Japón-Suecia + Túnez-Países Bajos (19:00), Turquía-EE.UU. + Paraguay-Australia (22:00) — verificar que carguen solos; si el tier gratis demora, `gh workflow run actualizar.yml` | vigilar |
+| 1 | ✅ **25-jun completo: M55–M60 cargados automático** (60/72). **Hoy 26-jun:** M61–M66 — Noruega-Francia + Senegal-Irak (15:00), Cabo Verde-Arabia + **Uruguay-España [campeón de Boris]** (20:00), Egipto-Irán + NZ-Bélgica (23:00) — verificar que carguen solos; si el tier gratis demora, `gh workflow run actualizar.yml`. **27-jun:** M67–M72 cierran la fase de grupos (72/72) → se activa el puntaje KO | vigilar |
 | 2 | ✅ **RESUELTO 24-jun** — Jorge entregó planilla de eliminatorias: bracket KO 32/32 + campeón Francia ingestados (commit `fc719fa`). Solo faltan especiales opcionales | hecho |
 | 3 | **Andrés** — M24 grupo en blanco + M83 KO inconsistente (llave deriva UZB-CRO, eligió Colombia) | esperar/arreglar |
 | 4 | Recap tarjeta WhatsApp compartible (se genera **local**, no en CI) | opcional |
@@ -137,4 +143,4 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-*Última actualización: 2026-06-24 — torneo en vivo día 14, 5 jugadores, M1–M54 cargados (54/72, Grupo A completo). 📋 Jorge completó su bracket KO + campeón (Francia): planilla de eliminatorias ingestada (`build/ingest_plantilla.py`, KO 32/32 ✓ motor), commit `fc719fa`, desplegada → cierra pendiente #2. 🔥 Boris 101 – Carlos 97: Boris dio vuelta el 🥇 en M49–M52 y lo estiró con M53/M54 (Carlos no puntuó); ahora lidera en los tres criterios — pts (101-97), exactos (10-8) y ganadores (34-33). Los 6 de hoy automático: M49 SUI 2-1 CAN, M50 BIH 3-1 QAT, M51 SCO 0-3 BRA, M52 MAR 4-2 HAI, M53 CZE 0-3 MEX, M54 RSA 1-0 KOR (M53/M54 con lag tier gratis, empujados por workflow_dispatch → commit `e284903`). Sitio en vivo 54/72.*
+*Última actualización: 2026-06-26 — torneo en vivo día 16, 5 jugadores, M1–M60 cargados (60/72). 🔥 Boris 114 – Carlos 107: en la jornada del 25-jun (M55–M60) Boris sumó +13 y Carlos +10, ampliando la brecha de +4 a +7. Boris sigue líder en los tres criterios — pts (114-107), exactos (12-9) y ganadores (37-36). M55–M60 entraron todos automático (cron sano): M55 CUW 0-2 CIV, M56 ECU 2-1 GER, M57 JPN 1-1 SWE, M58 TUN 1-3 NED, M59 TUR 3-2 USA, M60 PAR 0-0 AUS. Copia local estaba 3 commits atrás → `git pull` la sincronizó. Hoy 26-jun van M61–M66 (incluye Uruguay-España, campeón de Boris); 27-jun cierran grupos con M67–M72. Sitio en vivo 60/72.*

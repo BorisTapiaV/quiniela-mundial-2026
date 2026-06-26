@@ -23,7 +23,7 @@ import engine
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRED = os.path.join(HERE, 'data', 'predicciones')
 HIST = os.path.join(HERE, 'data', 'historico')
-DENY = {'CASA'}
+DENY = set()                        # La Casa (Boris Tapia V) pública. {'CASA'} para volver a ocultarla.
 
 
 def _display_name(slug):
