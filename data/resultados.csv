@@ -55,8 +55,8 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 54,2026-06-24,21:00,Estadio Monterrey,Sudáfrica,Corea del Sur,1,0
 55,2026-06-25,16:00,Estadio Filadelfia,Curazao,Costa de Marfil,0,2
 56,2026-06-25,16:00,Estadio Nueva York/Nueva Jersey,Ecuador,Alemania,2,1
-57,2026-06-25,19:00,Estadio Dallas,Japón,Suecia,,
-58,2026-06-25,19:00,Estadio Kansas City,Túnez,Países Bajos,,
+57,2026-06-25,19:00,Estadio Dallas,Japón,Suecia,1,1
+58,2026-06-25,19:00,Estadio Kansas City,Túnez,Países Bajos,1,3
 59,2026-06-25,22:00,Estadio Los Angeles,Turquía,Estados Unidos,,
 60,2026-06-25,22:00,Estadio Bahía de San Francisco,Paraguay,Australia,,
 61,2026-06-26,15:00,Estadio Boston,Noruega,Francia,,
