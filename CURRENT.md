@@ -36,6 +36,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
+<!-- AUTO:TABLA inicio — generado por build/refresh_dashboard.py, no editar a mano -->
 ## 🏆 Tabla de posiciones (tras 60 partidos)
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
@@ -45,57 +46,44 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 | 🥉 | Paulo Salas | España | 87 | 8 | 🟢 |
 | 4 | Jorge Vásquez | Francia | 85 | 7 | 🟢 |
 | 5 | Andrés Acosta (Colombia) | Francia | 82 | 6 | 🟢 |
+<!-- AUTO:TABLA fin -->
 
 **Mano a mano arriba:** **Boris 114 – Carlos 107** (Boris +7). En M55–M60 Boris sumó +13 y Carlos +10, ampliando el +4 que traía. **Boris lidera en los tres criterios**: pts, exactos (**12 vs 9**) y ganadores (**37 vs 36**) — desempate del leaderboard pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **Paulo trepó al 3º** (87), Jorge 4º (85), Andrés 5º (82) — la pelea por el podio quedó apretada (87-85-82). KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
 
 ---
 
+<!-- AUTO:RESULTADOS inicio — generado por build/refresh_dashboard.py, no editar a mano -->
 ## 📊 Resultados cargados (M1–M60)
 
 | Match | Partido | Marcador | Fecha |
 |:-----:|---------|:--------:|------|
-| M60 | Paraguay – Australia | 0-0 | 25-jun (auto) |
-| M59 | Turquía – Estados Unidos | 3-2 | 25-jun (auto) |
-| M58 | Túnez – Países Bajos | 1-3 | 25-jun (auto) |
-| M57 | Japón – Suecia | 1-1 | 25-jun (auto) |
-| M56 | Ecuador – Alemania | 2-1 | 25-jun (auto) |
-| M55 | Curazao – Costa de Marfil | 0-2 | 25-jun (auto) |
-| M53 | Chequia – México | 0-3 | 24-jun (auto) |
-| M54 | Sudáfrica – Corea del Sur | 1-0 | 24-jun (auto) |
-| M49 | Suiza – Canadá | 2-1 | 24-jun (auto) |
-| M50 | Bosnia – Catar | 3-1 | 24-jun (auto) |
-| M51 | Escocia – Brasil | 0-3 | 24-jun (auto) |
-| M52 | Marruecos – Haití | 4-2 | 24-jun (auto) |
-| M45 | Portugal – Uzbekistán | 5-0 | 23-jun (auto) |
-| M46 | Inglaterra – Ghana | 0-0 | 23-jun (auto) |
-| M47 | Panamá – Croacia | 0-1 | 23-jun (auto) |
-| M48 | Colombia – RD Congo | 1-0 | 23-jun (auto) |
-| M41 | Argentina – Austria | 2-0 | 22-jun (auto) |
-| M42 | Francia – Irak | 3-0 | 22-jun (auto) |
-| M43 | Noruega – Senegal | 3-2 | 22-jun (auto) |
-| M44 | Jordania – Argelia | 1-2 | 22-jun (auto) |
-| M37 | España – Arabia Saudita | 4-0 | 21-jun (auto) |
-| M38 | Bélgica – Irán | 0-0 | 21-jun (auto) |
-| M39 | Uruguay – Cabo Verde | 2-2 | 21-jun (auto) |
-| M40 | Nueva Zelanda – Egipto | 1-3 | 21-jun (auto) |
-| M33 | Países Bajos – Suecia | 5-1 | 20-jun (auto) |
-| M34 | Alemania – Costa de Marfil | 2-1 | 20-jun (auto) |
-| M35 | Ecuador – Curazao | 0-0 | 20-jun (auto) |
-| M36 | Túnez – Japón | 0-4 | 21-jun (auto) |
-| M21 | Portugal – RD Congo | 1-1 | 17-jun |
-| M22 | Inglaterra – Croacia | 4-2 | 17-jun |
-| M23 | Ghana – Panamá | 1-0 | 17-jun |
-| M24 | Uzbekistán – Colombia | 1-3 | 17-jun |
-| M25 | Chequia – Sudáfrica | 1-1 | 18-jun |
-| M26 | Suiza – Bosnia | 4-1 | 18-jun |
-| M27 | Canadá – Catar | 6-0 | 18-jun |
-| M28 | México – Corea del Sur | 1-0 | 18-jun |
-| M29 | Estados Unidos – Australia | 2-0 | 19-jun |
-| M30 | Escocia – Marruecos | 0-1 | 19-jun |
-| M31 | Brasil – Haití | 3-0 | 19-jun (manual) |
-| M32 | Turquía – Paraguay | 0-1 | 19-jun (auto) |
+| M60 | Paraguay – Australia | 0-0 | 25-jun |
+| M59 | Turquía – Estados Unidos | 3-2 | 25-jun |
+| M58 | Túnez – Países Bajos | 1-3 | 25-jun |
+| M57 | Japón – Suecia | 1-1 | 25-jun |
+| M56 | Ecuador – Alemania | 2-1 | 25-jun |
+| M55 | Curazao – Costa de Marfil | 0-2 | 25-jun |
+| M54 | Sudáfrica – Corea del Sur | 1-0 | 24-jun |
+| M53 | Chequia – México | 0-3 | 24-jun |
+| M52 | Marruecos – Haití | 4-2 | 24-jun |
+| M51 | Escocia – Brasil | 0-3 | 24-jun |
+| M50 | Bosnia y Herzegovina – Catar | 3-1 | 24-jun |
+| M49 | Suiza – Canadá | 2-1 | 24-jun |
+| M48 | Colombia – RD Congo | 1-0 | 23-jun |
+| M47 | Panamá – Croacia | 0-1 | 23-jun |
+| M46 | Inglaterra – Ghana | 0-0 | 23-jun |
+| M45 | Portugal – Uzbekistán | 5-0 | 23-jun |
+| M44 | Jordania – Argelia | 1-2 | 22-jun |
+| M43 | Noruega – Senegal | 3-2 | 22-jun |
+| M42 | Francia – Irak | 3-0 | 22-jun |
+| M41 | Argentina – Austria | 2-0 | 22-jun |
+| M40 | Nueva Zelanda – Egipto | 1-3 | 21-jun |
+| M39 | Uruguay – Cabo Verde | 2-2 | 21-jun |
+| M38 | Bélgica – Irán | 0-0 | 21-jun |
+| M37 | España – Arabia Saudita | 4-0 | 21-jun |
 
-**M1–M20 (11–17 jun):** MEX 2-0 RSA · KOR 2-1 CZE · CAN 1-1 BIH · USA 4-1 PAR · QAT 1-1 SUI · BRA 1-1 MAR · HAI 0-1 SCO · AUS 2-0 TUR · GER 7-1 CUW · NED 2-2 JPN · CIV 1-0 ECU · SWE 5-1 TUN · ESP 0-0 CPV · BEL 1-1 EGY · KSA 1-1 URU · IRN 2-2 NZL · FRA 3-1 SEN · IRQ 1-4 NOR · ARG 3-0 ALG · AUT 3-1 JOR.
+**M1–M36 (11-jun–21-jun):** MEX 2-0 RSA · KOR 2-1 CZE · CAN 1-1 BIH · USA 4-1 PAR · QAT 1-1 SUI · BRA 1-1 MAR · HAI 0-1 SCO · AUS 2-0 TUR · GER 7-1 CUW · NED 2-2 JPN · CIV 1-0 ECU · SWE 5-1 TUN · ESP 0-0 CPV · BEL 1-1 EGY · KSA 1-1 URU · IRN 2-2 NZL · FRA 3-1 SEN · IRQ 1-4 NOR · ARG 3-0 ALG · AUT 3-1 JOR · POR 1-1 COD · ENG 4-2 CRO · GHA 1-0 PAN · UZB 1-3 COL · CZE 1-1 RSA · SUI 4-1 BIH · CAN 6-0 QAT · MEX 1-0 KOR · USA 2-0 AUS · SCO 0-1 MAR · BRA 3-0 HAI · TUR 0-1 PAR · NED 5-1 SWE · GER 2-1 CIV · ECU 0-0 CUW · TUN 0-4 JPN.
+<!-- AUTO:RESULTADOS fin -->
 
 ---
 
@@ -139,6 +127,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 | Resultados | `data/resultados.csv` · `data/resultados_ko.csv` · `data/resultados_especiales.csv` |
 | Visiones live + wow pendientes | `docs/EXPERIENCIA_EN_VIVO_Y_WOW.md` |
 | Recap predicciones compartible (no deploya, screenshot local) | `recap/predicciones-AAAA-MM-DD.html` (+`_TEMPLATE.html` · `README.md`) |
+| **Refrescar tabla + resultados del dashboard (auto, desde datos)** | `python build/refresh_dashboard.py` (reescribe solo los bloques `<!-- AUTO:TABLA -->` y `<!-- AUTO:RESULTADOS -->`; `--check` = dry-run). La narrativa se escribe a mano |
 | Histórico completo del proyecto | memoria `project_quiniela_mundial_2026.md` |
 
 ---
