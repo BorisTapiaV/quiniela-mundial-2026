@@ -60,7 +60,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 59,2026-06-25,22:00,Estadio Los Angeles,Turquía,Estados Unidos,3,2
 60,2026-06-25,22:00,Estadio Bahía de San Francisco,Paraguay,Australia,0,0
 61,2026-06-26,15:00,Estadio Boston,Noruega,Francia,1,4
-62,2026-06-26,15:00,Estadio de Toronto,Senegal,Irak,,
+62,2026-06-26,15:00,Estadio de Toronto,Senegal,Irak,5,0
 63,2026-06-26,20:00,Estadio Houston,Cabo Verde,Arabia Saudita,,
 64,2026-06-26,20:00,Estadio Guadalajara,Uruguay,España,,
 65,2026-06-26,23:00,Estadio Seattle,Egipto,Irán,,
