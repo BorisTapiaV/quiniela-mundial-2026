@@ -102,6 +102,22 @@ def flag(code, ISO, w=40):
     return f'<img class="fl" src="https://flagcdn.com/w{w}/{ISO[code]}.png" alt="">' if code in ISO else ''
 
 
+_LOGO_CACHE = None
+def logo_data_uri():
+    """Escudo 'Fisioterapia & Futbolito FC' embebido en base64 (self-contained:
+    la tarjeta se renderiza vía file:// y se comparte como PNG, sin depender de rutas)."""
+    global _LOGO_CACHE
+    if _LOGO_CACHE is None:
+        import base64
+        p = os.path.join(HERE, 'site', 'fisio-fc.png')
+        if os.path.exists(p):
+            with open(p, 'rb') as f:
+                _LOGO_CACHE = 'data:image/png;base64,' + base64.b64encode(f.read()).decode()
+        else:
+            _LOGO_CACHE = ''
+    return _LOGO_CACHE
+
+
 def render(st, fecha_label):
     NM, ISO = st['NM'], st['ISO']
     lider, rey, subio, cayo = st['lider'], st['rey'], st['subio'], st['cayo']
@@ -155,6 +171,11 @@ def render(st, fecha_label):
 html,body{{width:1000px;background:#0b1020;font:16px system-ui,'Segoe UI',Roboto,sans-serif}}
 .card{{width:1000px;background:linear-gradient(170deg,#0b1020,#101a3a 60%,#0e1530);
 color:#e8ecf7;padding:44px 48px 36px}}
+.brand{{display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:10px}}
+.brand img{{width:66px;height:66px;object-fit:contain;border-radius:12px;
+box-shadow:0 4px 14px #0007;background:#0e1530;padding:3px}}
+.brand .bn{{font-size:25px;font-weight:800;color:#e8ecf7;letter-spacing:.01em;line-height:1.05;text-align:left}}
+.brand .bn small{{display:block;font-size:13px;font-weight:600;color:#8d97bf;letter-spacing:.02em;margin-top:3px}}
 .kick{{color:#ffd24a;letter-spacing:.22em;font-size:18px;text-transform:uppercase;text-align:center}}
 .h1{{font-size:46px;font-weight:800;text-align:center;margin:6px 0 2px}}
 .jor{{text-align:center;color:#8d97bf;font-size:22px;margin-bottom:26px}}
@@ -192,6 +213,7 @@ padding-top:18px;border-top:1px solid #2a3358}}
 .foot .date{{color:#5a648c;font-size:15px}}
 </style></head><body>
 <div class="card">
+  {f'<div class="brand"><img src="{logo_data_uri()}" alt=""><div class="bn">Fisioterapia &amp; Futbolito FC<small>⚽ el fútbol lo ponemos nosotros, la fisioterapia la pone la edad</small></div></div>' if logo_data_uri() else ''}
   <div class="kick">Quiniela Mundial 2026</div>
   <div class="h1">📊 Cómo va la cosa</div>
   <div class="jor">{st['jornada']}</div>
