@@ -178,6 +178,36 @@ def r32_partial(group_scores, eq, fixture, terceros):
             out[m['match_no']] = (resolve(m['local']), resolve(m['visita']))
     return out
 
+
+def bracket_partial(group_scores, ko_winners, eq, fixture, terceros):
+    """Cuadro KO completo resuelto con lo disponible HOY (para la vista 'cuadro real').
+
+    Devuelve (teams, win):
+      teams[mn] = (code_local|None, code_visita|None)   None = aún por definir
+      win[mn]   = code_ganador|None                     None = aún sin jugar/cargar
+    R32 vía r32_partial (placeholders para tercero/grupo en juego); R16→Final se
+    llenan a medida que entran ganadores en data/resultados_ko.csv. Sirve para el
+    estado parcial sin reventar como build_r32 (que exige los 72 de grupo)."""
+    r32 = r32_partial(group_scores, eq, fixture, terceros)
+    ko = sorted([m for m in fixture if m['fase'] != 'grupos'], key=lambda m: m['match_no'])
+    teams, win, lose = {}, {}, {}
+
+    def slot_team(slot):
+        if slot.startswith('W'): return win.get(int(slot[1:]))
+        if slot.startswith('L'): return lose.get(int(slot[1:]))
+        return None
+
+    for m in ko:
+        mn = m['match_no']
+        a, b = r32[mn] if mn in r32 else (slot_team(m['local']), slot_team(m['visita']))
+        teams[mn] = (a, b)
+        w = ko_winners.get(mn)
+        if w and a and b and w in (a, b):
+            win[mn] = w; lose[mn] = b if w == a else a
+        else:
+            win[mn] = None; lose[mn] = None
+    return teams, win
+
 # ---------- autotest ----------
 def _selftest():
     import random

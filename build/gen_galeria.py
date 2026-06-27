@@ -177,6 +177,85 @@ def fmt_fecha(s):
         return s
 
 
+def build_groups_archive(rg, eq, fixture, NM, ISO):
+    """Cuando los 72 de grupo están cerrados: bloque PLEGABLE con las 12 tablas
+    finales (1º/2º avanzan, 3º al ranking de mejores terceros). Mientras la fase
+    siga en curso devuelve '' (la cronología vive en 'Resultados por día')."""
+    group_mns = {m['match_no'] for m in fixture if m['fase'] == 'grupos'}
+    if not group_mns.issubset(set(rg)):
+        return ''
+    allst = engine.compute_all_standings(engine.group_results_by_group(rg, fixture), eq)
+
+    def flag(c, w=20):
+        return f'<img src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
+
+    cards = ''
+    for g in 'ABCDEFGHIJKL':
+        rows = ''
+        for t in allst[g]:
+            mark = 'gq1' if t['pos'] <= 2 else ('gq3' if t['pos'] == 3 else '')
+            rows += (f'<tr class="{mark}"><td class="gp">{t["pos"]}</td>'
+                     f'<td class="gt">{flag(t["code"])}<span>{NM.get(t["code"], t["code"])}</span></td>'
+                     f'<td>{t["pts"]}</td><td>{t["gd"]:+d}</td></tr>')
+        cards += (f'<div class="garch"><h4>Grupo {g}</h4><table>'
+                  f'<tr class="gh"><th></th><th></th><th>Pts</th><th>DG</th></tr>{rows}</table></div>')
+    return ('<details class="grpdet"><summary>✅ Fase de grupos — cerrada '
+            '<span class="note">(12 tablas finales · 🟢 1º-2º avanzan · 🟡 los 8 mejores 3º también)</span></summary>'
+            f'<div class="garchgrid">{cards}</div></details>')
+
+
+def build_real_bracket(rg, rk, eq, fixture, terceros, NM, ISO):
+    """Sección 'Cuadro del torneo' — el bracket KO real, que se llena solo a medida
+    que cierran los grupos (16avos) y avanzan las llaves (resultados_ko.csv)."""
+    teams, win = engine.bracket_partial(rg, rk, eq, fixture, terceros)
+    fxno = {m['match_no']: m for m in fixture}
+    eliminated = set()
+    for mn, (a, b) in teams.items():
+        w = win.get(mn)
+        if w and a and b:
+            eliminated.add(b if w == a else a)
+
+    def flag(c, w=30):
+        return f'<img src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
+
+    def slot_lbl(s):
+        if not s: return '—'
+        if s.startswith('3-'): return '3º'
+        if s[0] in '12': return f'{s[0]}º{s[1]}'
+        return '—'
+
+    champion = win.get(104)
+
+    def chip(code, raw_slot, is_win):
+        if not code:
+            return f'<div class="bteam tbd">{slot_lbl(raw_slot)}</div>'
+        if code == champion:
+            cls = 'bteam champ'
+        elif is_win:
+            cls = 'bteam win'
+        elif code in eliminated:
+            cls = 'bteam out'
+        else:
+            cls = 'bteam'
+        return f'<div class="{cls}">{flag(code)}<span>{NM.get(code, code)}</span></div>'
+
+    ROUNDS = [('16avos', range(73, 89)), ('Octavos', range(89, 97)),
+              ('Cuartos', range(97, 101)), ('Semis', (101, 102)), ('Final', (104,))]
+    cols = ''
+    for title, rng in ROUNDS:
+        cards = ''
+        for mn in rng:
+            m = fxno[mn]; a, b = teams.get(mn, (None, None)); w = win.get(mn)
+            cards += (f'<div class="bmatch">{chip(a, m["local"], w == a and a is not None)}'
+                      f'{chip(b, m["visita"], w == b and b is not None)}</div>')
+        cols += f'<div class="bround"><h4>{title}</h4>{cards}</div>'
+    champ_html = (f'<div class="bchamp">🏆 Campeón: {flag(champion, 40)}<b>{NM.get(champion, champion)}</b></div>'
+                  if champion else '')
+    return (f'<h2 class="sec">🏆 Cuadro del torneo '
+            f'<span class="note">(se llena solo a medida que avanzan las llaves · eliminados en gris)</span></h2>'
+            f'{champ_html}<div class="bracket-live">{cols}</div>')
+
+
 def build_matches_json(NM, ISO):
     """Datos de los 104 partidos (kickoff en UTC) para el indicador 'en juego' client-side.
 
@@ -239,7 +318,7 @@ _band(); setInterval(_band,30000);
 """
 
 
-def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, is_demo, n_played=0, real_group=None):
+def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, is_demo, n_played=0, real_group=None, bracket_html='', groups_archive=''):
     def flag(c, w=40):
         return f'<img class="flag" src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
 
@@ -365,6 +444,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 <div class="subc"><div class="t">🎯 Rey del 1X2</div><div class="w">{r1['name']}</div><div class="x">{r1['h1x2']} resultados</div></div>
 <div class="subc"><div class="t">🎯 Rey del marcador exacto</div><div class="w">{rx['name']}</div><div class="x">{rx['hx']} clavados</div></div>
 </div>
+{bracket_html}
 <h2 class="sec">💀 Supervivencia de campeones</h2>
 <div class="cgrid">{cg}</div>
 {cons_html}"""
@@ -429,6 +509,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 {lead_note}
 <table class="lead"><tr><th>#</th><th>Jugador</th><th>Su campeón</th><th>Grupos</th><th>KO</th><th>Total</th>{'<th title="cambio desde la jornada anterior">±</th>' if show_delta else ''}<th>Estado</th></tr>{lb}</table>
 
+{groups_archive}
 {results_html}
 
 {premios}
@@ -463,6 +544,39 @@ header{display:flex;flex-direction:column;align-items:center}
 .lead.cons td.tot{color:#b9c2e8}
 .apo{color:#ffd24a;font-size:12px;font-weight:600;font-style:italic;margin-left:6px}
 .gg .apo{display:block;margin:2px 0 0}
+/* ---- Cuadro del torneo (KO real, se llena solo) ---- */
+.bracket-live{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;-webkit-overflow-scrolling:touch}
+.bround{min-width:152px;flex:1 0 auto}
+.bround h4{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:var(--mut);margin:0 0 8px;text-align:center;font-weight:700}
+.bmatch{background:#0e1738;border:1px solid var(--line);border-radius:7px;margin-bottom:8px;overflow:hidden}
+.bteam{display:flex;align-items:center;gap:6px;padding:5px 8px;font-size:12px;border-bottom:1px solid rgba(255,255,255,.05);white-space:nowrap}
+.bteam:last-child{border-bottom:none}
+.bteam img{width:18px;border-radius:2px;flex:0 0 auto}
+.bteam span{overflow:hidden;text-overflow:ellipsis}
+.bteam.win{background:linear-gradient(90deg,rgba(28,125,78,.5),transparent);font-weight:700}
+.bteam.champ{background:linear-gradient(90deg,rgba(255,180,60,.32),transparent);color:#ffe7ad;font-weight:700}
+.bteam.out{opacity:.42;text-decoration:line-through}
+.bteam.tbd{color:var(--mut);font-style:italic;justify-content:center;font-size:11px}
+.bchamp{text-align:center;font-size:15px;margin:4px 0 14px;color:#ffe7ad}
+.bchamp img{width:30px;border-radius:3px;vertical-align:-7px;margin:0 4px}
+/* ---- Archivo plegable: fase de grupos cerrada ---- */
+.grpdet{margin:14px auto;max-width:920px;background:rgba(255,255,255,.025);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.grpdet summary{cursor:pointer;padding:12px 16px;font-weight:700;font-size:15px;list-style:none}
+.grpdet summary::-webkit-details-marker{display:none}
+.grpdet summary::before{content:"▸ ";color:var(--mut)}
+.grpdet[open] summary::before{content:"▾ "}
+.garchgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding:4px 16px 16px}
+.garch{background:#0e1738;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.garch h4{margin:0 0 6px;font-size:12px;color:var(--gold);letter-spacing:.05em}
+.garch table{width:100%;border-collapse:collapse;font-size:12px}
+.garch th{color:var(--mut);font-weight:600;font-size:10px;text-align:right;padding:1px 3px}
+.garch td{padding:2px 3px;text-align:right}
+.garch td.gp{color:var(--mut);width:16px;text-align:center}
+.garch td.gt{text-align:left;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden}
+.garch td.gt img{width:16px;border-radius:2px;flex:0 0 auto}
+.garch td.gt span{overflow:hidden;text-overflow:ellipsis}
+.garch tr.gq1{background:linear-gradient(90deg,rgba(34,224,140,.10),transparent)}
+.garch tr.gq3{background:linear-gradient(90deg,rgba(255,211,90,.09),transparent)}
 .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
 .gg{display:block;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 12px;text-align:center;text-decoration:none;color:var(--txt);transition:.15s}
 .gg:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -516,7 +630,9 @@ def run_real():
     ranks = miles = None
     if has and len(rg) > 0:
         ranks, miles = demo.compute_evolution(players, rg, rk, fixture, eq, terceros)
-    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=False, n_played=len(rg), real_group=rg)
+    bracket_html = build_real_bracket(rg, rk, eq, fixture, terceros, NM, ISO) if rg else ''
+    groups_archive = build_groups_archive(rg, eq, fixture, NM, ISO)
+    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=False, n_played=len(rg), real_group=rg, bracket_html=bracket_html, groups_archive=groups_archive)
     print(f'{out} generado · {len(players)} jugadores · estado: {"con resultados" if has else "pre-torneo"}')
 
 
@@ -564,7 +680,9 @@ def run_demo():
         p['delta'] = ppos[p['slug']] - i
     ranks, miles = demo.compute_evolution(players, rg, rk_full, fixture, eq, terceros)
     has, state = state_line(rg, rk, real_view, NM)
-    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=True, n_played=len(rg), real_group=rg)
+    bracket_html = build_real_bracket(rg, rk, eq, fixture, terceros, NM, ISO) if rg else ''
+    groups_archive = build_groups_archive(rg, eq, fixture, NM, ISO)
+    out = render(players, has, state, real_view, fxno, NM, ISO, ranks, miles, is_demo=True, n_played=len(rg), real_group=rg, bracket_html=bracket_html, groups_archive=groups_archive)
     print(f'{out} (DEMO) generado · {len(players)} jugadores · líder {players[0]["name"]} {players[0]["sc"]["total"]}')
 
 
