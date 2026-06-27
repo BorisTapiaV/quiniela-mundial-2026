@@ -1,6 +1,6 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
-<!-- Updated: 2026-06-27 — Torneo EN VIVO (día 17). 5 jugadores, pozo $50.000. M1–M66 cargados (66/72). 🔥 BORIS DISPARA EL 🥇 a +21: Boris 131 – Carlos 110. M61–M66 entraron TODOS AUTOMÁTICO (cron sano, 26-jun); jornadón de Boris +17 vs Carlos +3. Boris sigue líder en los TRES criterios: pts (131-110), exactos (13-9) y ganadores (43-37). Resultados 26-jun: M61 NOR 1-4 FRA, M62 SEN 5-0 IRQ, M63 CPV 0-0 KSA, M64 URU 0-1 ESP [campeón de Boris ✅], M65 EGY 1-1 IRN, M66 NZL 1-5 BEL. Hoy 27-jun van M67–M72 (Panamá-Inglaterra, Croacia-Ghana, Colombia-Portugal, RD Congo-Uzbekistán, Argelia-Austria, Jordania-Argentina) — cierran fase de grupos → se activa puntaje KO. Sitio 2026-mundial.netlify.app. | Anterior 2026-06-26 (día 16, 60/72): Boris 114 – Carlos 107 (+7), lidera tres criterios. | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
+<!-- Updated: 2026-06-27 — Torneo EN VIVO (día 17). 5 jugadores, pozo $50.000. M1–M66 cargados (66/72). 🔥 BORIS DISPARA EL 🥇 a +21: Boris 131 – Carlos 110. M61–M66 entraron TODOS AUTOMÁTICO (cron sano, 26-jun); jornadón de Boris +17 vs Carlos +3. Boris sigue líder en los TRES criterios: pts (131-110), exactos (13-9) y ganadores (43-37). Resultados 26-jun: M61 NOR 1-4 FRA, M62 SEN 5-0 IRQ, M63 CPV 0-0 KSA, M64 URU 0-1 ESP [campeón de Boris ✅], M65 EGY 1-1 IRN, M66 NZL 1-5 BEL. Hoy 27-jun van M67–M72 (Panamá-Inglaterra, Croacia-Ghana, Colombia-Portugal, RD Congo-Uzbekistán, Argelia-Austria, Jordania-Argentina) — cierran fase de grupos → se activa puntaje KO. Sitio 2026-mundial.netlify.app. **FEATURES 27-jun (commits `618c6c9`+`a586995`):** (1) cruces R32 resueltos en calendario + ticker; (2) **"🏆 Cuadro del torneo"** real en la portada (`engine.bracket_partial`, se llena solo: 5 cruces ya formados + placeholders; eliminados en gris, campeón dorado); (3) **archivo plegable "Fase de grupos — cerrada"** (12 tablas finales, aparece al llegar a 72/72); (4) **tarjeta WhatsApp con escudo FC** (logo base64); (5) evolución del ranking ya operativa. Todo se autocompleta esta noche al cerrar grupos. | Anterior 2026-06-26 (día 16, 60/72): Boris 114 – Carlos 107 (+7), lidera tres criterios. | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
 <!-- Mantener: dashboard puro. Estado + pendientes + datos operativos + puntos de entrada. -->
 
 ---
@@ -94,9 +94,10 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 | 1 | ✅ **26-jun completo: M61–M66 cargados automático** (66/72), incl. M64 Uruguay 0-1 España (campeón de Boris). **Hoy 27-jun:** M67–M72 — Panamá-Inglaterra + Croacia-Ghana (17:00), Colombia-Portugal + RD Congo-Uzbekistán (19:30), Argelia-Austria + **Jordania-Argentina** (22:00) — cierran la fase de grupos (72/72); verificar que carguen solos, si el tier gratis demora `gh workflow run actualizar.yml`. **Tras M72 → se activa el puntaje KO** (avance por fase + especiales) | vigilar |
 | 2 | ✅ **RESUELTO 24-jun** — Jorge entregó planilla de eliminatorias: bracket KO 32/32 + campeón Francia ingestados (commit `fc719fa`). Solo faltan especiales opcionales | hecho |
 | 3 | **Andrés** — M24 grupo en blanco + M83 KO inconsistente (llave deriva UZB-CRO, eligió Colombia) | esperar/arreglar |
-| 4 | Recap tarjeta WhatsApp compartible (se genera **local**, no en CI) | opcional |
-| 5 | `og.png` con logo FC | opcional cosmético |
-| 6 | Más planillas que lleguen al pool | esperar |
+| 4 | ✅ **Tarjeta WhatsApp de liga completa CON escudo FC** (27-jun, commit `a586995`) — logo embebido base64 + tagline. Se genera **local** (`python build/gen_tarjeta.py`), no en CI. Nota: el "rey de la jornada" toma todo el acumulado hasta tomar un snapshot fresco con `python build/actualizar.py --cierre "tras grupos"` (el previo no incluía a La Casa) | hecho |
+| 5 | ✅ **Cuadro real del torneo en la portada + archivo plegable de grupos** (27-jun) — `engine.bracket_partial`; el cuadro se llena solo (16avos ya con los 5 cruces formados), y al cerrar los 72 aparece el `<details>` "Fase de grupos — cerrada" con las 12 tablas finales. Cruces KO también resueltos en el calendario. Evolución del ranking ya operativa. **Se completa solo esta noche al cerrar grupos** | hecho |
+| 6 | `og.png` con logo FC | opcional cosmético |
+| 7 | Más planillas que lleguen al pool | esperar |
 
 ---
 
@@ -121,6 +122,9 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 | Modelo de puntaje + "la carrera" | `config/reglas-puntaje.md` |
 | Reglamento FIFA modularizado (Art 11-14) | `reglas/INDEX.md` |
 | Motor (posiciones, 8 terceros, R32 vía 495, KO, scoring) | `build/engine.py` |
+| **Cuadro KO parcial (se llena solo)** | `engine.r32_partial` (16avos) · `engine.bracket_partial` (cuadro completo) — usados por `gen_galeria.build_real_bracket` (portada) + `gen_calendar` (calendario) |
+| **Archivo plegable fase de grupos** | `gen_galeria.build_groups_archive` (aparece solo al llegar a 72/72) |
+| **Tarjeta WhatsApp liga completa (con escudo FC)** | `python build/gen_tarjeta.py` → `tarjetas/tarjeta-dia.png` (logo base64; toma snapshot con `actualizar.py --cierre` para el "rey de la jornada") |
 | Ingesta de planillas nuevas | `build/ingest_plantilla.py` |
 | Fetch resultados + cron | `build/fetch_resultados.py` · `.github/workflows/actualizar.yml` |
 | Predicciones por jugador | `data/predicciones/<SLUG>.csv` (+`_ko`, +`_especiales`) |
@@ -132,4 +136,4 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
-*Última actualización: 2026-06-27 — torneo en vivo día 17, 5 jugadores, M1–M66 cargados (66/72). 🔥 Boris 131 – Carlos 110: en la jornada del 26-jun (M61–M66) Boris sumó +17 y Carlos solo +3, disparando la brecha de +7 a +21. Boris sigue líder en los tres criterios — pts (131-110), exactos (13-9) y ganadores (43-37). M61–M66 entraron todos automático (cron sano): M61 NOR 1-4 FRA, M62 SEN 5-0 IRQ, M63 CPV 0-0 KSA, M64 URU 0-1 ESP (campeón de Boris ✅), M65 EGY 1-1 IRN, M66 NZL 1-5 BEL. Copia local estaba 5 commits atrás → `git pull` la sincronizó. Hoy 27-jun van M67–M72 y cierran la fase de grupos (72/72) → se activa el puntaje KO. Sitio en vivo 66/72. Al retomar: `git pull` → `python build/refresh_dashboard.py` → escribir solo la narrativa.*
+*Última actualización: 2026-06-27 — torneo en vivo día 17, 5 jugadores, M1–M66 cargados (66/72). 🔥 Boris 131 – Carlos 110: en la jornada del 26-jun (M61–M66) Boris sumó +17 y Carlos solo +3, disparando la brecha de +7 a +21. Boris sigue líder en los tres criterios — pts (131-110), exactos (13-9) y ganadores (43-37). M61–M66 entraron todos automático (cron sano): M61 NOR 1-4 FRA, M62 SEN 5-0 IRQ, M63 CPV 0-0 KSA, M64 URU 0-1 ESP (campeón de Boris ✅), M65 EGY 1-1 IRN, M66 NZL 1-5 BEL. Copia local estaba 5 commits atrás → `git pull` la sincronizó. Hoy 27-jun van M67–M72 y cierran la fase de grupos (72/72) → se activa el puntaje KO. Sitio en vivo 66/72. Al retomar: `git pull` → `python build/refresh_dashboard.py` → escribir solo la narrativa. **Sesión 27-jun también construyó 5 features de portada/marca** (commits `618c6c9` cuadro real KO + archivo grupos plegable + R32 en calendario; `a586995` escudo FC en la tarjeta) — ver README §Pipeline y Pendientes #4/#5. `engine.bracket_partial` resuelve el cuadro parcial sin exigir los 72 → todo se autocompleta al cerrar grupos esta noche.*

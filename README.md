@@ -48,7 +48,7 @@ quiniela/
 ├── reglas/                        reglamento FIFA modularizado (Art 11-14) + PDF fuente
 │   └── INDEX.md
 ├── build/                         generadores Python — ver build/README.md
-│   ├── engine.py                  ★ motor: posiciones+desempates · 8 terceros · R32 vía 495 · cascada KO · scoring
+│   ├── engine.py                  ★ motor: posiciones+desempates · 8 terceros · R32 vía 495 · cascada KO · scoring · r32_partial/bracket_partial (resolución parcial del cuadro sin exigir los 72)
 │   ├── bootstrap_fixture.py       genera fixture.csv (desde Excel + reglamento)
 │   ├── bootstrap_terceros.py      genera terceros_495.csv (desde Excel FIFA)
 │   ├── ingest_mf.py               ingesta de una predicción externa (.xlsm) → nuestro formato
@@ -56,8 +56,8 @@ quiniela/
 │   ├── gen_demo_site.py           visor demo: 12 jugadores, torneo en curso (cutoff configurable)
 │   └── gen_calendar.py            calendario mensual (jun+jul) con partidos y horas
 └── site/                          salida estática (deploy a Netlify)
-    ├── index.html                 leaderboard + carrera + sub-campeonatos + supervivencia
-    └── calendario.html            calendario mensual
+    ├── index.html                 leaderboard + carrera + evolución + cuadro real KO + sub-campeonatos + supervivencia + archivo grupos plegable + resultados por día
+    └── calendario.html            calendario mensual (los KO muestran equipos en cuanto se resuelven)
 ```
 
 ---
@@ -73,6 +73,7 @@ quiniela/
 
 - **El motor (`engine.py`)** calcula, desde marcadores de grupo: tablas de posiciones (desempates FIFA), los 8 mejores terceros (tabla 495), el R32, la cascada KO y el puntaje. Sirve igual para los **resultados reales** que para el **bracket de cada jugador**, y **soporta resultados parciales** (puntúa "al día de hoy" → habilita los estados intermedios del torneo sin cambios).
 - Los generadores `gen_*` leen datos + motor → emiten HTML estático.
+- **Cuadro KO en vivo (2026-06-27):** `engine.r32_partial` resuelve los cruces de 16avos con lo disponible (1º/2º de grupos ya cerrados; placeholders `1ºJ`/`3º` para lo pendiente) y `engine.bracket_partial` extiende eso a todo el cuadro (R16→Final se llenan con los ganadores de `resultados_ko.csv`). El **calendario** y el **"🏆 Cuadro del torneo"** de la portada usan esto → se llenan **solos** a medida que cierran los grupos y avanzan las llaves, sin reventar como `build_r32` (que exige los 72). Al completarse los 72, la portada despliega el **archivo plegable "Fase de grupos — cerrada"** con las 12 tablas finales; la cronología completa vive en **"Resultados por día"**.
 
 ## ▶️ Cómo correr (desde `quiniela/`)
 
