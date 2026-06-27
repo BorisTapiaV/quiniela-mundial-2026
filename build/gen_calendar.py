@@ -14,6 +14,7 @@ FASE_LBL = {'R32': '16avos', 'R16': 'Octavos', 'QF': 'Cuartos', 'SF': 'Semis', '
 
 def main():
     eq = engine.load_equipos(); fixture = engine.load_fixture()
+    terceros = engine.load_terceros()
     ISO = {c: eq[c]['iso'] for c in eq}
     NM = {c: eq[c]['nombre_es'] for c in eq}
     def flag(c): return f'<img src="https://flagcdn.com/w20/{ISO[c]}.png" alt="">'
@@ -33,6 +34,19 @@ def main():
         for r in csv.DictReader(open(rpath, encoding='utf-8')):
             if r.get('gl') not in (None, '') and r.get('gv') not in (None, ''):
                 res[int(r['match_no'])] = (r['gl'], r['gv'])
+    # cruces del R32 resueltos con lo que ya se sabe (1X/2X de grupos cerrados;
+    # los 16 quedan completos solos cuando entran los 72 de grupo). Slots aún
+    # indefinidos (tercero o grupo en juego) → etiqueta del slot como placeholder.
+    rg_int = {mn: (int(gl), int(gv)) for mn, (gl, gv) in res.items()}
+    r32 = engine.r32_partial(rg_int, eq, fixture, terceros)
+    def slot_lbl(s):
+        if s.startswith('3-'):
+            return '3º'
+        return f'{s[0]}º{s[1]}'
+    def ko_side(code, raw_slot):
+        if code:
+            return f'{flag(code)}<b>{code}</b>'
+        return f'<b class="tbd">{slot_lbl(raw_slot)}</b>'
     MESN = {6: 'jun', 7: 'jul'}
     cuadro_rows = ''
     for mn in sorted(abierta):
@@ -71,6 +85,12 @@ def main():
                         head = f'<span class="h">{m["hora_chile"]}</span>'; evcls = ' free' if mn in abierta else ''
                     evs += (f'<div class="ev{evcls}">{head}'
                             f'{flag(a)}<b>{a}</b><i>vs</i>{flag(b)}<b>{b}</b>{tvb}</div>')
+                elif m['fase'] == 'R32' and m['match_no'] in r32:
+                    a, b = r32[m['match_no']]
+                    rnd = FASE_LBL.get(m['fase'], m['fase'])
+                    evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
+                            f'<span class="rnd">{rnd}</span>'
+                            f'{ko_side(a, m["local"])}<i>vs</i>{ko_side(b, m["visita"])}</div>')
                 else:
                     evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
                             f'<b>{FASE_LBL.get(m["fase"], m["fase"])}</b></div>')
@@ -150,6 +170,8 @@ h2.sec{font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--g
 .ev .h{color:var(--gold);font-weight:700;margin-right:2px}
 .ev img{width:15px;border-radius:2px;flex:0 0 auto}.ev b{font-weight:600}.ev i{color:var(--mut);font-style:normal;margin:0 1px}
 .ev.ko{background:#241a33}.ev.ko b{color:var(--gold)}
+.ev .rnd{color:var(--mut);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;margin-right:2px}
+.ev.ko b.tbd{color:var(--mut);font-weight:700;opacity:.8}
 footer{text-align:center;color:var(--mut);font-size:12px;margin:30px 0 10px}
 .ev.played{background:#10301c;border-color:#1f6b3f}
 .ev .sc{color:#16d97b;font-weight:800;background:#0c2418;border-radius:4px;padding:0 4px;margin-right:2px}

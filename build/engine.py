@@ -138,6 +138,46 @@ def build_r32(all_standings, fixture, terceros):
             r32[m['match_no']] = (resolve(m['local']), resolve(m['visita']))
     return r32
 
+
+def groups_complete(group_scores, fixture):
+    """Conjunto de grupos (A..L) con sus 6 partidos ya jugados en group_scores."""
+    total, played = {}, {}
+    for m in fixture:
+        if m['fase'] == 'grupos':
+            g = m['grupo']
+            total[g] = total.get(g, 0) + 1
+            if m['match_no'] in group_scores:
+                played[g] = played.get(g, 0) + 1
+    return {g for g in total if played.get(g, 0) == total[g]}
+
+
+def r32_partial(group_scores, eq, fixture, terceros):
+    """Resuelve los cruces del R32 con la información disponible HOY.
+
+    Devuelve dict match_no(73-88) -> (code_local|None, code_visita|None).
+    - Si los 72 de grupo están jugados → bracket completo (incluye terceros).
+    - Si no → resuelve cada slot 1X/2X cuyo grupo ya esté cerrado; los slots de
+      tercero (3-XXXX) y los de grupos en juego quedan None (placeholder en la vista).
+    """
+    allst = compute_all_standings(group_results_by_group(group_scores, fixture), eq)
+    if len(group_scores) >= 72:
+        return build_r32(allst, fixture, terceros)
+    done = groups_complete(group_scores, fixture)
+
+    def resolve(slot):
+        if slot.startswith('3-'):
+            return None                                   # tercero: depende del combo de los 12 grupos
+        pos = int(slot[0]); g = slot[1]
+        if g not in done:
+            return None                                   # grupo aún en juego
+        return allst[g][pos - 1]['code']
+
+    out = {}
+    for m in fixture:
+        if m['fase'] == 'R32':
+            out[m['match_no']] = (resolve(m['local']), resolve(m['visita']))
+    return out
+
 # ---------- autotest ----------
 def _selftest():
     import random

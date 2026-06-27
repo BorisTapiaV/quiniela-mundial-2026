@@ -178,11 +178,22 @@ def fmt_fecha(s):
 
 
 def build_matches_json(NM, ISO):
-    """Datos de los 104 partidos (kickoff en UTC) para el indicador 'en juego' client-side."""
+    """Datos de los 104 partidos (kickoff en UTC) para el indicador 'en juego' client-side.
+
+    Los cruces del R32 se resuelven con la info disponible (1X/2X de grupos ya
+    cerrados; el bracket se completa solo cuando entran los 72 de grupo)."""
     import json as _json
     from datetime import datetime as _dt, timedelta as _td
     rounds = {**{n: '16avos' for n in range(73, 89)}, **{n: 'Octavos' for n in range(89, 97)},
               **{n: 'Cuartos' for n in range(97, 101)}, 101: 'Semifinal', 102: 'Semifinal', 103: '3er puesto', 104: 'Final'}
+    eq = engine.load_equipos(); fixture = engine.load_fixture(); terceros = engine.load_terceros()
+    rg = {}
+    rp = os.path.join(HERE, 'data', 'resultados.csv')
+    if os.path.exists(rp):
+        for r in csv.DictReader(open(rp, encoding='utf-8')):
+            if r.get('gl') not in (None, '') and r.get('gv') not in (None, ''):
+                rg[int(r['match_no'])] = (int(r['gl']), int(r['gv']))
+    r32 = engine.r32_partial(rg, eq, fixture, terceros)
     out = []
     with open(os.path.join(HERE, 'data', 'fixture.csv'), encoding='utf-8') as f:
         for r in csv.DictReader(f):
@@ -194,6 +205,9 @@ def build_matches_json(NM, ISO):
             la, vi = r['local'], r['visita']
             if la in ISO and vi in ISO:
                 out.append({'n': mn, 'ko': ko, 'h': NM.get(la, la), 'a': NM.get(vi, vi), 'hi': ISO[la], 'ai': ISO[vi], 'hc': hora})
+            elif mn in r32 and r32[mn][0] and r32[mn][1]:
+                a, b = r32[mn]
+                out.append({'n': mn, 'ko': ko, 'h': NM.get(a, a), 'a': NM.get(b, b), 'hi': ISO[a], 'ai': ISO[b], 'hc': hora})
             else:
                 out.append({'n': mn, 'ko': ko, 'h': rounds.get(mn, 'Eliminatorias'), 'a': '', 'hi': '', 'ai': '', 'hc': hora})
     return _json.dumps(out, ensure_ascii=False)
