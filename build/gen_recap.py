@@ -12,9 +12,15 @@ Uso:
   screenshot nunca sale con banderas rotas).
 Salida: recap/predicciones-<fecha>.html  (o ...-PRUEBA-<fecha>.html con --prueba)
 """
-import sys, csv, os, datetime, struct, urllib.request, base64
+import sys, csv, os, datetime, struct, json, unicodedata, urllib.request, base64
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine as E
+
+
+def norm(s):
+    """minúsculas sin acentos, para casar nombres (Mbappé == Mbappe)."""
+    s = unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode().lower().strip()
+    return ' '.join(s.split())
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(HERE, 'data')
@@ -44,6 +50,36 @@ def load_pred(slug):
                 if r.get('ganador'):
                     k[int(r['match_no'])] = r['ganador'].strip().upper()
     return g, k
+
+
+def load_goleador(slug):
+    """Figura (goleador) elegida por el jugador, desde su _especiales.csv."""
+    p = os.path.join(PRED, f'{slug}_especiales.csv')
+    if os.path.exists(p):
+        with open(p, encoding='utf-8-sig') as f:
+            for r in csv.DictReader(f):
+                if r['clave'] == 'goleador' and r['valor']:
+                    return r['valor']
+    return ''
+
+
+def load_goles():
+    """norm(figura) -> goles, desde data/goleadores.csv (lo refresca fetch_goleadores)."""
+    d = {}
+    p = os.path.join(DATA, 'goleadores.csv')
+    if os.path.exists(p):
+        with open(p, encoding='utf-8-sig') as f:
+            for r in csv.DictReader(f):
+                d[norm(r['figura'])] = int(r.get('goles') or 0)
+    return d
+
+
+def load_fotos():
+    """norm(nombre) -> jpg base64, desde data/figuras_fotos.json."""
+    p = os.path.join(DATA, 'figuras_fotos.json')
+    if os.path.exists(p):
+        return {norm(k): v for k, v in json.load(open(p, encoding='utf-8')).items()}
+    return {}
 
 
 _flags = {}
@@ -185,6 +221,31 @@ def main():
     </div>
   </div>''')
 
+    # sección de goleadores (figura + foto + goles de cada jugador)
+    goles = load_goles(); fotos = load_fotos()
+    figdata = [(slug, load_goleador(slug)) for slug in PLAYERS]
+    figdata = [(slug, fig, (goles.get(norm(fig), 0) if fig else None)) for slug, fig in figdata]
+    max_g = max([g for _, _, g in figdata if g is not None] or [-1])
+    golcards = []
+    for slug, fig, g in figdata:
+        cls = 'golcard casa' if slug == 'CASA' else 'golcard'
+        if g is not None and g == max_g and max_g > 0:
+            cls += ' lead'
+        b64 = fotos.get(norm(fig)) if fig else None
+        face = (f'<div class="golface" style="background-image:url(data:image/jpeg;base64,{b64})"></div>'
+                if b64 else '<div class="golface noface">⚽</div>')
+        goals_html = (f'<div class="golgoals">{g}<span> gol{"es" if g != 1 else ""}</span></div>'
+                      if g is not None else '<div class="golgoals nogol">—</div>')
+        golcards.append(f'<div class="{cls}">{face}<div class="golname">{PNAME[slug]}</div>'
+                        f'<div class="golfig">{fig or "sin figura"}</div>{goals_html}</div>')
+    golsec = (f'''  <div class="golsec">
+    <div class="goltitle">⚽ Goleadores · la figura de cada uno <span>(goles en el torneo, en vivo)</span></div>
+    <div class="golgrid">
+      {''.join(golcards)}
+    </div>
+  </div>
+''' if any(fig for _, fig, _ in figdata) else '')
+
     # CSS de banderas usadas
     flag_css = ''.join(f'  .fl-{iso}{{background-image:url(data:image/png;base64,{f[0]})}}\n'
                        for iso, f in _flags.items() if f)
@@ -248,6 +309,24 @@ def main():
   .pred.casa{{border-color:var(--accent);box-shadow:inset 0 0 0 1px rgba(34,211,166,.25)}}
   .pred.casa .name{{color:var(--accent)}}
   .pred .none{{color:var(--mut);font-weight:800;font-size:18px}}
+  .golsec{{margin:20px 0 4px;background:linear-gradient(180deg,#141c30,#10182a);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:0 6px 22px rgba(0,0,0,.28)}}
+  .goltitle{{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:14px}}
+  .goltitle span{{color:var(--mut);font-weight:500;font-size:11.5px}}
+  .golgrid{{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}}
+  .golcard{{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 8px 11px;text-align:center}}
+  .golcard.casa{{border-color:var(--accent)}}
+  .golcard.lead{{border-color:var(--gold);box-shadow:inset 0 0 0 1px rgba(245,196,81,.3)}}
+  .golface{{width:56px;height:56px;border-radius:50%;margin:0 auto 8px;background-size:cover;background-position:center top;border:2px solid var(--line)}}
+  .golcard.casa .golface{{border-color:var(--accent)}}
+  .golcard.lead .golface{{border-color:var(--gold)}}
+  .golface.noface{{display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--pill)}}
+  .golname{{font-size:11px;color:var(--mut);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+  .golcard.casa .golname{{color:var(--accent)}}
+  .golfig{{font-size:12.5px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
+  .golgoals{{font-size:19px;font-weight:800;margin-top:6px;color:var(--accent)}}
+  .golgoals span{{font-size:10px;color:var(--mut);font-weight:600}}
+  .golcard.lead .golgoals{{color:var(--gold)}}
+  .golgoals.nogol{{color:var(--mut)}}
   .foot{{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:12px;margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}}
   .foot .dot{{color:var(--accent)}}
   .foot .right{{margin-left:auto}}
@@ -267,7 +346,7 @@ def main():
     </div>
   </div>
 {konote}{''.join(blocks)}
-  <div class="foot">
+{golsec}  <div class="foot">
     <span class="dot">●</span> 5 jugadores · pozo $50.000 · reparto 50/30/20
     <span class="right">2026-mundial.netlify.app</span>
   </div>

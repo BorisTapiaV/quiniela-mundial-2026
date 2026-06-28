@@ -37,6 +37,7 @@ jobs:
           FOOTBALL_DATA_TOKEN: ${{ secrets.FOOTBALL_DATA_TOKEN }}
         run: |
           python build/fetch_resultados.py
+          python build/fetch_goleadores.py || echo "scorers fetch falló (no crítico, sigue)"
           if git diff --quiet -- data/resultados.csv data/resultados_ko.csv data/resultados_especiales.csv; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Sin resultados nuevos — no se regenera ni se deploya."
@@ -65,6 +66,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/resultados.csv data/resultados_ko.csv data/resultados_especiales.csv site/
+          git add data/resultados.csv data/resultados_ko.csv data/resultados_especiales.csv data/goleadores.csv site/
           git commit -m "Auto: resultados nuevos ($(date -u +%Y-%m-%dT%H:%MZ))"
           git push
