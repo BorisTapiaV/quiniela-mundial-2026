@@ -67,7 +67,7 @@ match_no,fecha,hora,sede,local,visita,gl,gv
 66,2026-06-26,23:00,Estadio BC Place Vancouver,Nueva Zelanda,Bélgica,1,5
 67,2026-06-27,17:00,Estadio Nueva York/Nueva Jersey,Panamá,Inglaterra,0,2
 68,2026-06-27,17:00,Estadio Filadelfia,Croacia,Ghana,2,1
-69,2026-06-27,19:30,Estadio Miami,Colombia,Portugal,,
-70,2026-06-27,19:30,Estadio Atlanta,RD Congo,Uzbekistán,,
+69,2026-06-27,19:30,Estadio Miami,Colombia,Portugal,0,0
+70,2026-06-27,19:30,Estadio Atlanta,RD Congo,Uzbekistán,3,1
 71,2026-06-27,22:00,Estadio Kansas City,Argelia,Austria,,
 72,2026-06-27,22:00,Estadio Dallas,Jordania,Argentina,,
