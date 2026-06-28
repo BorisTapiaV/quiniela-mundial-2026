@@ -28,35 +28,33 @@ definido) sí tiene sentido congelar el podio. El bloque de tabla (CSS + HTML,
 diseño aprobado por Boris 23-jun) está guardado listo para pegar en
 `_FRAGMENTO_tabla-posiciones.html`.
 
-## Cómo generar una fecha nueva
+## Cómo generar una fecha nueva — AUTOMÁTICO (desde 28-jun-2026)
 
-1. Identificar los partidos de la fecha y su hora:
-   ```bash
-   grep "AAAA-MM-DD" data/fixture.csv
-   # columnas: match_no,fase,grupo,matchday,fecha,hora_chile,sede,local,visita
-   ```
+Un solo comando arma la tarjeta completa (partidos del día + picks de los 5 jugadores +
+banderas embebidas), tanto en fase de grupos como en KO:
 
-2. Extraer los pronósticos de los 5 jugadores para esos match_no (ajustar el rango `>=N && <=M`):
-   ```bash
-   cd data/predicciones
-   for f in CASA PAULO_SALAS CARLOS_SALGADO ANDRES_ACOSTA JORGE_VASQUEZ; do
-     echo "=== $f ==="
-     awk -F, '$1>=8 && $1<=12 {print $1": "$2" "$4"-"$5" "$3}' $f.csv
-   done
-   # salida por jugador: match_no: LOCAL gl-gv VISITA
-   ```
-   Orden de jugadores en la tarjeta: Boris(CASA) · Paulo · Carlos · Andrés · Jorge.
-   El `.tag` bajo cada marcador dice quién gana (nombre país) o "Empate".
+```bash
+python build/gen_recap.py 2026-06-29            # tarjeta real de esa fecha
+python build/gen_recap.py 2026-07-03 --prueba   # tarjeta marcada como PRUEBA (banner naranjo)
+```
 
-3. Revisar si algún partido ya se jugó (badge `YA JUGADO`) según la hora vs. el momento actual.
-   Marcador real: `data/resultados.csv` (vacío = aún no ingestado por el cron).
+Luego abrir y capturar:
+```powershell
+start recap\predicciones-2026-06-29.html
+```
 
-4. Copiar `_TEMPLATE.html` → `predicciones-AAAA-MM-DD.html`, reemplazar fecha, partidos y los 5×N marcadores.
+Qué hace `gen_recap.py` (`build/gen_recap.py`):
+- Lee los partidos de la fecha del `fixture.csv` (1 o varios, escala solo).
+- **Grupos:** marcador `gl-gv` + ganador (nombre país / "Empate") de cada jugador.
+- **KO:** el pick = el equipo que el cuadro de cada jugador **hace avanzar más lejos** en ese
+  cruce (regla consistente con el puntaje por equipos-que-avanzan); el `.tag` dice hasta dónde
+  lo lleva ("pasa a octavos", "hasta semis", "campeón"). Si no tiene a ninguno de los dos → "—".
+- Baja las **banderas** (flagcdn w40) y las **embebe en base64** → tarjeta self-contained, el
+  screenshot nunca sale con banderas rotas.
+- Orden de jugadores: Boris(CASA) · Paulo · Carlos · Andrés · Jorge.
 
-5. Abrir y capturar:
-   ```powershell
-   start recap\predicciones-AAAA-MM-DD.html
-   ```
+> El proceso manual viejo (copiar `_TEMPLATE.html` y rellenar a mano) quedó obsoleto. El
+> `_TEMPLATE.html` se conserva solo como referencia del diseño aprobado.
 
 ## Códigos de equipo usados (3 letras → país)
 

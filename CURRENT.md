@@ -1,25 +1,27 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
-<!-- Updated: 2026-06-27 — Torneo EN VIVO (día 17). 5 jugadores, pozo $50.000. M1–M66 cargados (66/72). 🔥 BORIS DISPARA EL 🥇 a +21: Boris 131 – Carlos 110. M61–M66 entraron TODOS AUTOMÁTICO (cron sano, 26-jun); jornadón de Boris +17 vs Carlos +3. Boris sigue líder en los TRES criterios: pts (131-110), exactos (13-9) y ganadores (43-37). Resultados 26-jun: M61 NOR 1-4 FRA, M62 SEN 5-0 IRQ, M63 CPV 0-0 KSA, M64 URU 0-1 ESP [campeón de Boris ✅], M65 EGY 1-1 IRN, M66 NZL 1-5 BEL. Hoy 27-jun van M67–M72 (Panamá-Inglaterra, Croacia-Ghana, Colombia-Portugal, RD Congo-Uzbekistán, Argelia-Austria, Jordania-Argentina) — cierran fase de grupos → se activa puntaje KO. Sitio 2026-mundial.netlify.app. **FEATURES 27-jun (commits `618c6c9`+`a586995`):** (1) cruces R32 resueltos en calendario + ticker; (2) **"🏆 Cuadro del torneo"** real en la portada (`engine.bracket_partial`, se llena solo: 5 cruces ya formados + placeholders; eliminados en gris, campeón dorado); (3) **archivo plegable "Fase de grupos — cerrada"** (12 tablas finales, aparece al llegar a 72/72); (4) **tarjeta WhatsApp con escudo FC** (logo base64); (5) evolución del ranking ya operativa. Todo se autocompleta esta noche al cerrar grupos. | Anterior 2026-06-26 (día 16, 60/72): Boris 114 – Carlos 107 (+7), lidera tres criterios. | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
+<!-- Updated: 2026-06-28 — 🏁 FASE DE GRUPOS CERRADA (72/72, día 18). 5 jugadores, pozo $50.000. M67–M72 entraron AUTOMÁTICO la noche del 27-jun (cron sano) → se ACTIVÓ EL PUNTAJE KO (avance por fase + especiales). Con el KO sumado: BORIS 🥇 197 – CARLOS 172 (+25). Pero ojo: PAULO 169 se le pegó a Carlos por solo +3 → el 🥈 está en disputa. Boris sigue líder (13 exactos). Resultados 27-jun: M67 PAN 0-2 ENG, M68 CRO 2-1 GHA, M69 COL 0-0 POR, M70 COD 3-1 UZB, M71 ALG 3-3 AUT, M72 JOR 1-3 ARG. Cuadro KO real ya visible en portada (se autocompletó al cerrar grupos). Sitio 2026-mundial.netlify.app. **SESIÓN 28-jun PM (Claude):** (1) **fix M24 de Andrés** — transcripción UZB↔COL invertida; su cuadro auto-armado (plantilla) probaba Colombia 2ª → corregido (total 160→162), commit `3414bd0` **deployado**; (2) **especiales simplificados**: se retiran 'primer eliminado' y 'sorpresa' (ambiguos, deducibles ya cerrados los grupos) → quedan **campeón + goleador** (máx 718→683), commit `16eed61` **sin deploy aún**; (3) **goleadores 1-a-1**: Andrés=Cristiano Ronaldo, Paulo=Lionel Messi; **faltan Jorge y Carlos → deploy en pausa hasta tenerlos**. PENDIENTE: arrancan los 16avos → verificar que el cron cargue los KO + puntúe avance. | Anterior 2026-06-27 (día 17, 66/72): Boris 131 – Carlos 110 (+21) en fase de grupos, antes del KO. | Doc de estado vivo — diseño/decisiones en README.md, histórico en la memoria project_quiniela_mundial_2026.md -->
 <!-- Mantener: dashboard puro. Estado + pendientes + datos operativos + puntos de entrada. -->
 
 ---
 
-## Estado al 2026-06-27 — torneo EN VIVO (fase de grupos, día 17)
+## Estado al 2026-06-28 — 🏁 FASE DE GRUPOS CERRADA (72/72, día 18)
 
-El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **66/72 partidos de grupos cargados** — M61–M66 (26-jun) entraron solos.
+El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron GitHub Actions → fetch resultados (football-data tier gratis) → deploy-on-change a Netlify. **72/72 partidos de grupos cargados** — M67–M72 entraron solos la noche del 27-jun (cron sano). **Con el cierre de grupos se ACTIVÓ EL PUNTAJE KO** (avance por fase + especiales), por eso los puntajes pegaron el salto.
 
-🔥 **BORIS DISPARA EL 🥇 a +21:** **Boris 131 – Carlos 110**. En la jornada del 26-jun (M61–M66) Boris sumó **+17** y Carlos solo **+3**, ampliando la brecha que venía en +7 (114-107 al M60). **Boris sigue líder en los tres criterios**: pts (131-110), exactos (**13 vs 9**) y ganadores (**43 vs 37**). El desempate del leaderboard es pts → exactos → campeón → FIFA.
+🔥 **BORIS 🥇 197 – CARLOS 172 (+25).** Con el KO sumado Boris mantiene el liderato. **Pero el 🥈 se calentó: Paulo (169, 10 exactos) quedó a solo +3 de Carlos** — la pelea por el segundo lugar (premio 30% del pozo) está abierta. Boris sigue líder por pts y exactos (**13**). Desempate del leaderboard: pts → exactos → campeón → FIFA.
 
-✅ **M61–M66 entraron TODOS AUTOMÁTICO** (cron sano, 26-jun). La copia local estaba 5 commits atrás → `git pull` la sincronizó (patrón ya conocido). Resultados: M61 Noruega 1-4 Francia, M62 Senegal 5-0 Irak, M63 Cabo Verde 0-0 Arabia Saudita, **M64 Uruguay 0-1 España [campeón de Boris ✅]**, M65 Egipto 1-1 Irán, M66 Nueva Zelanda 1-5 Bélgica.
+✅ **M67–M72 entraron TODOS AUTOMÁTICO** (noche del 27-jun). Resultados: M67 Panamá 0-2 Inglaterra, M68 Croacia 2-1 Ghana, **M69 Colombia 0-0 Portugal**, M70 RD Congo 3-1 Uzbekistán, M71 Argelia 3-3 Austria, **M72 Jordania 1-3 Argentina**.
 
-⏳ **Hoy 27-jun van M67–M72** (aún sin jugar, cierran la fase de grupos): Panamá-Inglaterra · Croacia-Ghana (17:00) · Colombia-Portugal · RD Congo-Uzbekistán (19:30) · Argelia-Austria · Jordania-Argentina (22:00). Deberían cargar solos; si el tier gratis demora → `gh workflow run actualizar.yml`. **Tras M72 (72/72) se activa el puntaje KO** (avance por fase + especiales).
+⏳ **Arrancan los 16avos (KO).** El cuadro real del torneo ya se autocompletó en la portada al cerrar grupos. Pendiente operativo: **verificar que el cron cargue los partidos KO y puntúe el avance por fase**; si el tier gratis demora → `gh workflow run actualizar.yml`.
 
-📋 **Jorge completó su bracket KO + campeón (Francia)** el 24-jun (commit `fc719fa`). Especiales opcionales sin llenar. **Pendiente #2 cerrado.**
+📋 **Jorge completó su bracket KO + campeón (Francia)** el 24-jun. Especiales opcionales sin llenar. **Pendiente #2 cerrado.**
+
+🛠️ **Sesión 28-jun PM:** (1) **M24 de Andrés corregido** (transcripción UZB↔COL invertida → Colombia 2ª como en su planilla; **total 160→162**, commit `3414bd0` deployado · bracket calza 16/16 con su Excel). (2) **Especiales reducidos a campeón + goleador** — se retiran *primer eliminado* y *sorpresa* por ambiguos (deducibles ya cerrados los grupos = ventaja si se completan ahora); `engine.py` W_ESP={campeón 50, gol 25}, máx 683; commit `16eed61` **sin deploy**. (3) **Goleadores recogidos 1-a-1:** Andrés=Cristiano Ronaldo, Paulo=Lionel Messi. ⏳ **FALTAN Jorge y Carlos → deploy en pausa hasta tenerlos.**
 
 - **Sitio público:** https://2026-mundial.netlify.app
 - **Repo:** **PÚBLICO** `github.com/BorisTapiaV/quiniela-mundial-2026` (Actions ilimitado gratis)
-- **Último commit:** `47320f9` (Auto: resultados nuevos, 2026-06-27T06:23Z) · sitio en vivo 66/72
+- **Último commit:** `20e6776` (Auto: resultados nuevos, 2026-06-28T05:14Z) · sitio en vivo 72/72
 - **Branding:** "Fisioterapia & Futbolito FC" (grupo WhatsApp 40+) — logo `site/fisio-fc.png`
 
 ---
@@ -37,26 +39,32 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 ---
 
 <!-- AUTO:TABLA inicio — generado por build/refresh_dashboard.py, no editar a mano -->
-## 🏆 Tabla de posiciones (tras 66 partidos)
+## 🏆 Tabla de posiciones (tras 72 partidos)
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **131** | 13 | 🟢 |
-| 🥈 | **Carlos Salgado** | Portugal | **110** | 9 | 🟢 |
-| 🥉 | Paulo Salas | España | 102 | 9 | 🟢 |
-| 4 | Andrés Acosta (Colombia) | Francia | 92 | 6 | 🟢 |
-| 5 | Jorge Vásquez | Francia | 91 | 7 | 🟢 |
+| 🥇 | **Boris Tapia V (La Casa)** | España | **197** | 13 | 🟢 |
+| 🥈 | **Carlos Salgado** | Portugal | **172** | 9 | 🟢 |
+| 🥉 | Paulo Salas | España | 169 | 10 | 🟢 |
+| 4 | Andrés Acosta (Colombia) | Francia | 160 | 9 | 🟢 |
+| 5 | Jorge Vásquez | Francia | 153 | 8 | 🟢 |
 <!-- AUTO:TABLA fin -->
 
-**Mano a mano arriba:** **Boris 131 – Carlos 110** (Boris +21). En M61–M66 Boris sumó +17 y Carlos solo +3, disparando el +7 que traía. **Boris lidera en los tres criterios**: pts, exactos (**13 vs 9**) y ganadores (**43 vs 37**) — desempate del leaderboard pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **Paulo se afirmó 3º** (102, 9 exactos), Andrés 4º (92), Jorge 5º (91) — el podio se despegó pero 4º-5º van pegados (92-91). KO aún sin puntuar (se activa al completar los 72 de grupo). Haití = **primer eliminado** del torneo (especial, se puntúa al definirse).
+**La carrera tras cerrar grupos + activar KO:** **Boris 197 – Carlos 172** (Boris **+25**), con Boris líder por pts y exactos (**13**) — desempate del leaderboard pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **El foco se movió al 🥈: Paulo (169, 10 exactos) quedó a +3 de Carlos** y le pelea el segundo lugar (30% del pozo). Andrés 4º (160, 9 exactos) y Jorge 5º (153, 8) siguen vivos pero más lejos del podio. El salto de puntaje (≈+65 a todos) viene del **avance por fase del KO** que se acaba de puntuar. Haití = primer eliminado (especial, ya puntuable).
 
 ---
 
 <!-- AUTO:RESULTADOS inicio — generado por build/refresh_dashboard.py, no editar a mano -->
-## 📊 Resultados cargados (M1–M66)
+## 📊 Resultados cargados (M1–M72)
 
 | Match | Partido | Marcador | Fecha |
 |:-----:|---------|:--------:|------|
+| M72 | Jordania – Argentina | 1-3 | 27-jun |
+| M71 | Argelia – Austria | 3-3 | 27-jun |
+| M70 | RD Congo – Uzbekistán | 3-1 | 27-jun |
+| M69 | Colombia – Portugal | 0-0 | 27-jun |
+| M68 | Croacia – Ghana | 2-1 | 27-jun |
+| M67 | Panamá – Inglaterra | 0-2 | 27-jun |
 | M66 | Nueva Zelanda – Bélgica | 1-5 | 26-jun |
 | M65 | Egipto – Irán | 1-1 | 26-jun |
 | M64 | Uruguay – España | 0-1 | 26-jun |
@@ -75,14 +83,8 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 | M51 | Escocia – Brasil | 0-3 | 24-jun |
 | M50 | Bosnia y Herzegovina – Catar | 3-1 | 24-jun |
 | M49 | Suiza – Canadá | 2-1 | 24-jun |
-| M48 | Colombia – RD Congo | 1-0 | 23-jun |
-| M47 | Panamá – Croacia | 0-1 | 23-jun |
-| M46 | Inglaterra – Ghana | 0-0 | 23-jun |
-| M45 | Portugal – Uzbekistán | 5-0 | 23-jun |
-| M44 | Jordania – Argelia | 1-2 | 22-jun |
-| M43 | Noruega – Senegal | 3-2 | 22-jun |
 
-**M1–M42 (11-jun–22-jun):** MEX 2-0 RSA · KOR 2-1 CZE · CAN 1-1 BIH · USA 4-1 PAR · QAT 1-1 SUI · BRA 1-1 MAR · HAI 0-1 SCO · AUS 2-0 TUR · GER 7-1 CUW · NED 2-2 JPN · CIV 1-0 ECU · SWE 5-1 TUN · ESP 0-0 CPV · BEL 1-1 EGY · KSA 1-1 URU · IRN 2-2 NZL · FRA 3-1 SEN · IRQ 1-4 NOR · ARG 3-0 ALG · AUT 3-1 JOR · POR 1-1 COD · ENG 4-2 CRO · GHA 1-0 PAN · UZB 1-3 COL · CZE 1-1 RSA · SUI 4-1 BIH · CAN 6-0 QAT · MEX 1-0 KOR · USA 2-0 AUS · SCO 0-1 MAR · BRA 3-0 HAI · TUR 0-1 PAR · NED 5-1 SWE · GER 2-1 CIV · ECU 0-0 CUW · TUN 0-4 JPN · ESP 4-0 KSA · BEL 0-0 IRN · URU 2-2 CPV · NZL 1-3 EGY · ARG 2-0 AUT · FRA 3-0 IRQ.
+**M1–M48 (11-jun–23-jun):** MEX 2-0 RSA · KOR 2-1 CZE · CAN 1-1 BIH · USA 4-1 PAR · QAT 1-1 SUI · BRA 1-1 MAR · HAI 0-1 SCO · AUS 2-0 TUR · GER 7-1 CUW · NED 2-2 JPN · CIV 1-0 ECU · SWE 5-1 TUN · ESP 0-0 CPV · BEL 1-1 EGY · KSA 1-1 URU · IRN 2-2 NZL · FRA 3-1 SEN · IRQ 1-4 NOR · ARG 3-0 ALG · AUT 3-1 JOR · POR 1-1 COD · ENG 4-2 CRO · GHA 1-0 PAN · UZB 1-3 COL · CZE 1-1 RSA · SUI 4-1 BIH · CAN 6-0 QAT · MEX 1-0 KOR · USA 2-0 AUS · SCO 0-1 MAR · BRA 3-0 HAI · TUR 0-1 PAR · NED 5-1 SWE · GER 2-1 CIV · ECU 0-0 CUW · TUN 0-4 JPN · ESP 4-0 KSA · BEL 0-0 IRN · URU 2-2 CPV · NZL 1-3 EGY · ARG 2-0 AUT · FRA 3-0 IRQ · NOR 3-2 SEN · JOR 1-2 ALG · POR 5-0 UZB · ENG 0-0 GHA · PAN 0-1 CRO · COL 1-0 COD.
 <!-- AUTO:RESULTADOS fin -->
 
 ---
@@ -91,7 +93,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 | # | Pendiente | Tipo |
 |:-:|-----------|------|
-| 1 | ✅ **26-jun completo: M61–M66 cargados automático** (66/72), incl. M64 Uruguay 0-1 España (campeón de Boris). **Hoy 27-jun:** M67–M72 — Panamá-Inglaterra + Croacia-Ghana (17:00), Colombia-Portugal + RD Congo-Uzbekistán (19:30), Argelia-Austria + **Jordania-Argentina** (22:00) — cierran la fase de grupos (72/72); verificar que carguen solos, si el tier gratis demora `gh workflow run actualizar.yml`. **Tras M72 → se activa el puntaje KO** (avance por fase + especiales) | vigilar |
+| 1 | 🏁 **27-jun completo: M67–M72 cargados automático → fase de grupos CERRADA 72/72 + puntaje KO ACTIVADO.** Ahora arrancan los **16avos**. Próximo a vigilar: que el cron cargue los **partidos KO** y puntúe el avance por fase; si el tier gratis demora `gh workflow run actualizar.yml`. Verificar también que `resultados_ko.csv` se vaya poblando | vigilar |
 | 2 | ✅ **RESUELTO 24-jun** — Jorge entregó planilla de eliminatorias: bracket KO 32/32 + campeón Francia ingestados (commit `fc719fa`). Solo faltan especiales opcionales | hecho |
 | 3 | **Andrés** — M24 grupo en blanco + M83 KO inconsistente (llave deriva UZB-CRO, eligió Colombia) | esperar/arreglar |
 | 4 | ✅ **Tarjeta WhatsApp de liga completa CON escudo FC** (27-jun, commit `a586995`) — logo embebido base64 + tagline. Se genera **local** (`python build/gen_tarjeta.py`), no en CI. Nota: el "rey de la jornada" toma todo el acumulado hasta tomar un snapshot fresco con `python build/actualizar.py --cierre "tras grupos"` (el previo no incluía a La Casa) | hecho |

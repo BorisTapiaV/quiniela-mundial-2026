@@ -57,7 +57,7 @@ def main():
     NM = {c: eq[c]['nombre_es'] for c in eq}
 
     print('── Regenerando sitio + tarjeta ' + '─' * 30)
-    for s in ('gen_jugador.py', 'gen_galeria.py', 'gen_tarjeta.py'):
+    for s in ('gen_jugador.py', 'gen_galeria.py', 'gen_calendar.py', 'gen_tarjeta.py'):
         print(f'\n▶ {s}')
         subprocess.run([sys.executable, os.path.join(BUILD, s)], check=False)
 

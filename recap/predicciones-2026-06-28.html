@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Predicciones · Domingo 28-06</title>
+<style>
+  :root{
+    --bg0:#0b1220; --bg1:#11192b; --card:#161f33; --card2:#1c2740;
+    --line:#27324d; --txt:#eaf0ff; --mut:#8b9bc4;
+    --accent:#22d3a6; --accent2:#3b82f6; --gold:#f5c451;
+    --pill:#202c45;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,Roboto,sans-serif;
+    background:radial-gradient(1200px 600px at 50% -10%, #16223d 0%, var(--bg0) 60%);
+    color:var(--txt); padding:36px 18px; display:flex; justify-content:center;
+  }
+  .sheet{width:920px; max-width:100%;}
+
+  /* Header */
+  .head{
+    display:flex; align-items:center; gap:18px; padding:6px 4px 22px;
+    border-bottom:1px solid var(--line); margin-bottom:24px;
+  }
+  .crest{
+    width:64px;height:64px;border-radius:16px;flex:0 0 64px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:flex;align-items:center;justify-content:center;font-size:30px;
+    box-shadow:0 8px 24px rgba(34,211,166,.25);
+  }
+  .head h1{font-size:23px;letter-spacing:.2px}
+  .head .sub{color:var(--mut);font-size:13.5px;margin-top:4px;font-weight:500}
+  .head .date{
+    margin-left:auto;text-align:right;
+  }
+  .date .big{font-size:21px;font-weight:700;color:var(--gold)}
+  .date .small{font-size:12.5px;color:var(--mut);letter-spacing:.5px;text-transform:uppercase}
+
+  /* nota de fase */
+  .konote{
+    background:linear-gradient(180deg,#1a2238,#141c30);
+    border:1px solid var(--line);border-left:3px solid var(--gold);
+    border-radius:12px;padding:12px 16px;margin-bottom:18px;
+    color:var(--mut);font-size:13px;line-height:1.5;
+  }
+  .konote b{color:var(--txt)}
+
+  /* Match block */
+  .match{
+    background:linear-gradient(180deg,var(--card),var(--bg1));
+    border:1px solid var(--line); border-radius:18px;
+    padding:18px 20px; margin-bottom:18px;
+    box-shadow:0 6px 22px rgba(0,0,0,.28);
+  }
+  .mtop{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .hour{
+    font-size:13px;font-weight:700;color:#06281f;background:var(--accent);
+    padding:5px 11px;border-radius:999px;letter-spacing:.4px;
+  }
+  .teams{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:700}
+  .code{
+    background:var(--pill);border:1px solid var(--line);border-radius:10px;
+    padding:5px 10px;font-size:13px;letter-spacing:1px;color:#cfe0ff;
+  }
+  .vs{color:var(--mut);font-size:13px;font-weight:600}
+  .played{
+    margin-left:auto;color:#0b1220;background:var(--gold);font-weight:700;
+    font-size:11.5px;padding:4px 9px;border-radius:999px;letter-spacing:.3px;
+  }
+  /* banderas embebidas (base64, self-contained) */
+  .flag{display:inline-block;vertical-align:middle;border-radius:2px;
+    background-size:cover;background-position:center;
+    box-shadow:0 0 0 1px rgba(255,255,255,.18);margin-right:5px}
+  .teams .flag{width:27px;height:18px;margin:0 3px}
+  .pick .flag{width:18px;height:12px;margin-right:5px}
+  .fl-za{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAbCAMAAAA5zj1cAAAAhFBMVEUAd0ngPDEAFIkAAAD///+/3dH/uBwUfEUIe0+8pyf8/vw3lHBhjzcxIwXU6ODwtB7iRjwNII+SxbHpcWmhoCyIYg6DXg7XmxfSmBYrjmd6uKCYoM/87Ovm6PP1v7vl7u7osiBJV6vzsa3d7edMijuLwaxIiTyEvaerstheRAo7SqT87+6ZeG5DAAAAyElEQVQ4y63T2RaCIBAG4IkhKsvM9t0W29///YIsRByQi/7r/3yHZQZAZR3x/ajlDRRZDflrElJsRmEAJbr1oCB6nW+ze4v4yYnCUiQa7XtQwLkw0IsTBcS4gp4dqCxiFR1zEv0UMV6Iw1WjGSdSFBFnQkxLtF3Pr1hFqaCOiXqL+DDu9AdRnTEPOGPgrSWX5AHvaP/MJmW1EH+9ezJGFe3poThVtOZxd2R0rAl3cKpo7oyTU0W9hZzfU9ZYlFzm4XRRLrWXk3kD8dcRLMX+MrkAAAAASUVORK5CYII=)}
+  .fl-ca{background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAUCAMAAADImI+JAAAASFBMVEX/////ubn/oqL/Z2f/Jib/09P/7e3/AAD/+/v/Gxv/W1v/rq7/eXn/nZ3/DAz/OTn/AwP/Pj7//Pz/QED/PT3/g4P/xsb/xcWY5npoAAAAkUlEQVQoz43TyQ7DIAxFUQbDNZCx4///aTdt00ohsXdPHIFsGce33E79nO5AvRjhGCxQVYs41fMbpUIVw9MzwHwKk4sA0aUj6IdW7iNAGEobfBfmBbgC3IAld6HKllhEuzDwV6HfjJ+2OPmjrlP5pJKOx5PfsuSTOWZZY61xlWxYiufDuD3eG2FrRpiSEe5+hRcblQ+AegtNbgAAAABJRU5ErkJggg==)}
+
+  /* predictions grid */
+  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .pred{
+    background:var(--card2);border:1px solid var(--line);border-radius:12px;
+    padding:11px 8px;text-align:center;
+  }
+  .pred .name{font-size:11.5px;color:var(--mut);font-weight:600;margin-bottom:7px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pred .pick{font-size:16px;font-weight:800;letter-spacing:.3px}
+  .pred .tag{font-size:10.5px;color:var(--mut);margin-top:4px;font-weight:600}
+  .pred.casa{border-color:var(--accent);box-shadow:inset 0 0 0 1px rgba(34,211,166,.25)}
+  .pred.casa .name{color:var(--accent)}
+  .pred .none{color:var(--mut);font-weight:800;font-size:18px}
+
+  /* footer */
+  .foot{
+    display:flex;align-items:center;gap:10px;color:var(--mut);font-size:12px;
+    margin-top:22px;padding-top:14px;border-top:1px solid var(--line)
+  }
+  .foot .dot{color:var(--accent)}
+  .foot .right{margin-left:auto}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="head">
+    <div class="crest">⚽</div>
+    <div>
+      <h1>Fisioterapia &amp; Futbolito FC</h1>
+      <div class="sub">Quiniela Mundial 2026 · Pronósticos de la jornada</div>
+    </div>
+    <div class="date">
+      <div class="big">Domingo 28 · Jun</div>
+      <div class="small">16avos de final · Arranca el KO</div>
+    </div>
+  </div>
+
+  <div class="konote">
+    🏆 <b>Empiezan las eliminatorias.</b> Aquí ya no se pide marcador: cada cuadro
+    avanza solo según sus pronósticos. El pick de cada jugador es el equipo que su
+    propia llave hace pasar en este cruce.
+  </div>
+
+  <!-- M73 -->
+  <div class="match">
+    <div class="mtop">
+      <span class="hour">15:00</span>
+      <div class="teams"><span class="flag fl-za"></span> Sudáfrica <span class="code">RSA</span> <span class="vs">vs</span> <span class="flag fl-ca"></span> Canadá <span class="code">CAN</span></div>
+      <span class="played">16AVOS · EN JUEGO</span>
+    </div>
+    <div class="grid">
+      <div class="pred casa"><div class="name">Boris · La Casa</div><div class="pick"><span class="flag fl-ca"></span>Canadá</div><div class="tag">la hace pasar</div></div>
+      <div class="pred"><div class="name">Paulo Salas</div><div class="pick none">—</div><div class="tag">no tiene a ninguno</div></div>
+      <div class="pred"><div class="name">Carlos Salgado</div><div class="pick"><span class="flag fl-ca"></span>Canadá</div><div class="tag">hasta octavos</div></div>
+      <div class="pred"><div class="name">Andrés Acosta</div><div class="pick"><span class="flag fl-ca"></span>Canadá</div><div class="tag">hasta octavos</div></div>
+      <div class="pred"><div class="name">Jorge Vásquez</div><div class="pick"><span class="flag fl-ca"></span>Canadá</div><div class="tag">hasta octavos</div></div>
+    </div>
+  </div>
+
+  <div class="konote" style="border-left-color:var(--accent2)">
+    📊 <b>Dato:</b> nadie le creyó a Sudáfrica — ningún cuadro la hizo clasificar.
+    Canadá es el respaldo de 4 de 5. Paulo no tiene a ninguno de los dos en su llave.
+  </div>
+
+  <div class="foot">
+    <span class="dot">●</span> 5 jugadores · pozo $50.000 · reparto 50/30/20
+    <span class="right">2026-mundial.netlify.app</span>
+  </div>
+
+</div>
+</body>
+</html>
