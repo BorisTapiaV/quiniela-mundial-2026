@@ -328,7 +328,7 @@ W_GROUP = {'exact': 5, 'diff': 3, 'result': 2}                  # escalonado (ni
 # Rebalance 2026-06-07 → reparto ~50% grupos / 35% KO / 15% especiales (research disyuntiva,
 # escalada INTERMEDIA no geométrica; campeón alto pero no dominante ~7% por paradoja de Aldous).
 W_ADV = {'R32': 2, 'R16': 4, 'QF': 6, 'SF': 10, 'Final': 16}    # avance por fase = 248 máx (35%)
-W_ESP = {'campeon': 50, 'goleador': 25, 'primer_eliminado': 20, 'sorpresa': 15}  # = 110 máx (15%)
+W_ESP = {'campeon': 50, 'goleador': 25}  # = 75 máx (primer_eliminado/sorpresa retirados — ambiguos, ver decisión 28-jun)
 
 def _outcome(l, v):
     return (l > v) - (l < v)
@@ -357,7 +357,7 @@ def score_player(pred_group, pred_ko, real_bracket, real_group,
     esp = 0
     if pb['champion'] and pb['champion'] == real_bracket['champion']:
         esp += W_ESP['campeon']
-    for k in ('goleador', 'primer_eliminado', 'sorpresa'):
+    for k in ('goleador',):
         if pred_especiales.get(k) and pred_especiales.get(k) == real_especiales.get(k):
             esp += W_ESP[k]
     return {'grupo': grupo, 'avance': avance, 'avance_detalle': det,

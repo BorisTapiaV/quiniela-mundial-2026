@@ -14,7 +14,7 @@ Quiniela/polla del Mundial FIFA 2026 (Canadá · México · EE.UU.) entre ~12 am
 | **Source of truth** | CSV/markdown versionados en el repo → generadores Python → HTML. Mismo patrón que el ala álbum. |
 | **Qué se predice** | 72 marcadores de grupo (escalonado) + bracket de eliminatorias (quién avanza, sin marcador) + especiales. **Una sola planilla, todo antes de empezar.** |
 | **Bracket** | Auto-derivado de los 72 de cada jugador (posiciones + 8 terceros vía tabla 495); el jugador solo elige ganadores KO. |
-| **Puntaje** | Escalonado (exacto 5 / dif 3 / 1X2 2) + avance KO (2/4/6/10/16) + especiales (campeón 50 / gol 25 / 1º elim 20 / sorpresa 15). **Máx 718 = 50% grupos / 35% KO / 15% especiales.** |
+| **Puntaje** | Escalonado (exacto 5 / dif 3 / 1X2 2) + avance KO (2/4/6/10/16) + especiales (campeón 50 / gol 25). **Máx 683 = 53% grupos / 36% KO / 11% especiales.** (primer eliminado y sorpresa retirados 28-jun, ambiguos.) |
 | **Jugadores** | ~12. |
 | **Imágenes** | Solo banderas (flagcdn, dominio público) + nombre. NO escudos/logos FIFA ni arte Panini (copyright). |
 

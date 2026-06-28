@@ -286,11 +286,6 @@ def render(slug, eq, fixture, terceros):
         cards.append(('🥉', '3er puesto', f'{flag(tercero)}<span>{NM.get(tercero, tercero)}</span>'))
     if esp.get('goleador'):
         cards.append(('⚽', 'Goleador', f'<span>{esp["goleador"]}</span>'))
-    if esp.get('primer_eliminado'):
-        pe = esp['primer_eliminado']
-        cards.append(('💀', '1º eliminado', f'{flag(pe)}<span>{NM.get(pe, pe)}</span>'))
-    if esp.get('sorpresa'):
-        cards.append(('🎁', 'Sorpresa', f'<span>{esp["sorpresa"]}</span>'))
     summary_html = ''
     if cards:
         summary_html = '<div class="summary">' + ''.join(
