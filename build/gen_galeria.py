@@ -224,7 +224,7 @@ def build_real_bracket(rg, rk, eq, fixture, terceros, NM, ISO):
         if w and a and b:
             eliminated.add(b if w == a else a)
 
-    def flag(c, w=30):
+    def flag(c, w=40):   # w30 NO existe en flagcdn (404) → usar w40, válido
         return f'<img src="https://flagcdn.com/w{w}/{ISO[c]}.png" alt="">' if c in ISO else ''
 
     def slot_lbl(s):
