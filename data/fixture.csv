@@ -72,23 +72,23 @@ match_no,fase,grupo,matchday,fecha,hora_chile,sede,local,visita
 71,grupos,J,3,2026-06-27,22:00,Estadio Kansas City,ALG,AUT
 72,grupos,J,3,2026-06-27,22:00,Estadio Dallas,JOR,ARG
 73,R32,,,2026-06-28,15:00,Estadio Los Angeles,2A,2B
-74,R32,,,2026-06-29,13:00,Estadio Houston,1E,3-ABCDF
-75,R32,,,2026-06-29,16:30,Estadio Boston,1F,2C
-76,R32,,,2026-06-29,21:00,Estadio Monterrey,1C,2F
-77,R32,,,2026-06-30,13:00,Estadio Dallas,1I,3-CDFGH
-78,R32,,,2026-06-30,17:00,Estadio Nueva York/Nueva Jersey,2E,2I
+74,R32,,,2026-06-29,16:30,Estadio Boston,1E,3-ABCDF
+75,R32,,,2026-06-29,21:00,Estadio Monterrey,1F,2C
+76,R32,,,2026-06-29,13:00,Estadio Houston,1C,2F
+77,R32,,,2026-06-30,17:00,Estadio Nueva York/Nueva Jersey,1I,3-CDFGH
+78,R32,,,2026-06-30,13:00,Estadio Dallas,2E,2I
 79,R32,,,2026-06-30,21:00,Estadio Ciudad de México,1A,3-CEFHI
 80,R32,,,2026-07-01,12:00,Estadio Atlanta,1L,3-EHIJK
-81,R32,,,2026-07-01,16:00,Estadio Seattle,1D,3-BEFIJ
-82,R32,,,2026-07-01,20:00,Estadio Bahía de San Francisco,1G,3-AEHIJ
-83,R32,,,2026-07-02,15:00,Estadio Los Angeles,2K,2L
-84,R32,,,2026-07-02,19:00,Estadio Toronto,1H,2J
-85,R32,,,2026-07-03,23:00,Estadio BC Place Vancouver,1B,3-EFGIJ
-86,R32,,,2026-07-03,14:00,Estadio Dallas,1J,2H
-87,R32,,,2026-07-03,18:00,Estadio Miami,1K,3-DEIJL
-88,R32,,,2026-07-03,21:30,Estadio Kansas City,2D,2G
-89,R16,,,2026-07-04,13:00,Estadio Houston,W74,W77
-90,R16,,,2026-07-04,17:00,Estadio Filadelfia,W73,W75
+81,R32,,,2026-07-01,20:00,Estadio Bahía de San Francisco,1D,3-BEFIJ
+82,R32,,,2026-07-01,16:00,Estadio Seattle,1G,3-AEHIJ
+83,R32,,,2026-07-02,19:00,Estadio Toronto,2K,2L
+84,R32,,,2026-07-02,15:00,Estadio Los Angeles,1H,2J
+85,R32,,,2026-07-02,23:00,Estadio BC Place Vancouver,1B,3-EFGIJ
+86,R32,,,2026-07-03,18:00,Estadio Miami,1J,2H
+87,R32,,,2026-07-03,21:30,Estadio Kansas City,1K,3-DEIJL
+88,R32,,,2026-07-03,14:00,Estadio Dallas,2D,2G
+89,R16,,,2026-07-04,17:00,Estadio Filadelfia,W74,W77
+90,R16,,,2026-07-04,13:00,Estadio Houston,W73,W75
 91,R16,,,2026-07-05,16:00,Estadio Nueva York/Nueva Jersey,W76,W78
 92,R16,,,2026-07-05,20:00,Estadio Ciudad de México,W79,W80
 93,R16,,,2026-07-06,15:00,Estadio Dallas,W83,W84

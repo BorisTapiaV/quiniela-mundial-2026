@@ -13,7 +13,7 @@ import os, sys, csv, json, urllib.request, urllib.error
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(HERE, 'data')
 COMP = 'WC'
-API = f'https://api.football-data.org/v4/competitions/{COMP}/scorers?limit=30'
+API = f'https://api.football-data.org/v4/competitions/{COMP}/scorers?limit=100'
 
 
 def main():
