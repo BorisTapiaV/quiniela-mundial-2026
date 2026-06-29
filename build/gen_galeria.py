@@ -489,7 +489,9 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
                          f'<span class="rscore">{gl}<i>-</i>{gv}</span><span class="rt">{NM.get(vi, vi)}</span>{flag(vi, 40)}</div>{who}</div>')
             daysec += f'<div class="rday"><div class="rdate">{fmt_fecha(fecha)}</div>{rows}</div>'
         if daysec:
-            results_html = f'<h2 class="sec">📋 Resultados por día <span class="note">(lo más reciente arriba)</span></h2>{daysec}'
+            results_html = (f'<details class="grpdet resdet"><summary>📋 Resultados por día '
+                            f'<span class="note">(toca para abrir · lo más reciente arriba)</span></summary>'
+                            f'<div class="resbody">{daysec}</div></details>')
 
     head = demo.HEAD.replace('{TITLE}', 'Pronósticos y tabla').replace('</head>', og + '</head>')
     html = head + EXTRA_CSS + f"""
@@ -565,6 +567,8 @@ header{display:flex;flex-direction:column;align-items:center}
 .grpdet summary::-webkit-details-marker{display:none}
 .grpdet summary::before{content:"▸ ";color:var(--mut)}
 .grpdet[open] summary::before{content:"▾ "}
+.resdet{max-width:980px}
+.resbody{padding:4px 14px 14px}
 .garchgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;padding:4px 16px 16px}
 .garch{background:#0e1738;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
 .garch h4{margin:0 0 6px;font-size:12px;color:var(--gold);letter-spacing:.05em}
