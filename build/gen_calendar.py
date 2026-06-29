@@ -34,6 +34,13 @@ def main():
         for r in csv.DictReader(open(rpath, encoding='utf-8')):
             if r.get('gl') not in (None, '') and r.get('gv') not in (None, ''):
                 res[int(r['match_no'])] = (r['gl'], r['gv'])
+    # resultados KO (ganador + marcador + penales) para mostrarlos como los de grupo
+    ko_res = {}
+    kpath = os.path.join(HERE, 'data', 'resultados_ko.csv')
+    if os.path.exists(kpath):
+        for r in csv.DictReader(open(kpath, encoding='utf-8')):
+            if r.get('ganador'):
+                ko_res[int(r['match_no'])] = r
     # cruces del R32 resueltos con lo que ya se sabe (1X/2X de grupos cerrados;
     # los 16 quedan completos solos cuando entran los 72 de grupo). Slots aún
     # indefinidos (tercero o grupo en juego) → etiqueta del slot como placeholder.
@@ -43,9 +50,9 @@ def main():
         if s.startswith('3-'):
             return '3º'
         return f'{s[0]}º{s[1]}'
-    def ko_side(code, raw_slot):
+    def ko_side(code, raw_slot, win=False):
         if code:
-            return f'{flag(code)}<b>{code}</b>'
+            return f'<span class="ks{" kowin" if win else ""}">{flag(code)}<b>{code}</b></span>'
         return f'<b class="tbd">{slot_lbl(raw_slot)}</b>'
     MESN = {6: 'jun', 7: 'jul'}
     cuadro_rows = ''
@@ -86,11 +93,31 @@ def main():
                     evs += (f'<div class="ev{evcls}">{head}'
                             f'{flag(a)}<b>{a}</b><i>vs</i>{flag(b)}<b>{b}</b>{tvb}</div>')
                 elif m['fase'] == 'R32' and m['match_no'] in r32:
-                    a, b = r32[m['match_no']]
+                    a, b = r32[m['match_no']]; mn = m['match_no']
                     rnd = FASE_LBL.get(m['fase'], m['fase'])
-                    evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
-                            f'<span class="rnd">{rnd}</span>'
-                            f'{ko_side(a, m["local"])}<i>vs</i>{ko_side(b, m["visita"])}</div>')
+                    kr = ko_res.get(mn)
+                    if kr:                                  # KO ya jugado → mostrar marcador + ganador, como los de grupo
+                        w = kr['ganador']
+                        try:
+                            gg, gp = int(kr.get('g_gan') or 0), int(kr.get('g_per') or 0)
+                            ga, gb = (gg, gp) if w == a else (gp, gg)
+                            sc = f'{ga}-{gb}'
+                        except (ValueError, TypeError):
+                            sc = '✓'
+                        ex = ''
+                        if kr.get('duracion') == 'PENALTY_SHOOTOUT' and (kr.get('pen_gan') or '') != '':
+                            pg, pp = kr['pen_gan'], kr['pen_per']
+                            pa, pb = (pg, pp) if w == a else (pp, pg)
+                            ex = f'<span class="pen">pen {pa}-{pb}</span>'
+                        elif kr.get('duracion') == 'EXTRA_TIME':
+                            ex = '<span class="pen">prór</span>'
+                        evs += (f'<div class="ev ko played"><span class="sc">{sc}</span>'
+                                f'<span class="rnd">{rnd}</span>'
+                                f'{ko_side(a, m["local"], w == a)}<i>vs</i>{ko_side(b, m["visita"], w == b)}{ex}</div>')
+                    else:
+                        evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
+                                f'<span class="rnd">{rnd}</span>'
+                                f'{ko_side(a, m["local"])}<i>vs</i>{ko_side(b, m["visita"])}</div>')
                 else:
                     evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
                             f'<b>{FASE_LBL.get(m["fase"], m["fase"])}</b></div>')
@@ -174,6 +201,10 @@ h2.sec{font-size:15px;letter-spacing:.1em;text-transform:uppercase;color:var(--g
 .ev.ko b.tbd{color:var(--mut);font-weight:700;opacity:.8}
 footer{text-align:center;color:var(--mut);font-size:12px;margin:30px 0 10px}
 .ev.played{background:#10301c;border-color:#1f6b3f}
+.ev.ko.played{background:#10301c;border-color:#1f6b3f}
+.ev .ks{display:inline-flex;align-items:center;gap:2px}
+.ev .ks.kowin b{color:#16d97b}
+.ev .pen{color:var(--mut);font-size:8.5px;font-weight:700;margin-left:3px;letter-spacing:.2px}
 .ev .sc{color:#16d97b;font-weight:800;background:#0c2418;border-radius:4px;padding:0 4px;margin-right:2px}
 @media(max-width:760px){.ev{font-size:10px}.cell{min-height:60px}}
 </style></head><body><div class="wrap">"""
