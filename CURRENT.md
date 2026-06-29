@@ -29,6 +29,7 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 - (9) **Cuadro KO = marcador en vivo:** banderas (ya estaban) + **marcador del partido** + **"pen X-Y"** si penales / **"prórroga"** si alargue. `fetch_resultados.py` captura `fullTime`+`duration`+`penalties`; esquema ampliado en `resultados_ko.csv` (g_gan,g_per,duracion,pen_gan,pen_per). Minutos: no hay en vivo para terminados.
 - (10) **Marcador verificado:** el salto (Carlos/Andrés/Jorge +4) fue legítimo = **entró el M73 (ganó Canadá)**, +4 a quienes la tenían en octavos. Boris/Paulo 0 (no la hacían avanzar). Auto-goleadores del cron funcionando.
 - (11) **Fix banderas del Cuadro del torneo** (Screenshot_588): el bracket usaba `flagcdn.com/w30/` → **w30 NO existe en flagcdn (404)** → banderas invisibles solo en el cuadro KO. Corregido a **w40**. (Lección: flagcdn solo acepta w20/w40/w80/w160/w320…, NO cualquier ancho.) Commit `208f637`.
+- (12) **Calendario — KO jugados ahora muestran marcador + ganador** (antes solo los de grupo se actualizaban; los KO quedaban como pendientes). `gen_calendar.py` lee `resultados_ko.csv` y muestra score orientado al cruce + ganador resaltado + badge `pen X-Y`/`prór`. Commit `ab43827`.
 - 📌 **Memorias nuevas:** `project_carlos_cfo_precision_signal.md` (Carlos CFO confundió V-MYCEL/VERA + aseveraciones inexistentes; la quiniela fue la sonda) · `quiniela_no_deploy_cada_cambio.md` (**NO deployar a cada rato — gasta cupo Netlify de Boris; batchear/preguntar; recap no gasta**).
 
 - **Sitio público:** https://2026-mundial.netlify.app
