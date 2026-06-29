@@ -35,7 +35,8 @@ DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Doming
 MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
 FASE_LBL = {'R32': '16avos', 'R16': 'Octavos', 'QF': 'Cuartos', 'SF': 'Semis', 'Final': 'Final'}
 ROUND_DEPTH = {'R32': 1, 'R16': 2, 'QF': 3, 'SF': 4, 'Final': 5}
-DEPTH_LBL = {1: 'pasa a octavos', 2: 'hasta cuartos', 3: 'hasta semis', 4: 'hasta la final', 5: 'campeón'}
+# etiqueta = hasta qué ronda el jugador lleva al equipo (profundidad que ALCANZA)
+DEPTH_LBL = {2: 'hasta octavos', 3: 'hasta cuartos', 4: 'hasta semis', 5: 'hasta la final'}
 
 
 def load_pred(slug):
@@ -198,17 +199,26 @@ def main():
                 else:
                     preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
                                  f'<div class="pick none">—</div><div class="tag">sin pronóstico</div></div>')
-            else:  # KO: equipo que avanza más lejos entre a y b
-                da, db = (depth_of(pb, a) if a else 0), (depth_of(pb, b) if b else 0)
-                if da == 0 and db == 0:
-                    preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
-                                 f'<div class="pick none">—</div><div class="tag">no los tiene</div></div>')
+            else:  # KO: el pick = el equipo que el jugador hace GANAR este cruce (lo lleva a la ronda siguiente)
+                da = depth_of(pb, a) if a else 0
+                db = depth_of(pb, b) if b else 0
+                if fase == 'Final':
+                    champ = pb.get('champion')
+                    cands = [(champ, 6)] if champ in (a, b) else []
                 else:
-                    pick = a if da >= db else b
-                    dep = max(da, db)
+                    need = ROUND_DEPTH.get(fase, 1) + 1   # para ganar este cruce debe llegar a la ronda siguiente
+                    cands = [(t, d) for t, d in ((a, da), (b, db)) if t and d >= need]
+                if not cands:
+                    # no hace pasar a ninguno de los dos: 'no los tiene' (no clasificaron) vs 'no la pasa' (cae aquí)
+                    tag = 'no los tiene' if (da == 0 and db == 0) else 'cae en este cruce'
+                    preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
+                                 f'<div class="pick none">—</div><div class="tag">{tag}</div></div>')
+                else:
+                    pick, dep = max(cands, key=lambda x: x[1])
+                    tag = 'su campeón' if pick == pb.get('champion') else DEPTH_LBL.get(dep, 'avanza')
                     preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
                                  f'<div class="pick">{flag_span(ISO[pick], 12)}{NM[pick]}</div>'
-                                 f'<div class="tag">{DEPTH_LBL.get(dep, "avanza")}</div></div>')
+                                 f'<div class="tag">{tag}</div></div>')
 
         blocks.append(f'''  <div class="match">
     <div class="mtop">
