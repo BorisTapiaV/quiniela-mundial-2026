@@ -142,9 +142,18 @@ def main():
             else:
                 grupo_res[mn] = (gv, gl)
         elif stage in KO_STAGES:
-            w = m.get('score', {}).get('winner')        # HOME_TEAM / AWAY_TEAM (incluye penales en fullTime+penalties)
+            score = m.get('score', {})
+            w = score.get('winner')                      # HOME_TEAM / AWAY_TEAM
             wc = ca if w == 'HOME_TEAM' else (cb if w == 'AWAY_TEAM' else None)
-            ko_finished.append((m.get('utcDate', ''), {ca, cb}, wc))
+            ft = score.get('fullTime', {}) or {}
+            pen = score.get('penalties', {}) or {}
+            hw = (w == 'HOME_TEAM')                       # orientar score a ganador/perdedor (no a local/visita)
+            det = {'g_gan': ft.get('home') if hw else ft.get('away'),
+                   'g_per': ft.get('away') if hw else ft.get('home'),
+                   'dur': score.get('duration', 'REGULAR'),
+                   'pen_gan': pen.get('home') if hw else pen.get('away'),
+                   'pen_per': pen.get('away') if hw else pen.get('home')}
+            ko_finished.append((m.get('utcDate', ''), {ca, cb}, wc, det))
 
     # ---- escribir grupos ----
     fields, rows = read_resultados_rows()
@@ -161,6 +170,7 @@ def main():
 
     # ---- resolver KO contra el bracket real (iterativo: cada llave resuelta destraba la siguiente) ----
     ko_out = {}
+    ko_det = {}
     if len(rg_now) >= 72 and ko_finished:
         rk = {}
         progressed = True
@@ -168,10 +178,11 @@ def main():
             progressed = False
             view = engine.full_bracket(rg_now, rk, eq, fixture, terceros)
             slot = {frozenset(t): mn for mn, t in view['teams'].items() if all(t)}
-            for utc, pair, wc in ko_finished:
+            for utc, pair, wc, det in ko_finished:
                 mn = slot.get(frozenset(pair))
                 if mn and mn not in rk and wc:
                     rk[mn] = wc
+                    ko_det[mn] = det
                     progressed = True
         ko_out = rk
 
@@ -200,15 +211,23 @@ def main():
     # KO: reescribir SOLO si el set de ganadores difiere del archivo existente.
     ko_path = os.path.join(DATA, 'resultados_ko.csv')
     existing_ko = {}
+    existing_has_score = False
     if os.path.exists(ko_path):
-        for r in csv.DictReader(open(ko_path, encoding='utf-8')):
+        rd = csv.DictReader(open(ko_path, encoding='utf-8'))
+        existing_has_score = 'g_gan' in (rd.fieldnames or [])
+        for r in rd:
             if r.get('ganador'):
                 existing_ko[int(r['match_no'])] = r['ganador'].strip().upper()
-    if ko_out and ko_out != existing_ko:
+    if ko_out and (ko_out != existing_ko or not existing_has_score):
+        def _v(x):
+            return '' if x is None else x
         with open(ko_path, 'w', encoding='utf-8', newline='') as f:
-            w = csv.writer(f); w.writerow(['match_no', 'ganador'])
+            w = csv.writer(f)
+            w.writerow(['match_no', 'ganador', 'g_gan', 'g_per', 'duracion', 'pen_gan', 'pen_per'])
             for mn in sorted(ko_out):
-                w.writerow([mn, ko_out[mn]])
+                d = ko_det.get(mn, {})
+                w.writerow([mn, ko_out[mn], _v(d.get('g_gan')), _v(d.get('g_per')),
+                            d.get('dur', ''), _v(d.get('pen_gan')), _v(d.get('pen_per'))])
         wrote = True
 
     if wrote:

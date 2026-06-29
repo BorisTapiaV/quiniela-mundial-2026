@@ -88,6 +88,9 @@ def discover_slugs():
     return out
 
 
+KO_SCORE = {}   # match_no -> {g_gan, g_per, dur, pen_gan, pen_per} (poblado por load_results, usado por el bracket)
+
+
 def load_results():
     """Lee resultados reales (parciales). Devuelve (real_group, real_ko, real_esp)."""
     rg, rk, re_ = {}, {}, {}
@@ -98,11 +101,17 @@ def load_results():
                 if r.get('gl') not in (None, '') and r.get('gv') not in (None, ''):
                     rg[int(r['match_no'])] = (int(r['gl']), int(r['gv']))
     p = os.path.join(HERE, 'data', 'resultados_ko.csv')
+    KO_SCORE.clear()
     if os.path.exists(p):
         with open(p, encoding='utf-8') as f:
             for r in csv.DictReader(f):
                 if r.get('ganador'):
-                    rk[int(r['match_no'])] = r['ganador']
+                    mn = int(r['match_no'])
+                    rk[mn] = r['ganador']
+                    if r.get('g_gan') not in (None, ''):
+                        KO_SCORE[mn] = {'g_gan': r['g_gan'], 'g_per': r['g_per'],
+                                        'dur': r.get('duracion', 'REGULAR'),
+                                        'pen_gan': r.get('pen_gan', ''), 'pen_per': r.get('pen_per', '')}
     p = os.path.join(HERE, 'data', 'resultados_especiales.csv')
     if os.path.exists(p):
         with open(p, encoding='utf-8') as f:
@@ -239,6 +248,24 @@ def build_real_bracket(rg, rk, eq, fixture, terceros, NM, ISO):
             cls = 'bteam'
         return f'<div class="{cls}">{flag(code)}<span>{NM.get(code, code)}</span></div>'
 
+    def score_line(mn, a, b, w):
+        d = KO_SCORE.get(mn)
+        if not d or not w or not (a and b):
+            return ''
+        try:
+            gg, gp = int(d['g_gan']), int(d['g_per'])
+        except (ValueError, TypeError, KeyError):
+            return ''
+        ga, gb = (gg, gp) if w == a else (gp, gg)            # orientar al chip de arriba/abajo
+        extra, dur = '', d.get('dur', 'REGULAR')
+        if dur == 'PENALTY_SHOOTOUT' and str(d.get('pen_gan', '')) != '':
+            pg, pp = d['pen_gan'], d['pen_per']
+            pa, pb = (pg, pp) if w == a else (pp, pg)
+            extra = f'<span class="bpen">pen {pa}-{pb}</span>'
+        elif dur == 'EXTRA_TIME':
+            extra = '<span class="bpen">prórroga</span>'
+        return f'<div class="bscore">{ga}<i>-</i>{gb}{extra}</div>'
+
     ROUNDS = [('16avos', range(73, 89)), ('Octavos', range(89, 97)),
               ('Cuartos', range(97, 101)), ('Semis', (101, 102)), ('Final', (104,))]
     cols = ''
@@ -247,7 +274,7 @@ def build_real_bracket(rg, rk, eq, fixture, terceros, NM, ISO):
         for mn in rng:
             m = fxno[mn]; a, b = teams.get(mn, (None, None)); w = win.get(mn)
             cards += (f'<div class="bmatch">{chip(a, m["local"], w == a and a is not None)}'
-                      f'{chip(b, m["visita"], w == b and b is not None)}</div>')
+                      f'{chip(b, m["visita"], w == b and b is not None)}{score_line(mn, a, b, w)}</div>')
         cols += f'<div class="bround"><h4>{title}</h4>{cards}</div>'
     champ_html = (f'<div class="bchamp">🏆 Campeón: {flag(champion, 40)}<b>{NM.get(champion, champion)}</b></div>'
                   if champion else '')
@@ -558,6 +585,9 @@ header{display:flex;flex-direction:column;align-items:center}
 .bteam.win{background:linear-gradient(90deg,rgba(28,125,78,.5),transparent);font-weight:700}
 .bteam.champ{background:linear-gradient(90deg,rgba(255,180,60,.32),transparent);color:#ffe7ad;font-weight:700}
 .bteam.out{opacity:.42;text-decoration:line-through}
+.bscore{text-align:center;font-size:11px;font-weight:700;color:var(--gold);padding:3px 6px;background:rgba(0,0,0,.22);letter-spacing:.5px}
+.bscore i{color:var(--mut);font-style:normal;margin:0 1px}
+.bpen{display:inline-block;margin-left:6px;font-size:9.5px;font-weight:600;color:var(--mut);letter-spacing:.3px}
 .bteam.tbd{color:var(--mut);font-style:italic;justify-content:center;font-size:11px}
 .bchamp{text-align:center;font-size:15px;margin:4px 0 14px;color:#ffe7ad}
 .bchamp img{width:30px;border-radius:3px;vertical-align:-7px;margin:0 4px}

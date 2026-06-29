@@ -1,2 +1,2 @@
-match_no,ganador
-73,CAN
+match_no,ganador,g_gan,g_per,duracion,pen_gan,pen_per
+73,CAN,1,0,REGULAR,,
