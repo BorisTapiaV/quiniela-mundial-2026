@@ -1,10 +1,11 @@
 figura,goles,equipo
+Kylian Mbappé,6,France
 Lionel Messi,6,Argentina
+Erling Haaland,5,Norway
 Vinicius Junior,4,Brazil
-Kylian Mbappé,4,France
-Erling Haaland,4,Norway
 Ousmane Dembélé,4,France
 Ismael Saibari,3,Morocco
+Kai Havertz,3,Germany
 Deniz Undav,3,Germany
 Elijah Just,3,New Zealand
 Yoane Wissa,3,Congo DR
@@ -13,22 +14,23 @@ Johan Manzambi,3,Switzerland
 Jonathan David,3,Canada
 Matheus Cunha,3,Brazil
 Brian Brobbey,3,Netherlands
+Cody Gakpo,3,Netherlands
 Ismaïla Sarr,3,Senegal
 Julián Quiñones,2,Mexico
 Cyle Larin,2,Canada
 Folarin Balogun,2,United States
-Kai Havertz,2,Germany
 Crysencio Summerville,2,Netherlands
 Daichi Kamada,2,Japan
+Amad Diallo,2,Ivory Coast
 Yasin Ayari,2,Sweden
 Maximiliano Araújo,2,Uruguay
 Ramin Rezaeian,2,Iran
+Bradley Barcola,2,France
 Marko Arnautovic,2,Austria
 Jude Bellingham,2,England
 Daniel Muñoz,2,Colombia
 Ruben Vargas,2,Switzerland
 Ermin Mahmic,2,Bosnia-Herzegovina
-Cody Gakpo,2,Netherlands
 Anthony Elanga,2,Sweden
 Ayase Ueda,2,Japan
 Mikel Oyarzabal,2,Spain
@@ -56,7 +58,6 @@ Jamal Musiala,1,Germany
 Nathaniel Brown,1,Germany
 Virgil van Dijk,1,Netherlands
 Keito Nakamura,1,Japan
-Amad Diallo,1,Ivory Coast
 Alexander Isak,1,Sweden
 Omar Rekik,1,Tunisia
 Viktor Gyökeres,1,Sweden
@@ -64,7 +65,6 @@ Mattias Svanberg,1,Sweden
 Emam Ashour,1,Egypt
 Abdulelah Al Amri,1,Saudi Arabia
 Mohammad Mohebi,1,Iran
-Bradley Barcola,1,France
 Ibrahim M'Baye,1,Senegal
 Aymen Hussein,1,Iraq
 Leo Østigård,1,Norway
