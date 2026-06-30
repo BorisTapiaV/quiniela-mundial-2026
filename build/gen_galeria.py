@@ -140,6 +140,9 @@ def survivors_set(real_group, real_ko, real_view, eq, fixture, terceros):
 
 def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros, survivors, validated):
     apodos = load_apodos()
+    # ganadores reales de las llaves KO ya jugadas (73-104) → precisión de eliminatorias
+    real_ko_win = {mn: real_view['win'][mn] for mn in range(73, 105) if real_view['win'].get(mn)}
+    nko = len(real_ko_win)
     players = []
     for slug in slugs:
         gs, ko, esp = load_pred(slug)
@@ -148,9 +151,11 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
         h1x2 = sum(1 for mn, (rl, rv) in real_group.items()
                    if mn in gs and engine._outcome(*gs[mn]) == engine._outcome(rl, rv))
         hx = sum(1 for mn, (rl, rv) in real_group.items() if gs.get(mn) == (rl, rv))
+        # acertó ganador de KO: su bracket hace ganar la llave al equipo que realmente ganó
+        hko = sum(1 for mn, w in real_ko_win.items() if sc['bracket']['win'].get(mn) == w)
         players.append({'slug': slug, 'name': esp.get('jugador') or display_name(slug), 'url': f'p/{slug_url(slug)}.html',
                         'apodo': apodos.get(slug, ''),
-                        'sc': sc, 'champ': champ, 'h1x2': h1x2, 'hx': hx,
+                        'sc': sc, 'champ': champ, 'h1x2': h1x2, 'hx': hx, 'hko': hko, 'nko': nko,
                         'gs': gs, 'ko': ko, 'esp': esp,
                         'alive': champ in survivors, 'validated': (validated is None or slug in validated)})
     players.sort(key=lambda p: (-p['sc']['total'], -p['hx'], p['slug']))
@@ -430,6 +435,8 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
         pf = max(players, key=lambda p: p['sc']['avance'])
         r1 = max(players, key=lambda p: p['h1x2'])
         rx = max(players, key=lambda p: p['hx'])
+        rey_ko = max(players, key=lambda p: p['hko'])
+        nko_subs = players[0]['nko'] if players else 0
         # supervivencia
         cg = ''
         for p in sorted(players, key=lambda p: p['name']):
@@ -452,13 +459,17 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
                 f'<table class="lead cons"><tr><th>#</th><th>Jugador</th><th>Total</th></tr>{crows}</table>')
         evo = demo.evolution_svg(ranks, miles, [p['name'] for p in players]) if ranks else ''
         evo_sec = f'<h2 class="sec">📈 Evolución del ranking</h2><div class="evo">{evo}</div>' if evo else ''
-        # Precisión por jugador: acertó ganador (1X2+) + marcadores exactos, sobre los partidos jugados
+        # Precisión por jugador: grupos (1X2 + exactos) y eliminatorias (acertó ganador de la llave), acumulado sobre lo jugado
+        nko = players[0]['nko'] if players else 0
         prec_rows = ''
         for p in sorted(players, key=lambda q: (-q['h1x2'], -q['hx'], q['name'])):
+            ko_cells = (f'<td>{nko}</td><td class="tot">{p["hko"]}</td>') if nko else '<td class="note" colspan="2">aún no</td>'
             prec_rows += (f'<tr><td class="nm">{p["name"]}{apo(p)}</td><td>{n_played}</td>'
-                          f'<td class="tot">{p["h1x2"]}</td><td>{p["hx"]}</td></tr>')
-        prec_html = (f'<h2 class="sec">🎯 Precisión en fase de grupos <span class="note">(sobre {n_played} partido(s) jugado(s))</span></h2>'
-                     f'<table class="lead prec"><tr><th>Jugador</th><th>Jugados</th><th>Acertó ganador</th><th>🎯 Exactos</th></tr>{prec_rows}</table>')
+                          f'<td class="tot">{p["h1x2"]}</td><td>{p["hx"]}</td>{ko_cells}</tr>')
+        nota_elim = f' · eliminatorias sobre {nko} llave(s)' if nko else ''
+        prec_html = (f'<h2 class="sec">🎯 Precisión <span class="note">(grupos sobre {n_played} partido(s){nota_elim})</span></h2>'
+                     f'<table class="lead prec"><tr><th>Jugador</th><th title="grupos jugados">Jug.</th><th>Ganador</th><th>🎯 Exactos</th>'
+                     f'<th title="eliminatorias jugadas">⚔️ Jug.</th><th>Ganador</th></tr>{prec_rows}</table>')
         rich = f"""
 <h2 class="sec">📊 La carrera <span class="note">(verde = grupos · dorado = eliminatorias)</span></h2>
 <div class="race">{race}</div>
@@ -470,6 +481,7 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 <div class="subc"><div class="t">🔮 El Profeta (bracket)</div><div class="w">{pf['name']}</div><div class="x">{pf['sc']['avance']} pts de avance</div></div>
 <div class="subc"><div class="t">🎯 Rey del 1X2</div><div class="w">{r1['name']}</div><div class="x">{r1['h1x2']} resultados</div></div>
 <div class="subc"><div class="t">🎯 Rey del marcador exacto</div><div class="w">{rx['name']}</div><div class="x">{rx['hx']} clavados</div></div>
+<div class="subc"><div class="t">⚔️ Rey de las eliminatorias</div><div class="w">{rey_ko['name'] if nko_subs else '—'}</div><div class="x">{f"{rey_ko['hko']} de {nko_subs} llaves" if nko_subs else 'aún no arrancan'}</div></div>
 </div>
 {bracket_html}
 <h2 class="sec">💀 Supervivencia de campeones</h2>
