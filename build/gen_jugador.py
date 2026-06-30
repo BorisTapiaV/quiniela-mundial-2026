@@ -14,7 +14,7 @@ Uso:
   python build/gen_jugador.py            # todos los jugadores (excluye La Casa)
   python build/gen_jugador.py MF         # solo ese slug
 """
-import csv, os, sys
+import csv, datetime, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 try:
     sys.stdout.reconfigure(encoding='utf-8')
@@ -88,6 +88,18 @@ border-radius:var(--rad);padding:14px 16px;display:flex;flex-direction:column;ga
 display:flex;align-items:center;gap:6px}
 .scard .v{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
 .scard .v .flag{width:26px}
+
+/* ---- picks muertos (💀): campeón eliminado / goleador inalcanzable ---- */
+.hero.dead{filter:grayscale(.9);opacity:.62;border-color:rgba(180,60,60,.4)}
+.hero.dead .flag.big{filter:grayscale(1)}
+.hero.dead .hero-name{text-decoration:line-through;text-decoration-color:#ff7b72;text-decoration-thickness:3px}
+.hero.dead .hero-label{background:linear-gradient(180deg,#c0392b,#7d2620);color:#fff;box-shadow:none}
+.hero .skull{position:absolute;top:14px;right:16px;font-size:26px;z-index:3}
+.hero .exwm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:230px;font-weight:900;color:#ff44440f;pointer-events:none;z-index:1}
+.scard{position:relative}
+.scard.dead{filter:grayscale(.85);opacity:.6;border-color:rgba(180,60,60,.35)}
+.scard.dead .v{text-decoration:line-through;text-decoration-color:#ff7b72;text-decoration-thickness:2px}
+.scard .skull{position:absolute;top:9px;right:10px;font-size:16px}
 
 h2.sec{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:600;
 display:flex;align-items:center;gap:12px;margin:38px 0 18px}
@@ -247,6 +259,14 @@ def render(slug, eq, fixture, terceros):
 
     champ = esp.get('campeon')
 
+    # picks muertos (💀): campeón eliminado / goleador inalcanzable (se activa desde 1-jul)
+    _rg, _rk = _load_results()
+    _muertos_on = datetime.date.today() >= engine.PICKS_MUERTOS_DESDE
+    _alive = engine.teams_alive(_rg, _rk, eq, fixture, terceros)
+    champ_dead = bool(_muertos_on and champ and champ not in _alive)
+    gol_dead = bool(_muertos_on and engine.goleador_dead(esp.get('goleador'),
+                    engine.load_scorers(), set(eq) - _alive, eq))
+
     def chip(code, win=False):
         if win and code and code == champ:
             cls = 'team champ'
@@ -271,9 +291,12 @@ def render(slug, eq, fixture, terceros):
         bracket_cols += f'<div class="round"><h3>{title}</h3>{cards}</div>'
 
     # ---- Hero del campeón ----
-    hero_html = (f'<div class="hero">{flag(champ, big=True)}'
+    _hcls = 'hero dead' if champ_dead else 'hero'
+    _hlabel = '💀 Campeón eliminado' if champ_dead else '★ Campeón pronosticado'
+    _hextra = '<span class="skull">💀</span><span class="exwm">✗</span>' if champ_dead else ''
+    hero_html = (f'<div class="{_hcls}">{_hextra}{flag(champ, big=True)}'
                  f'<div class="hero-name">{NM.get(champ, champ)}</div>'
-                 f'<div class="hero-label">★ Campeón pronosticado</div></div>') if champ else ''
+                 f'<div class="hero-label">{_hlabel}</div></div>') if champ else ''
 
     # ---- Tarjetas de resumen (subcampeón derivado del bracket + 3º + especiales) ----
     fa, fb = pb['teams'].get(104, (None, None))
@@ -281,16 +304,19 @@ def render(slug, eq, fixture, terceros):
     tercero = pb['win'].get(103)
     cards = []
     if subcampeon:
-        cards.append(('🥈', 'Subcampeón', f'{flag(subcampeon)}<span>{NM.get(subcampeon, subcampeon)}</span>'))
+        cards.append(('🥈', 'Subcampeón', f'{flag(subcampeon)}<span>{NM.get(subcampeon, subcampeon)}</span>', False))
     if tercero:
-        cards.append(('🥉', '3er puesto', f'{flag(tercero)}<span>{NM.get(tercero, tercero)}</span>'))
+        cards.append(('🥉', '3er puesto', f'{flag(tercero)}<span>{NM.get(tercero, tercero)}</span>', False))
     if esp.get('goleador'):
-        cards.append(('⚽', 'Goleador', f'<span>{esp["goleador"]}</span>'))
+        cards.append(('⚽', 'Goleador', f'<span>{esp["goleador"]}</span>', gol_dead))
     summary_html = ''
     if cards:
-        summary_html = '<div class="summary">' + ''.join(
-            f'<div class="scard"><div class="k">{ico} {lbl}</div><div class="v">{val}</div></div>'
-            for ico, lbl, val in cards) + '</div>'
+        def _scard(ico, lbl, val, dead):
+            dc = ' dead' if dead else ''
+            sk = '<span class="skull">💀</span>' if dead else ''
+            return (f'<div class="scard{dc}">{sk}<div class="k">{ico} {lbl}</div>'
+                    f'<div class="v">{val}</div></div>')
+        summary_html = '<div class="summary">' + ''.join(_scard(*c) for c in cards) + '</div>'
 
     # ---- ganchos personales (research #1: identidad + obsesión) ----
     apodo = _load_apodos().get(slug, '')

@@ -11,7 +11,7 @@ Desempates de grupo implementados (Art 13):
   Aproximación pragmática para un pool familiar (la recursión exacta FIFA de subconjuntos
   parciales no se implementa; se marca `tie_flag` si dos quedan idénticos antes del seed).
 """
-import csv, os
+import csv, os, datetime, unicodedata
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # quiniela/
 DATA = os.path.join(HERE, 'data')
@@ -28,7 +28,8 @@ def load_equipos():
     with open(os.path.join(DATA, 'equipos.csv'), encoding='utf-8') as f:
         for r in csv.DictReader(f):
             eq[r['code']] = {'grupo': r['grupo'], 'pos': int(r['pos']),
-                             'nombre_es': r['nombre_es'], 'iso': r['iso_bandera']}
+                             'nombre_es': r['nombre_es'], 'nombre_en': r['nombre_en'],
+                             'iso': r['iso_bandera']}
     return eq
 
 def load_fixture():
@@ -362,6 +363,66 @@ def score_player(pred_group, pred_ko, real_bracket, real_group,
             esp += W_ESP[k]
     return {'grupo': grupo, 'avance': avance, 'avance_detalle': det,
             'especiales': esp, 'total': grupo + avance + esp, 'bracket': pb}
+
+# ---------- picks muertos (💀) — selección eliminada / goleador inalcanzable ----------
+# El marcado visual de picks muertos se activa SOLO desde esta fecha (Boris: "a partir de mañana", 30-jun).
+PICKS_MUERTOS_DESDE = datetime.date(2026, 7, 1)
+
+
+def _norm(s):
+    s = unicodedata.normalize('NFKD', s or '').encode('ascii', 'ignore').decode().lower().strip()
+    return ' '.join(s.split())
+
+
+def teams_alive(rg, rk, eq, fixture, terceros):
+    """Códigos de selección AÚN no eliminadas: clasificaron al R32 y no han perdido
+    una llave KO ya jugada. Antes de cerrar grupos (rg<72) nadie está eliminado."""
+    allteams = set(eq)
+    if len(rg) < 72:
+        return allteams
+    r32 = build_r32(compute_all_standings(group_results_by_group(rg, fixture), eq), fixture, terceros)
+    qualified = set()
+    for a, b in r32.values():
+        qualified.add(a); qualified.add(b)
+    rv = full_bracket(rg, rk, eq, fixture, terceros)
+    losers = set()
+    for mn, w in rk.items():
+        a, b = rv['teams'].get(mn, (None, None))
+        if a and b:
+            losers.add(b if w == a else a)
+    return qualified - losers
+
+
+def load_scorers():
+    """{norm(figura): (goles:int, equipo_en:str)} desde el feed en vivo data/goleadores.csv."""
+    out = {}
+    p = os.path.join(DATA, 'goleadores.csv')
+    if os.path.exists(p):
+        with open(p, encoding='utf-8') as f:
+            for r in csv.DictReader(f):
+                try:
+                    out[_norm(r['figura'])] = (int(r['goles']), (r.get('equipo') or '').strip())
+                except Exception:
+                    pass
+    return out
+
+
+def goleador_dead(pick, scorers, eliminated, eq):
+    """True si el goleador elegido ya NO puede ganar la bota de oro: su selección
+    está eliminada (goles congelados) Y alguien ya tiene MÁS goles. Falla a False
+    ante datos faltantes o equipo aún vivo (no marca de más)."""
+    if not pick:
+        return False
+    info = scorers.get(_norm(pick))
+    if not info:
+        return False
+    goals, team_en = info
+    code = {eq[c]['nombre_en']: c for c in eq}.get(team_en)
+    if code is None or code not in eliminated:
+        return False
+    max_g = max((g for g, _ in scorers.values()), default=0)
+    return goals < max_g
+
 
 def _simulate_ko(r32, fixture, rng):
     """Genera un resultado KO real consistente eligiendo ganador al azar ronda a ronda."""

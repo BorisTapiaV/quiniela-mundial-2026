@@ -235,17 +235,25 @@ def main():
     figdata = [(slug, load_goleador(slug)) for slug in PLAYERS]
     figdata = [(slug, fig, (goles.get(norm(fig), 0) if fig else None)) for slug, fig in figdata]
     max_g = max([g for _, _, g in figdata if g is not None] or [-1])
+    # picks muertos (💀): goleador cuya selección quedó eliminada y ya es inalcanzable (desde 1-jul)
+    muertos_on = dt >= E.PICKS_MUERTOS_DESDE
+    _elim = set(eq) - E.teams_alive(rg, rk, eq, fixture, terceros)
+    _scorers = E.load_scorers()
     golcards = []
     for slug, fig, g in figdata:
         cls = 'golcard casa' if slug == 'CASA' else 'golcard'
         if g is not None and g == max_g and max_g > 0:
             cls += ' lead'
+        dead = muertos_on and E.goleador_dead(fig, _scorers, _elim, eq)
+        if dead:
+            cls += ' dead'
         b64 = fotos.get(norm(fig)) if fig else None
         face = (f'<div class="golface" style="background-image:url(data:image/jpeg;base64,{b64})"></div>'
                 if b64 else '<div class="golface noface">⚽</div>')
         goals_html = (f'<div class="golgoals">{g}<span> gol{"es" if g != 1 else ""}</span></div>'
                       if g is not None else '<div class="golgoals nogol">—</div>')
-        golcards.append(f'<div class="{cls}">{face}<div class="golname">{PNAME[slug]}</div>'
+        extra = '<span class="skull">💀</span><span class="exwm">✗</span>' if dead else ''
+        golcards.append(f'<div class="{cls}">{extra}{face}<div class="golname">{PNAME[slug]}</div>'
                         f'<div class="golfig">{fig or "sin figura"}</div>{goals_html}</div>')
     golsec = (f'''  <div class="golsec">
     <div class="goltitle">⚽ Goleadores · la figura de cada uno <span>(goles en el torneo, en vivo)</span></div>
@@ -336,6 +344,12 @@ def main():
   .golgoals span{{font-size:10px;color:var(--mut);font-weight:600}}
   .golcard.lead .golgoals{{color:var(--gold)}}
   .golgoals.nogol{{color:var(--mut)}}
+  .golcard.dead{{position:relative;overflow:hidden;filter:grayscale(.85);opacity:.6;border-color:#5c2626}}
+  .golcard.dead .golface{{filter:grayscale(1)}}
+  .golcard.dead .golfig{{text-decoration:line-through;text-decoration-color:#ff7b72;text-decoration-thickness:2px}}
+  .golcard.dead .golgoals{{color:#7d7d7d}}
+  .golcard .skull{{position:absolute;top:7px;right:8px;font-size:17px;z-index:2}}
+  .golcard .exwm{{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:110px;font-weight:900;color:#ff444414;pointer-events:none}}
   .foot{{display:flex;align-items:center;gap:10px;color:var(--mut);font-size:12px;margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}}
   .foot .dot{{color:var(--accent)}}
   .foot .right{{margin-left:auto}}
