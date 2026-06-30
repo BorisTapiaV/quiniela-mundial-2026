@@ -211,23 +211,41 @@ def main():
     # KO: reescribir SOLO si el set de ganadores difiere del archivo existente.
     ko_path = os.path.join(DATA, 'resultados_ko.csv')
     existing_ko = {}
+    existing_rows = {}          # match_no -> fila completa (preservar lo cargado a mano)
     existing_has_score = False
     if os.path.exists(ko_path):
         rd = csv.DictReader(open(ko_path, encoding='utf-8'))
         existing_has_score = 'g_gan' in (rd.fieldnames or [])
         for r in rd:
             if r.get('ganador'):
-                existing_ko[int(r['match_no'])] = r['ganador'].strip().upper()
-    if ko_out and (ko_out != existing_ko or not existing_has_score):
-        def _v(x):
-            return '' if x is None else x
+                mn = int(r['match_no'])
+                existing_ko[mn] = r['ganador'].strip().upper()
+                existing_rows[mn] = r
+
+    def _v(x):
+        return '' if x is None else x
+
+    # Fusión: la API manda donde resuelve, pero NUNCA se borra un resultado ya
+    # conocido que la API aún no publica (lag del tier gratis / penales sin winner).
+    # Esto deja durable cualquier carga manual aunque el cron siga corriendo.
+    merged = {}                 # match_no -> [match_no, ganador, g_gan, g_per, dur, pen_gan, pen_per]
+    for mn, wc in ko_out.items():
+        d = ko_det.get(mn, {})
+        merged[mn] = [mn, wc, _v(d.get('g_gan')), _v(d.get('g_per')),
+                      d.get('dur', ''), _v(d.get('pen_gan')), _v(d.get('pen_per'))]
+    for mn, r in existing_rows.items():
+        if mn not in merged:    # la API no lo resuelve todavía → preservar lo que hay
+            merged[mn] = [mn, r.get('ganador', '').strip().upper(), r.get('g_gan', ''),
+                          r.get('g_per', ''), r.get('duracion', ''),
+                          r.get('pen_gan', ''), r.get('pen_per', '')]
+
+    new_ko = {mn: merged[mn][1] for mn in merged}
+    if merged and (new_ko != existing_ko or not existing_has_score):
         with open(ko_path, 'w', encoding='utf-8', newline='') as f:
             w = csv.writer(f)
             w.writerow(['match_no', 'ganador', 'g_gan', 'g_per', 'duracion', 'pen_gan', 'pen_per'])
-            for mn in sorted(ko_out):
-                d = ko_det.get(mn, {})
-                w.writerow([mn, ko_out[mn], _v(d.get('g_gan')), _v(d.get('g_per')),
-                            d.get('dur', ''), _v(d.get('pen_gan')), _v(d.get('pen_per'))])
+            for mn in sorted(merged):
+                w.writerow(merged[mn])
         wrote = True
 
     if wrote:
