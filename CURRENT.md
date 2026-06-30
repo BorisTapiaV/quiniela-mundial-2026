@@ -60,11 +60,11 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **205** | 13 | 🟢 |
+| 🥇 | **Boris Tapia V (La Casa)** | España | **209** | 13 | 🟢 |
 | 🥈 | **Carlos Salgado** | Portugal | **184** | 9 | 🟢 |
 | 🥉 | Andrés Acosta (Colombia) | Francia | 178 | 9 | 🟢 |
 | 4 | Paulo Salas | España | 177 | 10 | 🟢 |
-| 5 | Jorge Vásquez | Francia | 165 | 8 | 🟢 |
+| 5 | Jorge Vásquez | Francia | 169 | 8 | 🟢 |
 <!-- AUTO:TABLA fin -->
 
 **La carrera tras cerrar grupos + activar KO:** **Boris 197 – Carlos 172** (Boris **+25**), con Boris líder por pts y exactos (**13**) — desempate del leaderboard pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **El foco se movió al 🥈: Paulo (169, 10 exactos) quedó a +3 de Carlos** y le pelea el segundo lugar (30% del pozo). Andrés 4º (160, 9 exactos) y Jorge 5º (153, 8) siguen vivos pero más lejos del podio. El salto de puntaje (≈+65 a todos) viene del **avance por fase del KO** que se acaba de puntuar. Haití = primer eliminado (especial, ya puntuable).
