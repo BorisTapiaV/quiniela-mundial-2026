@@ -209,12 +209,9 @@ def main():
                     need = ROUND_DEPTH.get(fase, 1) + 1   # para ganar este cruce debe llegar a la ronda siguiente
                     cands = [(t, d) for t, d in ((a, da), (b, db)) if t and d >= need]
                 if not cands:
-                    # su llave no hace ganar este cruce a ninguno de los dos equipos reales.
-                    # mostramos a quién tenía él en ese casillero (calza con el caso "tenía a Croacia").
-                    suyo = pb['win'].get(mn)
-                    tag = f'tenía a {NM[suyo]}' if (suyo and suyo not in (a, b)) else 'sin pronóstico'
+                    # no tiene a ninguno de los dos que juegan este cruce → simple "—" (sin jerga de llaves)
                     preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
-                                 f'<div class="pick none">—</div><div class="tag">{tag}</div></div>')
+                                 f'<div class="pick none">—</div><div class="tag"></div></div>')
                 else:
                     pick, dep = max(cands, key=lambda x: x[1])
                     tag = 'Ganador'
