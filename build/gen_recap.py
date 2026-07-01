@@ -205,19 +205,30 @@ def main():
                 if fase == 'Final':
                     champ = pb.get('champion')
                     cands = [(champ, 6)] if champ in (a, b) else []
+                    round_depth = ROUND_DEPTH['Final']
                 else:
-                    need = ROUND_DEPTH.get(fase, 1) + 1   # para ganar este cruce debe llegar a la ronda siguiente
+                    round_depth = ROUND_DEPTH.get(fase, 1)
+                    need = round_depth + 1   # para ganar este cruce debe llegar a la ronda siguiente
                     cands = [(t, d) for t, d in ((a, da), (b, db)) if t and d >= need]
-                if not cands:
-                    # no tiene a ninguno de los dos que juegan este cruce → simple "—" (sin jerga de llaves)
-                    preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
-                                 f'<div class="pick none">—</div><div class="tag"></div></div>')
-                else:
+                if cands:
                     pick, dep = max(cands, key=lambda x: x[1])
-                    tag = 'Ganador'
                     preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
-                                 f'<div class="pick">{flag_span(ISO[pick], 12)}{NM[pick]}</div>'
-                                 f'<div class="tag">{tag}</div></div>')
+                                 f'<div class="pick win">{flag_span(ISO[pick], 12)}{NM[pick]}</div>'
+                                 f'<div class="tag">Avanza</div></div>')
+                else:
+                    # equipo real que el jugador tenía EN SU MISMO casillero (mn) y predijo perdiendo → "pierde"
+                    wslot = pb.get('champion') if fase == 'Final' else pk.get(mn)
+                    pslot = pb['teams'].get(mn, (None, None))
+                    loses = [t for t in pslot if t in (a, b) and t != wslot]
+                    if loses:
+                        picks_html = ' '.join(f'{flag_span(ISO[t], 12)}{NM[t]}' for t in loses)
+                        preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
+                                     f'<div class="pick lose">{picks_html}</div>'
+                                     f'<div class="tag">pierde</div></div>')
+                    else:
+                        # no tiene a ninguno de los dos que juegan este cruce → "—" (sin jerga de llaves)
+                        preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
+                                     f'<div class="pick none">—</div><div class="tag"></div></div>')
 
         blocks.append(f'''  <div class="match">
     <div class="mtop">
@@ -273,6 +284,13 @@ def main():
     pronósticos. El pick de cada jugador es el equipo que su propia llave hace pasar en ese cruce.
   </div>
 ''' if es_ko else '')
+    leyenda = ('''  <div class="leyenda">
+    <div class="legtitle">Cómo leer cada predicción</div>
+    <div class="legrow"><span class="lgs win">Equipo</span><span class="legtag">Avanza</span><span class="legdesc">lo lleva a la siguiente ronda</span></div>
+    <div class="legrow"><span class="lgs lose">Equipo</span><span class="legtag">Cae</span><span class="legdesc">lo tenía en este cruce y lo hace perder</span></div>
+    <div class="legrow"><span class="lgs none">—</span><span class="legtag"></span><span class="legdesc">no tiene a ninguno de los dos equipos del cruce</span></div>
+  </div>
+''' if es_ko else '')
     fase_lbl = (FASE_LBL.get(sorted(fase_set, key=lambda x: ROUND_DEPTH.get(x, 0))[0], 'Eliminatorias')
                 + ' de final' if es_ko else 'Fase de grupos')
     prueba_banner = ('''  <div class="prueba">⚠️ TARJETA DE PRUEBA — diseño de ejemplo, no es la jornada real</div>
@@ -326,6 +344,19 @@ def main():
   .pred.casa{{border-color:var(--accent);box-shadow:inset 0 0 0 1px rgba(34,211,166,.25)}}
   .pred.casa .name{{color:var(--accent)}}
   .pred .none{{color:var(--mut);font-weight:800;font-size:18px}}
+  .pred .pick.lose{{font-size:13.5px;color:#c98b86;text-decoration:line-through;text-decoration-color:#ff7b72;text-decoration-thickness:2px}}
+  .pred .pick.lose .flag{{opacity:.6}}
+  .pred .pick.win{{color:var(--accent)}}
+  .leyenda{{background:linear-gradient(180deg,#1a2238,#141c30);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin:0 0 14px}}
+  .leyenda .legtitle{{font-size:11.5px;font-weight:700;color:var(--mut);margin-bottom:9px;text-transform:uppercase;letter-spacing:.5px}}
+  .leyenda .legrow{{display:flex;align-items:center;gap:11px;margin:6px 0}}
+  .leyenda .lgs{{min-width:92px;font-size:14px;font-weight:800;text-align:center}}
+  .leyenda .lgs.win{{color:var(--accent)}}
+  .leyenda .lgs.lose{{color:#c98b86;text-decoration:line-through;text-decoration-color:#ff7b72;text-decoration-thickness:2px}}
+  .leyenda .lgs.none{{color:var(--mut);font-size:18px}}
+  .leyenda .legtag{{min-width:56px;font-size:11px;font-weight:800;color:var(--mut);text-transform:uppercase;letter-spacing:.4px}}
+  .leyenda .legdesc{{font-size:12.5px;color:var(--txt)}}
+  .leyenda .legdesc:before{{content:"→ ";color:var(--mut)}}
   .golsec{{margin:20px 0 4px;background:linear-gradient(180deg,#141c30,#10182a);border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:0 6px 22px rgba(0,0,0,.28)}}
   .goltitle{{font-size:14px;font-weight:700;color:var(--gold);margin-bottom:14px}}
   .goltitle span{{color:var(--mut);font-weight:500;font-size:11.5px}}
@@ -368,7 +399,7 @@ def main():
       <div class="small">{fase_lbl}</div>
     </div>
   </div>
-{konote}{''.join(blocks)}
+{konote}{leyenda}{''.join(blocks)}
 {golsec}  <div class="foot">
     <span class="dot">●</span> 5 jugadores · pozo $50.000 · reparto 50/30/20
     <span class="right">2026-mundial.netlify.app</span>

@@ -54,7 +54,8 @@ quiniela/
 │   ├── ingest_mf.py               ingesta de una predicción externa (.xlsm) → nuestro formato
 │   ├── gen_site.py                visor: bracket de 1 jugador
 │   ├── gen_demo_site.py           visor demo: 12 jugadores, torneo en curso (cutoff configurable)
-│   └── gen_calendar.py            calendario mensual (jun+jul) con partidos y horas
+│   ├── gen_calendar.py            calendario mensual (jun+jul) con partidos y horas
+│   └── gen_recap.py               ★ recap diario para WhatsApp (grupos: marcador+ganador · KO: Avanza/Cae/— + cuadro-leyenda · goleadores + picks muertos 💀). NO deploya (vive en recap/)
 └── site/                          salida estática (deploy a Netlify)
     ├── index.html                 leaderboard + carrera + evolución + cuadro real KO + sub-campeonatos + supervivencia + archivo grupos plegable + resultados por día
     └── calendario.html            calendario mensual (los KO muestran equipos en cuanto se resuelven)
@@ -74,6 +75,38 @@ quiniela/
 - **El motor (`engine.py`)** calcula, desde marcadores de grupo: tablas de posiciones (desempates FIFA), los 8 mejores terceros (tabla 495), el R32, la cascada KO y el puntaje. Sirve igual para los **resultados reales** que para el **bracket de cada jugador**, y **soporta resultados parciales** (puntúa "al día de hoy" → habilita los estados intermedios del torneo sin cambios).
 - Los generadores `gen_*` leen datos + motor → emiten HTML estático.
 - **Cuadro KO en vivo (2026-06-27):** `engine.r32_partial` resuelve los cruces de 16avos con lo disponible (1º/2º de grupos ya cerrados; placeholders `1ºJ`/`3º` para lo pendiente) y `engine.bracket_partial` extiende eso a todo el cuadro (R16→Final se llenan con los ganadores de `resultados_ko.csv`). El **calendario** y el **"🏆 Cuadro del torneo"** de la portada usan esto → se llenan **solos** a medida que cierran los grupos y avanzan las llaves, sin reventar como `build_r32` (que exige los 72). Al completarse los 72, la portada despliega el **archivo plegable "Fase de grupos — cerrada"** con las 12 tablas finales; la cronología completa vive en **"Resultados por día"**.
+
+## 📸 Recap diario (pronósticos para WhatsApp)
+
+Tarjeta HTML con los pronósticos de los 5 jugadores para los partidos de un día. **Vive en `recap/`, NO se deploya** (es para sacarle foto y mandarla al grupo) → no gasta cupo Netlify.
+
+```bash
+python build/gen_recap.py 2026-07-01          # tarjeta real de esa fecha
+python build/gen_recap.py 2026-07-03 --prueba # marcada como PRUEBA
+```
+Salida: `recap/predicciones-<fecha>.html` (banderas embebidas en base64 → la foto nunca sale con banderas rotas).
+> El `print` final puede lanzar `UnicodeEncodeError` en la consola Windows (cp1252 no codifica `✓`); es **cosmético** — el archivo se escribe completo antes de ese print.
+
+### Qué muestra por partido
+
+- **Fase de grupos:** el marcador que cada jugador puso + el ganador que implica (o "Empate").
+- **Eliminatorias (KO):** el pick de cada jugador para ese cruce **real**, en 1 de 3 estados:
+
+| Estado | Se ve | Significado | Cómo se calcula |
+|--------|-------|-------------|-----------------|
+| **Avanza** | equipo en **verde** + tag "Avanza" | el jugador lleva ese equipo a la ronda siguiente | **por conjunto** (`depth_of`): ¿alguno de los 2 equipos reales del cruce llega a la ronda siguiente en el bracket del jugador? Igual que el puntaje → puede "avanzar por otra llave" |
+| **Cae** | equipo **tachado rojo** + tag "pierde" | tenía ese equipo en este mismo cruce y lo hizo perder | **por casillero** (`pb['teams'][mn]`): solo el equipo real que está en el MISMO casillero `mn` del jugador y que no eligió ganar |
+| **—** | guion gris | no tiene a ninguno de los dos equipos del cruce en ese casillero | ninguno de los 2 equipos reales está en el casillero `mn` del jugador |
+
+**Por qué la asimetría (conjunto para "Avanza", casillero para "Cae"):** el puntaje del motor es **por conjunto de equipos que avanzan** (no por casillero), así que "Avanza" debe reflejar eso — si el jugador lleva un equipo a la ronda siguiente y ese equipo pasa, suma, esté donde esté en su llave. En cambio "Cae" por conjunto mostraba equipos de **otras** llaves del jugador (caso real: a Jorge le salía "Bélgica Senegal" en el cruce Bélgica–Senegal porque tenía a Senegal cayendo en otro casillero) → confuso. Por casillero solo muestra el equipo real de **ese** cruce que el jugador eliminó ahí.
+
+> **Anti-pattern documentado (no repetir):** antes el "Cae" usaba `depth_of` (por conjunto) y juntaba cualquier equipo real que apareciera en esa ronda del bracket, sin importar el casillero → mostraba 2 equipos sin sentido. La regla es: **"Avanza" por conjunto (calza con el puntaje), "Cae"/"—" por casillero (`mn`).**
+
+**Cuadro-leyenda:** en fases KO el recap antepone automáticamente un cuadro "Cómo leer cada predicción" con los 3 estados (verde / tachado rojo / gris). Aparece solo en eliminatorias — mientras más se cierra el torneo y más se mezclan los estados, la leyenda siempre está.
+
+### Picks muertos 💀 (sección goleadores)
+
+Desde `PICKS_MUERTOS_DESDE = 2026-07-01` (`engine.py`), un goleador elegido cuya **selección quedó eliminada y ya es inalcanzable** (alguien tiene más goles) se apaga: gris + nombre tachado + 💀 + ✗. Helpers `teams_alive` / `load_scorers` / `goleador_dead`. **NO toca el puntaje** (falla a "vivo" ante datos faltantes, no marca de más). El mismo criterio de campeón eliminado aplica en las páginas de jugador (`gen_jugador.py`).
 
 ## ▶️ Cómo correr (desde `quiniela/`)
 
