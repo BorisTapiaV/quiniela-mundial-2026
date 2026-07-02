@@ -8,4 +8,5 @@ match_no,ganador,g_gan,g_per,duracion,pen_gan,pen_per
 79,MEX,2,0,REGULAR,,
 80,ENG,2,1,REGULAR,,
 81,USA,2,0,REGULAR,,
-82,BEL,3,2,REGULAR,,
+82,BEL,3,2,EXTRA_TIME,,
+84,ESP,3,0,REGULAR,,
