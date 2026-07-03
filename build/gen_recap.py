@@ -33,7 +33,7 @@ PNAME = {'CASA': 'Boris · La Casa', 'PAULO_SALAS': 'Paulo Salas',
          'JORGE_VASQUEZ': 'Jorge Vásquez'}
 DIAS = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo']
 MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic']
-FASE_LBL = {'R32': '16avos', 'R16': 'Octavos', 'QF': 'Cuartos', 'SF': 'Semis', 'Final': 'Final'}
+FASE_LBL = {'R32': '16avos', 'R16': 'Octavos', 'QF': 'Cuartos', 'SF': 'Semis', '3P': '3er puesto', 'Final': 'Final'}
 ROUND_DEPTH = {'R32': 1, 'R16': 2, 'QF': 3, 'SF': 4, 'Final': 5}
 # etiqueta = hasta qué ronda el jugador lleva al equipo (profundidad que ALCANZA)
 DEPTH_LBL = {2: 'hasta octavos', 3: 'hasta cuartos', 4: 'hasta semis', 5: 'hasta la final'}
@@ -152,8 +152,10 @@ def main():
         print(f'No hay partidos el {fecha}'); return
 
     groups_done = len(rg) >= 72
-    real_r32 = (E.build_r32(E.compute_all_standings(E.group_results_by_group(rg, fixture), eq), fixture, terceros)
-                if groups_done else {})
+    # equipos reales de TODO el cuadro KO (R32→Final), resueltos con lo disponible:
+    # cada cruce muestra su selección real en cuanto entra el ganador que lo alimenta
+    # (antes solo se resolvían los 16avos → octavos+ salían "cruce por definir").
+    real_teams, _rw = E.bracket_partial(rg, rk, eq, fixture, terceros)
 
     # brackets de cada jugador (para picks KO)
     brackets = {}
@@ -167,10 +169,8 @@ def main():
         mn = mm['match_no']; fase = mm['fase']; fase_set.add(fase)
         if fase == 'grupos':
             a, b = mm['local'], mm['visita']
-        elif mn in real_r32:
-            a, b = real_r32[mn]
         else:
-            a, b = None, None  # KO con equipos aún no resueltos
+            a, b = real_teams.get(mn, (None, None))  # KO: equipos reales (None si el feeder aún no está definido)
 
         # cabecera del partido
         jugado = (mn in rg) or (mn in rk)
@@ -199,36 +199,40 @@ def main():
                 else:
                     preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
                                  f'<div class="pick none">—</div><div class="tag">sin pronóstico</div></div>')
-            else:  # KO: el pick = el equipo que el jugador hace GANAR este cruce (lo lleva a la ronda siguiente)
-                da = depth_of(pb, a) if a else 0
-                db = depth_of(pb, b) if b else 0
-                if fase == 'Final':
-                    champ = pb.get('champion')
-                    cands = [(champ, 6)] if champ in (a, b) else []
-                    round_depth = ROUND_DEPTH['Final']
-                else:
-                    round_depth = ROUND_DEPTH.get(fase, 1)
-                    need = round_depth + 1   # para ganar este cruce debe llegar a la ronda siguiente
-                    cands = [(t, d) for t, d in ((a, da), (b, db)) if t and d >= need]
-                if cands:
-                    pick, dep = max(cands, key=lambda x: x[1])
+            elif fase == '3P':
+                # el 3er puesto no otorga avance (no se puntúa) → sin pick
+                preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
+                             f'<div class="pick none">—</div><div class="tag">sin avance</div></div>')
+            else:  # KO: estado POR EQUIPO (avanza ↑ / cae ✗ / ausente), consistente con el puntaje por conjunto.
+                # El juego no es "en qué casillero cae" sino "clasifica o no, y en este cruce pasa o no".
+                # Por cada selección real del cruce: la lleva más lejos que esta ronda (avanza), la tiene
+                # clasificada pero no la pasa (cae), o no la clasificó (se omite).
+                need = 99 if fase == 'Final' else ROUND_DEPTH.get(fase, 1) + 1
+                chips = []
+                for t in (a, b):
+                    if not t:
+                        continue
+                    dp = depth_of(pb, t)
+                    if dp == 0:
+                        continue  # el jugador no clasificó a este equipo → no aparece
+                    adv = (pb.get('champion') == t) if fase == 'Final' else (dp >= need)
+                    chips.append((t, adv))
+                if not chips:
+                    # no tiene a ninguno de los dos que juegan este cruce → "—"
                     preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
-                                 f'<div class="pick win">{flag_span(ISO[pick], 12)}{NM[pick]}</div>'
-                                 f'<div class="tag">Avanza</div></div>')
+                                 f'<div class="pick none">—</div><div class="tag"></div></div>')
                 else:
-                    # equipo real que el jugador tenía EN SU MISMO casillero (mn) y predijo perdiendo → "pierde"
-                    wslot = pb.get('champion') if fase == 'Final' else pk.get(mn)
-                    pslot = pb['teams'].get(mn, (None, None))
-                    loses = [t for t in pslot if t in (a, b) and t != wslot]
-                    if loses:
-                        picks_html = ' '.join(f'{flag_span(ISO[t], 12)}{NM[t]}' for t in loses)
-                        preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
-                                     f'<div class="pick lose">{picks_html}</div>'
-                                     f'<div class="tag">pierde</div></div>')
-                    else:
-                        # no tiene a ninguno de los dos que juegan este cruce → "—" (sin jerga de llaves)
-                        preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
-                                     f'<div class="pick none">—</div><div class="tag"></div></div>')
+                    wins = [t for t, adv in chips if adv]
+                    loses = [t for t, adv in chips if not adv]
+                    if len(wins) == 2:    tag = 'Asegurado'   # tiene a los dos → suma gane quien gane
+                    elif len(wins) == 1:  tag = 'Avanza'
+                    elif len(loses) == 2: tag = 'Doble fallo'  # tenía a los dos fuera → no suma
+                    else:                 tag = 'Cae'
+                    picks_html = ' '.join(
+                        f'<span class="tm {"win" if adv else "lose"}">{flag_span(ISO[t], 12)}{NM[t]}</span>'
+                        for t, adv in chips)
+                    preds.append(f'<div class="{cls}"><div class="name">{PNAME[slug]}</div>'
+                                 f'<div class="pick multi">{picks_html}</div><div class="tag">{tag}</div></div>')
 
         blocks.append(f'''  <div class="match">
     <div class="mtop">
@@ -280,15 +284,18 @@ def main():
 
     es_ko = fase_set and fase_set <= {'R32', 'R16', 'QF', 'SF', '3P', 'Final'}
     konote = ('''  <div class="konote">
-    🏆 <b>Eliminatorias.</b> Aquí no se pide marcador: cada cuadro avanza solo según sus
-    pronósticos. El pick de cada jugador es el equipo que su propia llave hace pasar en ese cruce.
+    🏆 <b>Eliminatorias.</b> Aquí no se pide marcador: lo que puntúa es <b>qué equipos avanzan</b>.
+    De las dos selecciones que juegan cada cruce, se marca cuáles tiene cada jugador en su cuadro
+    y si las hace pasar (avanza ↑) o no (cae ✗).
   </div>
 ''' if es_ko else '')
     leyenda = ('''  <div class="leyenda">
     <div class="legtitle">Cómo leer cada predicción</div>
-    <div class="legrow"><span class="lgs win">Equipo</span><span class="legtag">Avanza</span><span class="legdesc">lo lleva a la siguiente ronda</span></div>
-    <div class="legrow"><span class="lgs lose">Equipo</span><span class="legtag">Cae</span><span class="legdesc">lo tenía en este cruce y lo hace perder</span></div>
-    <div class="legrow"><span class="lgs none">—</span><span class="legtag"></span><span class="legdesc">no tiene a ninguno de los dos equipos del cruce</span></div>
+    <div class="legrow"><span class="lgs win">Equipo</span><span class="legtag">Avanza</span><span class="legdesc">lo tiene clasificado y lo hace pasar este cruce</span></div>
+    <div class="legrow"><span class="lgs lose">Equipo</span><span class="legtag">Cae</span><span class="legdesc">lo tiene, pero no lo hace pasar</span></div>
+    <div class="legrow"><span class="lgs win">A</span><span class="lgs win">B</span><span class="legtag">Asegurado</span><span class="legdesc">tiene a los dos del cruce → suma gane quien gane</span></div>
+    <div class="legrow"><span class="lgs lose">A</span><span class="lgs lose">B</span><span class="legtag">Doble fallo</span><span class="legdesc">tenía a los dos fuera → no suma en este cruce</span></div>
+    <div class="legrow"><span class="lgs none">—</span><span class="legtag"></span><span class="legdesc">no clasificó a ninguno de los dos</span></div>
   </div>
 ''' if es_ko else '')
     fase_lbl = (FASE_LBL.get(sorted(fase_set, key=lambda x: ROUND_DEPTH.get(x, 0))[0], 'Eliminatorias')
@@ -347,6 +354,12 @@ def main():
   .pred .pick.lose{{font-size:13.5px;color:#c98b86;text-decoration:line-through;text-decoration-color:#ff7b72;text-decoration-thickness:2px}}
   .pred .pick.lose .flag{{opacity:.6}}
   .pred .pick.win{{color:var(--accent)}}
+  .pred .pick.multi{{display:flex;flex-direction:column;gap:4px;align-items:center;font-size:13px;font-weight:800}}
+  .pred .pick.multi .tm{{display:inline-flex;align-items:center;gap:3px}}
+  .pred .pick.multi .tm.win{{color:var(--accent)}}
+  .pred .pick.multi .tm.win:before{{content:"\\2191 ";font-size:11px}}
+  .pred .pick.multi .tm.lose{{color:#c98b86;text-decoration:line-through;text-decoration-color:#ff7b72;text-decoration-thickness:2px}}
+  .pred .pick.multi .tm.lose .flag{{opacity:.6}}
   .leyenda{{background:linear-gradient(180deg,#1a2238,#141c30);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin:0 0 14px}}
   .leyenda .legtitle{{font-size:11.5px;font-weight:700;color:var(--mut);margin-bottom:9px;text-transform:uppercase;letter-spacing:.5px}}
   .leyenda .legrow{{display:flex;align-items:center;gap:11px;margin:6px 0}}
