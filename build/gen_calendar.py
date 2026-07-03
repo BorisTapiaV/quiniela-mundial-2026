@@ -45,10 +45,17 @@ def main():
     # los 16 quedan completos solos cuando entran los 72 de grupo). Slots aún
     # indefinidos (tercero o grupo en juego) → etiqueta del slot como placeholder.
     rg_int = {mn: (int(gl), int(gv)) for mn, (gl, gv) in res.items()}
+    ko_winners = {mn: r['ganador'] for mn, r in ko_res.items()}
     r32 = engine.r32_partial(rg_int, eq, fixture, terceros)
+    # cuadro completo (R32→Final) resuelto con lo disponible: los octavos en
+    # adelante muestran la selección real en cuanto entra el ganador del cruce
+    # que los alimenta (antes solo se rellenaban los 16avos).
+    teams_ko, _kowin = engine.bracket_partial(rg_int, ko_winners, eq, fixture, terceros)
     def slot_lbl(s):
         if s.startswith('3-'):
             return '3º'
+        if s and s[0] in 'WL' and s[1:].isdigit():
+            return f'{"Gan." if s[0] == "W" else "Perd."} M{s[1:]}'
         return f'{s[0]}º{s[1]}'
     def ko_side(code, raw_slot, win=False):
         if code:
@@ -92,11 +99,12 @@ def main():
                         head = f'<span class="h">{m["hora_chile"]}</span>'; evcls = ' free' if mn in abierta else ''
                     evs += (f'<div class="ev{evcls}">{head}'
                             f'{flag(a)}<b>{a}</b><i>vs</i>{flag(b)}<b>{b}</b>{tvb}</div>')
-                elif m['fase'] == 'R32' and m['match_no'] in r32:
-                    a, b = r32[m['match_no']]; mn = m['match_no']
+                elif m['fase'] != 'grupos':                 # todo el KO: 16avos → Final
+                    mn = m['match_no']
+                    a, b = teams_ko.get(mn, (None, None))
                     rnd = FASE_LBL.get(m['fase'], m['fase'])
                     kr = ko_res.get(mn)
-                    if kr:                                  # KO ya jugado → mostrar marcador + ganador, como los de grupo
+                    if kr and a and b:                      # KO ya jugado → marcador + ganador, como los de grupo
                         w = kr['ganador']
                         try:
                             gg, gp = int(kr.get('g_gan') or 0), int(kr.get('g_per') or 0)
@@ -114,13 +122,10 @@ def main():
                         evs += (f'<div class="ev ko played"><span class="sc">{sc}</span>'
                                 f'<span class="rnd">{rnd}</span>'
                                 f'{ko_side(a, m["local"], w == a)}<i>vs</i>{ko_side(b, m["visita"], w == b)}{ex}</div>')
-                    else:
+                    else:                                    # aún no jugado o feeder sin definir → equipos/placeholders
                         evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
                                 f'<span class="rnd">{rnd}</span>'
                                 f'{ko_side(a, m["local"])}<i>vs</i>{ko_side(b, m["visita"])}</div>')
-                else:
-                    evs += (f'<div class="ev ko"><span class="h">{m["hora_chile"]}</span>'
-                            f'<b>{FASE_LBL.get(m["fase"], m["fase"])}</b></div>')
             cls = 'cell' + ('' if evs else ' empty')
             n = len(by_day.get(iso, []))
             tag = f'<span class="cnt">{n}</span>' if n else ''
