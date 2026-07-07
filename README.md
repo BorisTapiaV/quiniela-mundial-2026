@@ -55,7 +55,7 @@ quiniela/
 │   ├── gen_site.py                visor: bracket de 1 jugador
 │   ├── gen_demo_site.py           visor demo: 12 jugadores, torneo en curso (cutoff configurable)
 │   ├── gen_calendar.py            calendario mensual (jun+jul) con partidos y horas
-│   └── gen_recap.py               ★ recap diario para WhatsApp (grupos: marcador+ganador · KO: Avanza/Cae/— + cuadro-leyenda · goleadores + picks muertos 💀). NO deploya (vive en recap/)
+│   └── gen_recap.py               ★ recap diario para WhatsApp (grupos: marcador+ganador · KO: Avanza/Cae/— + cuadro-leyenda · goleadores + campeones, ambos con picks muertos 💀). NO deploya (vive en recap/)
 └── site/                          salida estática (deploy a Netlify)
     ├── index.html                 leaderboard + carrera + evolución + cuadro real KO + sub-campeonatos + supervivencia + archivo grupos plegable + resultados por día
     └── calendario.html            calendario mensual (los KO muestran equipos en cuanto se resuelven)
@@ -104,9 +104,14 @@ Salida: `recap/predicciones-<fecha>.html` (banderas embebidas en base64 → la f
 
 **Cuadro-leyenda:** en fases KO el recap antepone automáticamente un cuadro "Cómo leer cada predicción" con los 3 estados (verde / tachado rojo / gris). Aparece solo en eliminatorias — mientras más se cierra el torneo y más se mezclan los estados, la leyenda siempre está.
 
-### Picks muertos 💀 (sección goleadores)
+### Picks muertos 💀 (goleadores + campeones)
 
-Desde `PICKS_MUERTOS_DESDE = 2026-07-01` (`engine.py`), un goleador elegido cuya **selección quedó eliminada y ya es inalcanzable** (alguien tiene más goles) se apaga: gris + nombre tachado + 💀 + ✗. Helpers `teams_alive` / `load_scorers` / `goleador_dead`. **NO toca el puntaje** (falla a "vivo" ante datos faltantes, no marca de más). El mismo criterio de campeón eliminado aplica en las páginas de jugador (`gen_jugador.py`).
+Desde `PICKS_MUERTOS_DESDE = 2026-07-01` (`engine.py`), un pick que **ya no puede ganar** se apaga: gris + nombre tachado + 💀 + ✗. **NO toca el puntaje** (falla a "vivo" ante datos faltantes, no marca de más).
+
+- **Goleador** (sección ⚽): su figura muere si la **selección quedó eliminada y ya es inalcanzable** (alguien tiene más goles). Helpers `teams_alive` / `load_scorers` / `goleador_dead`.
+- **Campeón** (sección 🏆): una tarjeta por jugador con su campeón (bandera + país); muere en cuanto su selección sale del cuadro (`campeón ∈ set(equipos) − teams_alive(...)`). La sección solo aparece cuando algún jugador tiene campeón elegido. Se activó el 07-jul con **Portugal (Carlos)** como primer campeón caído.
+
+El mismo criterio de campeón eliminado aplica en las páginas de jugador (`gen_jugador.py`, hero campeón).
 
 ## ▶️ Cómo correr (desde `quiniela/`)
 

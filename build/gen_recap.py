@@ -16,6 +16,14 @@ import sys, csv, os, datetime, struct, json, unicodedata, urllib.request, base64
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine as E
 
+# la consola de Windows es cp1252 → los prints con ✓/·/→/⚠ reventaban (UnicodeEncodeError)
+# sin afectar el HTML; forzar UTF-8 en la salida para que el print final no falle.
+try:
+    sys.stdout.reconfigure(encoding='utf-8')
+    sys.stderr.reconfigure(encoding='utf-8')
+except Exception:
+    pass
+
 
 def norm(s):
     """minúsculas sin acentos, para casar nombres (Mbappé == Mbappe)."""
@@ -60,6 +68,17 @@ def load_goleador(slug):
         with open(p, encoding='utf-8-sig') as f:
             for r in csv.DictReader(f):
                 if r['clave'] == 'goleador' and r['valor']:
+                    return r['valor']
+    return ''
+
+
+def load_campeon(slug):
+    """Código de equipo del campeón elegido por el jugador, desde su _especiales.csv."""
+    p = os.path.join(PRED, f'{slug}_especiales.csv')
+    if os.path.exists(p):
+        with open(p, encoding='utf-8-sig') as f:
+            for r in csv.DictReader(f):
+                if r['clave'] == 'campeon' and r['valor']:
                     return r['valor']
     return ''
 
@@ -278,6 +297,31 @@ def main():
   </div>
 ''' if any(fig for _, fig, _ in figdata) else '')
 
+    # sección de campeones (bandera + país de cada uno; el eliminado sale muerto 💀)
+    champcards = []
+    for slug in PLAYERS:
+        camp = load_campeon(slug)
+        cls = 'golcard casa' if slug == 'CASA' else 'golcard'
+        dead = muertos_on and camp and camp in _elim
+        if dead:
+            cls += ' dead'
+        pais = NM.get(camp, camp or 'sin campeón')
+        fl = flag_span(ISO[camp], 46) if camp in ISO else ''
+        flag_html = f'<div class="champflag">{fl}</div>' if fl else '<div class="golface noface">🏆</div>'
+        estado = ('<div class="golgoals st nogol">eliminado</div>' if dead
+                  else '<div class="golgoals st">en carrera</div>' if camp
+                  else '<div class="golgoals st nogol">—</div>')
+        extra = '<span class="skull">💀</span><span class="exwm">✗</span>' if dead else ''
+        champcards.append(f'<div class="{cls}">{extra}{flag_html}<div class="golname">{PNAME[slug]}</div>'
+                          f'<div class="golfig">{pais}</div>{estado}</div>')
+    champsec = (f'''  <div class="golsec">
+    <div class="goltitle">🏆 Campeones · el campeón de cada uno <span>(cae 💀 cuando su selección queda eliminada)</span></div>
+    <div class="golgrid">
+      {''.join(champcards)}
+    </div>
+  </div>
+''' if any(load_campeon(s) for s in PLAYERS) else '')
+
     # CSS de banderas usadas
     flag_css = ''.join(f'  .fl-{iso}{{background-image:url(data:image/png;base64,{f[0]})}}\n'
                        for iso, f in _flags.items() if f)
@@ -381,6 +425,10 @@ def main():
   .golcard.casa .golface{{border-color:var(--accent)}}
   .golcard.lead .golface{{border-color:var(--gold)}}
   .golface.noface{{display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--pill)}}
+  .champflag{{height:46px;margin:0 auto 8px;display:flex;align-items:center;justify-content:center}}
+  .champflag .flag{{border:1px solid var(--line);border-radius:3px}}
+  .golcard.dead .champflag{{filter:grayscale(1)}}
+  .golgoals.st{{font-size:13px;font-weight:700;letter-spacing:.3px;margin-top:8px}}
   .golname{{font-size:11px;color:var(--mut);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
   .golcard.casa .golname{{color:var(--accent)}}
   .golfig{{font-size:12.5px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
@@ -413,7 +461,7 @@ def main():
     </div>
   </div>
 {konote}{leyenda}{''.join(blocks)}
-{golsec}  <div class="foot">
+{golsec}{champsec}  <div class="foot">
     <span class="dot">●</span> 5 jugadores · pozo $50.000 · reparto 50/30/20
     <span class="right">2026-mundial.netlify.app</span>
   </div>
