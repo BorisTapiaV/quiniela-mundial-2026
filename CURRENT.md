@@ -63,11 +63,11 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **277** | 13 | 🟢 |
-| 🥈 | **Andrés Acosta (Colombia)** | Francia | **244** | 9 | 🟢 |
-| 🥉 | Paulo Salas | España | 243 | 10 | 🟢 |
-| 4 | Carlos Salgado | Portugal | 228 | 9 | 🟢 |
-| 5 | Jorge Vásquez | Francia | 217 | 8 | 🟢 |
+| 🥇 | **Boris Tapia V (La Casa)** | España | **297** | 13 | 🟢 |
+| 🥈 | **Paulo Salas** | España | **263** | 10 | 🟢 |
+| 🥉 | Andrés Acosta (Colombia) | Francia | 254 | 9 | 🟢 |
+| 4 | Jorge Vásquez | Francia | 237 | 8 | 🟢 |
+| 5 | Carlos Salgado | Portugal | 228 | 9 | 🟢 |
 <!-- AUTO:TABLA fin -->
 
 **La carrera en octavos (6/8):** **Boris 271 (13 exactos)** manda con **+33** sobre el 2º — liderato sólido, desempate pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **El baile por el 🥈 (30% del pozo) se apretó a muerte:** **Andrés 🥈 (238, Francia)** vs **Paulo 🥉 (237, España)** separados por **1 solo punto**. **Carlos se hundió al 4º (222, Portugal eliminado)** — su campeón murió en el M93 y no sumó en la jornada. Jorge 5º (217). **Dos campeones vivos, cara a cara la próxima ronda:** (1) **Francia (Andrés + Jorge)** juega M97 vs Marruecos el 09-jul. (2) **España (Boris + Paulo)** juega **M98 vs Bélgica el 10-jul** — donde Boris y Paulo suben o caen juntos, así que ese cruce no rompe el empate Andrés/Paulo, pero sí define si Boris estira aún más la ventaja.
