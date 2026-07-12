@@ -25,3 +25,5 @@ match_no,ganador,g_gan,g_per,duracion,pen_gan,pen_per
 96,SUI,4,3,PENALTY_SHOOTOUT,4,3
 97,FRA,2,0,REGULAR,,
 98,ESP,2,1,REGULAR,,
+99,ENG,2,1,EXTRA_TIME,,
+100,ARG,3,1,EXTRA_TIME,,
