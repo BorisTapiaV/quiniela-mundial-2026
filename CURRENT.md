@@ -50,6 +50,25 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ---
 
+## 🔮 Semis — quién puede sumar puntos
+
+Cada avance a la **final** vale **+16 pts** (escala KO 6/10/16; campeón = especial 50, se puntúa recién en la final). Cruces: **M101 mar 14-jul Francia–España** · **M102 mié 15-jul Inglaterra–Argentina**. Cada jugador suma +16 por cada equipo suyo (según su M101/M102 en el `_ko.csv`) que llegue a la final.
+
+| Jugador | M101 (FRA/ESP) | M102 (ING/ARG) | Piso→Techo |
+|---------|----------------|----------------|:---:|
+| 🥇 Boris | +16 si pasa **España** | +16 si pasa **Argentina** | 0 → **+32** |
+| 🥈 Paulo | +16 si pasa **España** | +16 si pasa **Inglaterra** | 0 → **+32** |
+| 4 Jorge | **+16 GARANTIZADO** (tiene FRA **y** ESP → pase quien pase, uno es suyo) | — | **+16 fijo** |
+| 🥉 Andrés | +16 **solo si pasa Francia** | — (su M102 era Brasil 💀) | 0 → **+16** |
+| 5 Carlos | — (Países Bajos 💀) | — (Portugal 💀) | **0 — bloqueado** |
+
+**Lecturas clave:**
+- **Boris y Paulo = únicos vivos en las dos semis.** Ambos tienen España en M101, así que ese cruce no los separa entre sí; **M102 es el desempate real** — Boris apostó Argentina, Paulo Inglaterra → uno saca +16 y el otro 0.
+- **M101 Francia–España es el partido del pozo:** define el campeón de 4 de los 5 jugadores (Boris+Paulo→España, Andrés+Jorge→Francia). Es el único cruce donde Andrés todavía respira; si España elimina a Francia, Andrés saca 0 en semis **y** pierde su campeón → Paulo lo dejaría a ≥+19 en el 🥈 (30% del pozo).
+- **Carlos no puede sumar en semis** (sus dos finalistas eliminados). Jorge asegurado +16 pero techo bajo (fuera del M102).
+
+---
+
 ## 👥 Jugadores (5) — pozo $50.000 (cuota $10k, reparto 50/30/20)
 
 | Jugador | Slug | Campeón | Estado |
