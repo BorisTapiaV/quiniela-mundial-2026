@@ -1,5 +1,6 @@
 # Quiniela Mundial 2026 — Dashboard (CURRENT)
 
+<!-- Updated: 2026-07-15 (día 35, SEMIS — M101 CERRADA, M102 en el kickoff) — SYNC + REFRESH + RECAP M102. `git pull` (HEAD `17abcd0`, cron sano) → entró **M101 España 2-0 Francia (REGULAR, sin penales, cargó solo)**: **España a la final** → campeón de **Boris Y Paulo vivo** (bonus 50 en juego), y **Francia 💀 = campeón de Andrés Y Jorge muerto**. `refresh_dashboard.py` → **BORIS 🥇 333 (+16) · PAULO 🥈 299 (+16) · ANDRÉS 🥉 264 (+0, 💀) · JORGE 253 (+16, tenía España en el cruce) · CARLOS 228 (+0)**. 🔒 **El 🥈 (30% del pozo) se blindó: Paulo +35 sobre Andrés** (era +19). Andrés sigue 🥉 por +11 sobre Jorge, pero ya sin campeón. **Recap de M102 generado al kickoff** (`recap/predicciones-2026-07-15.html` + PNG `tarjetas/recap-2026-07-15.png`, receta Edge `--headless`, ventana 1000×1165 corte limpio) — screenshot listo para WhatsApp. **HOY M102 mié 15-jul 15:00 Atlanta Inglaterra vs Argentina = el desempate real Boris (ARG) vs Paulo (ING)**: solo mueve +16 a uno de los dos, NO cambia dueño de 🥇/🥈; define el **otro finalista** (España ya está). ⚠️ Si M102 va a penales → `winner:null`, carga manual. Al retomar: `git pull` (el cron carga M102) → `refresh_dashboard.py` → narrativa. Final 19-jul, 3er puesto 18-jul. 0 voseo. -->
 <!-- Updated: 2026-07-14 (día 34, SEMIS — M101 en curso) — SESIÓN CORTA: RECAP DEL DÍA + VERIFICACIÓN DE GOLEADOR. `git pull` sin novedad (cron sano, HEAD `19c40c1`). Generado el **recap de predicciones del M101** (`recap/predicciones-2026-07-14.html` + PNG en `tarjetas/`, receta `--headless` viejo) justo al arranque del partido (15:00) → commit `d800760`. **M101 Francia vs España quedó EN CURSO al cerrar la sesión** — el cron carga el resultado; el puntaje NO se movió hoy (tabla sigue: BORIS 🥇 317 · PAULO 🥈 283 · ANDRÉS 🥉 264 · JORGE 237 · CARLOS 228). Reparto de la semi: Boris+Paulo→España (+16 c/u si pasa) · Andrés→Francia (único cruce donde respira; si cae, pierde campeón Y queda a ≥19 del 🥈) · **Jorge +16 asegurado** (tiene a los dos) · Carlos bloqueado (doble fallo). ⚠️ **Semifinal = riesgo alto de penales** → si el log dice `KO: N terminados · N-1 mapeados`, es la API con `winner:null`: buscar resultado en la web y cargarlo a mano en `resultados_ko.csv` (el fetch fusiona, no lo borra). **Falsa alarma resuelta:** el recap mostraba a Andrés con Mbappé y la nota del 28-jun decía Cristiano Ronaldo → el git log confirma que **Boris mismo lo corrigió el 02-jul** (commit `7239b7d`, error suyo al ingresar). Los datos están bien; la nota vieja del 28-jun es la desactualizada. **Al retomar:** `git pull` → `refresh_dashboard.py` → narrativa a mano; mañana **M102 mié 15-jul Inglaterra vs Argentina = el desempate real Boris (ARG) vs Paulo (ING)**. 0 voseo. -->
 <!-- Updated: 2026-07-12 (día 32, CUARTOS 4/4 CERRADOS) — CRON CAÍDO POR BILLING GITHUB → RESUELTO + SYNC. El cron fallaba desde el 11-jul mañana (todas las corridas `failure` en 4-6s: *"account is locked due to a billing issue"* — bloqueo de facturación de la cuenta, tumba TODOS los Actions aunque el repo sea público; NO era código ni API). Por eso M99/M100 del sábado nunca cargaron (cron muerto a esa hora). Boris resolvió el billing → `gh workflow run actualizar.yml` manual corrió `success` → `git pull` + `refresh_dashboard.py`. Entraron **M99 Inglaterra 2-1 Noruega (prórroga)** + **M100 Argentina 3-1 Suiza (prórroga)** (ambos ET sin penales, cargaron solos) → **cuartos 4/4**. Tabla: **BORIS 🥇 317 (13 ex) +34 · PAULO 🥈 283 (España) · ANDRÉS 🥉 264 (Francia) · JORGE 237 · CARLOS 228**. Predicciones del recap sábado clavadas (Boris/Paulo→ING+ARG ✅; Carlos+Jorge doble fallo +0) → **el 🥈 se despegó: Paulo +19 sobre Andrés** (venía de 1 pt). **Semis:** 🔥 **M101 mar 14-jul Francia vs España = choque directo de campeones** (Andrés+Jorge vs Boris+Paulo, uno muere) · M102 mié 15-jul Inglaterra vs Argentina. Lección durable: cron `failure` en 4-6s = revisar billing de la cuenta antes que código. Deploy OK vía el dispatch. 0 voseo. -->
 <!-- Updated: 2026-07-10 (día 30, CUARTOS 2/4) — SYNC + REFRESH + RECAP sábado 11-jul + FIX render HTML→PNG. `git pull` (cron sano, HEAD `4fb4a8f`). Entraron los 2 primeros cuartos: **M97 Francia 2-0 Marruecos** (09-jul) + **M98 España 2-1 Bélgica** (10-jul, hoy) → ambos campeones de arriba a SEMIS. `refresh_dashboard.py` → tabla: **BORIS 🥇 297 (13 ex) +34 · PAULO 🥈 263 · ANDRÉS 🥉 254 · JORGE 237 · CARLOS 228**. 🔄 **VUELCO DEL 🥈 (30% pozo): Paulo pasó a Andrés** — con España a semis Boris+Paulo +20 c/u, Andrés solo +10 (tenía Francia pero NO España en su semi → falló el M98); venían 244 vs 243 el 09-jul, empate roto → Paulo 🥈 263 vs Andrés 🥉 254. **Recap sábado 11-jul generado** (`recap/predicciones-2026-07-11.html` + PNG): M99 Noruega–Inglaterra 17:00 (Boris/Paulo→Inglaterra) · M100 Argentina–Suiza 21:00 (Boris/Paulo/Andrés→Argentina); Carlos+Jorge doble fallo en ambos. **FIX render recurrente:** el HTML→PNG que siempre me fallaba era por `--headless=new`; la receta buena es `--headless` (viejo) como `gen_tarjeta.render_png` → memoria `feedback_html_render_headless_no_new`. Commit `b7b9826` (recap+tabla). Sin deploy (recap no deploya; el sitio lo mueve el cron). 0 voseo. -->
@@ -17,9 +18,11 @@
 
 ---
 
-## Estado al 2026-07-14 — 🔥 SEMIS: M101 Francia–España EN CURSO (día 34)
+## Estado al 2026-07-15 — 🔥 SEMIS: M101 CERRADA (ESP a la final), M102 en el kickoff (día 35)
 
-> **M101 (mar 14-jul 15:00 Dallas, Francia vs España) arrancó y quedó en juego al cerrar la sesión.** El cron carga el resultado y puntúa el avance; la tabla de abajo es la de los cuartos (sin M101). **Si se define por penales → carga manual** (ver recordatorio operativo). Recap del día generado y enviado (`recap/predicciones-2026-07-14.html`). **Mañana M102 mié 15-jul Inglaterra vs Argentina = el desempate real entre Boris (Argentina) y Paulo (Inglaterra).**
+> **M101 España 2-0 Francia** (cargó solo, sin penales): **España a la final** → campeón de **Boris y Paulo vivo** (bonus 50 en juego); **Francia 💀 → campeón de Andrés y Jorge muerto**. Tabla ya refrescada abajo con M101. **HOY M102 mié 15-jul 15:00 Atlanta Inglaterra vs Argentina = el desempate real Boris (Argentina) vs Paulo (Inglaterra)** — solo mueve +16 a uno de los dos y define el otro finalista; **no cambia dueño de 🥇/🥈**. Recap generado al kickoff (`tarjetas/recap-2026-07-15.png`, listo para WhatsApp). **Si M102 se define por penales → carga manual** (ver recordatorio operativo). Final 19-jul, 3er puesto 18-jul.
+
+🏆 **BORIS 🥇 333 (13 exactos) — líder firme, +34 sobre Paulo.** Con M101, España metió su campeón a la final (Boris + Paulo). **El 🥈 (30% del pozo) se blindó: Paulo 🥈 (299, España) vs Andrés 🥉 (264, Francia 💀) = +35** — era +19 tras cuartos; Boris+Paulo+Jorge sumaron +16 con España, Andrés +0. **Andrés 🥉 (264) sigue +11 sobre Jorge 4º (253), pero ya sin campeón.** **Carlos 5º (228) +0, bloqueado.** Desempate: pts → exactos → campeón → FIFA.
 
 ## Estado al 2026-07-12 — 🏁 CUARTOS 4/4 CERRADOS (día 32) — semis armadas, choque de campeones el martes
 
@@ -57,20 +60,20 @@ El Mundial arrancó el **11-jun**. El sistema corre **en automático**: cron Git
 
 ## 🔮 Semis — quién puede sumar puntos
 
-Cada avance a la **final** vale **+16 pts** (escala KO 6/10/16; campeón = especial 50, se puntúa recién en la final). Cruces: **M101 mar 14-jul Francia–España** · **M102 mié 15-jul Inglaterra–Argentina**. Cada jugador suma +16 por cada equipo suyo (según su M101/M102 en el `_ko.csv`) que llegue a la final.
+Cada avance a la **final** vale **+16 pts** (escala KO 6/10/16; campeón = especial 50, se puntúa recién en la final). **M101 España 2-0 Francia YA se jugó** (España a la final); **solo queda M102 mié 15-jul Inglaterra–Argentina**. Cada jugador suma +16 por su equipo del M102 que llegue a la final.
 
-| Jugador | M101 (FRA/ESP) | M102 (ING/ARG) | Piso→Techo |
-|---------|----------------|----------------|:---:|
-| 🥇 Boris | +16 si pasa **España** | +16 si pasa **Argentina** | 0 → **+32** |
-| 🥈 Paulo | +16 si pasa **España** | +16 si pasa **Inglaterra** | 0 → **+32** |
-| 4 Jorge | **+16 GARANTIZADO** (tiene FRA **y** ESP → pase quien pase, uno es suyo) | — | **+16 fijo** |
-| 🥉 Andrés | +16 **solo si pasa Francia** | — (su M102 era Brasil 💀) | 0 → **+16** |
-| 5 Carlos | — (Países Bajos 💀) | — (Portugal 💀) | **0 — bloqueado** |
+| Jugador | M101 (FRA/ESP) — jugado | M102 (ING/ARG) — hoy 15:00 | Total semis |
+|---------|:---:|----------------|:---:|
+| 🥇 Boris | ✅ **+16** (España) | +16 si pasa **Argentina** | +16 → **+32** |
+| 🥈 Paulo | ✅ **+16** (España) | +16 si pasa **Inglaterra** | +16 → **+32** |
+| 4 Jorge | ✅ **+16** (tenía España en el cruce) | — | **+16 fijo** |
+| 🥉 Andrés | ❌ **+0** (solo Francia 💀) | — (su M102 era Brasil 💀) | **0 — bloqueado** |
+| 5 Carlos | ❌ **+0** (Países Bajos 💀) | — (Portugal 💀) | **0 — bloqueado** |
 
 **Lecturas clave:**
-- **Boris y Paulo = únicos vivos en las dos semis.** Ambos tienen España en M101, así que ese cruce no los separa entre sí; **M102 es el desempate real** — Boris apostó Argentina, Paulo Inglaterra → uno saca +16 y el otro 0.
-- **M101 Francia–España es el partido del pozo:** define el campeón de 4 de los 5 jugadores (Boris+Paulo→España, Andrés+Jorge→Francia). Es el único cruce donde Andrés todavía respira; si España elimina a Francia, Andrés saca 0 en semis **y** pierde su campeón → Paulo lo dejaría a ≥+19 en el 🥈 (30% del pozo).
-- **Carlos no puede sumar en semis** (sus dos finalistas eliminados). Jorge asegurado +16 pero techo bajo (fuera del M102).
+- **M102 es el desempate real Boris vs Paulo.** Los dos ya cobraron +16 por España en M101; ese cruce no los separa. En M102 Boris apostó **Argentina** y Paulo **Inglaterra** → uno saca +16 y el otro 0. **No cambia el podio** (Boris 🥇 con +34 de colchón, Paulo 🥈 con +35 sobre Andrés), solo define el **otro finalista** y quién estira más.
+- **España ya está en la final = el campeón de Boris y Paulo sigue vivo** por el bonus de 50. Los otros tres tienen su campeón muerto (Francia ×2, Portugal).
+- **Andrés y Carlos no pueden sumar en semis.** Andrés conserva el 🥉 por +11 sobre Jorge, pero sin campeón y sin nada que ganar hoy.
 
 ---
 
@@ -91,10 +94,10 @@ Cada avance a la **final** vale **+16 pts** (escala KO 6/10/16; campeón = espec
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **317** | 13 | 🟢 |
-| 🥈 | **Paulo Salas** | España | **283** | 10 | 🟢 |
+| 🥇 | **Boris Tapia V (La Casa)** | España | **333** | 13 | 🟢 |
+| 🥈 | **Paulo Salas** | España | **299** | 10 | 🟢 |
 | 🥉 | Andrés Acosta (Colombia) | Francia | 264 | 9 | 🟢 |
-| 4 | Jorge Vásquez | Francia | 237 | 8 | 🟢 |
+| 4 | Jorge Vásquez | Francia | 253 | 8 | 🟢 |
 | 5 | Carlos Salgado | Portugal | 228 | 9 | 🟢 |
 <!-- AUTO:TABLA fin -->
 
@@ -187,7 +190,7 @@ Cada avance a la **final** vale **+16 pts** (escala KO 6/10/16; campeón = espec
 
 ---
 
-*Última actualización: 2026-07-14 — día 34, SEMIS. M101 Francia–España en curso al cerrar (el cron lo carga). Recap del día generado + pusheado (`d800760`); puntaje sin cambios. Verificado por git log que el goleador de Andrés (Mbappé) está correcto — lo corrigió Boris el 02-jul; la nota del 28-jun que decía Cristiano Ronaldo es la desactualizada. Al retomar: `git pull` → `refresh_dashboard.py` → narrativa; ojo con penales en semis (`winner:null` → carga manual). Mañana M102 Inglaterra–Argentina = desempate Boris vs Paulo por el 🥇/🥈.*
+*Última actualización: 2026-07-15 — día 35, SEMIS. Entró M101 España 2-0 Francia (cargó solo, sin penales) → España a la final; campeón de Boris y Paulo vivo, Francia 💀 (Andrés+Jorge sin campeón). `refresh_dashboard.py`: BORIS 🥇 333 (+16) · PAULO 🥈 299 (+16) · ANDRÉS 🥉 264 (+0) · JORGE 253 (+16) · CARLOS 228 (+0). El 🥈 se blindó (Paulo +35 sobre Andrés). Recap de M102 generado al kickoff (`tarjetas/recap-2026-07-15.png`, listo WhatsApp). HOY M102 15:00 Inglaterra–Argentina = desempate Boris (ARG) vs Paulo (ING), solo +16 a uno, no cambia el podio. Pendiente commit (dashboard + recap; el recap no deploya). Al retomar: `git pull` (el cron carga M102) → `refresh_dashboard.py` → narrativa; ojo penales → carga manual.*
 
 *Histórico previo: 2026-07-12 — día 32, CUARTOS 4/4 CERRADOS. Cron caído del 11-jul (mañana) al 12-jul por bloqueo de billing de la cuenta GitHub (`failure` en 4-6s: "account is locked due to a billing issue"; NO era código ni API) → Boris resolvió el billing → `gh workflow run actualizar.yml` manual `success` → `git pull` + `refresh_dashboard.py`. Entraron M99 Inglaterra 2-1 Noruega (prórroga) + M100 Argentina 3-1 Suiza (prórroga), ambos ET sin penales. Tabla: BORIS 🥇 317 (13 ex) +34 · PAULO 🥈 283 (España) · ANDRÉS 🥉 264 (Francia) · JORGE 237 · CARLOS 228. El 🥈 se despegó (Paulo +19). Semis: 🔥 M101 mar 14-jul Francia vs España (choque de campeones Andrés+Jorge vs Boris+Paulo) · M102 mié 15-jul Inglaterra vs Argentina. Deploy OK vía dispatch. Al retomar: `git pull` → `refresh_dashboard.py` → narrativa a mano; si el cron falla en 4-6s, revisar billing. Histórico previo abajo.*
 
