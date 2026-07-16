@@ -23,9 +23,14 @@
 
 > **M102 Argentina 2-1 Inglaterra** (regular, cargó solo): **Argentina a la final** → Boris gana el desempate (+16), Paulo +0. **La FINAL es España vs Argentina (dom 19-jul); 3er puesto Francia–Inglaterra 18-jul.**
 
-🏆 **BORIS 🥇 349 (13 exactos) — CAMPEÓN DE LA QUINIELA, matemáticamente cerrado.** Nadie lo alcanza: Boris y Paulo comparten **España** de campeón, así que el especial de campeón (+50) los mueve **a la par**, y Argentina no le suma a nadie más → aunque España gane la final quedaría Boris 399 vs Paulo 349 (misma brecha de 50). **Podio y reparto CONGELADOS:** 🥇 **Boris — 50% = $25.000** · 🥈 **Paulo (299, España) — 30% = $15.000** (blindado +35 sobre Andrés) · 🥉 **Andrés (264, Francia 💀) — 20% = $10.000** (blindado +11 sobre Jorge; ninguno de los dos puede sumar, Francia eliminada y el 3er puesto no puntúa). **Jorge 4º (253) · Carlos 5º (228).**
+🏆 **BORIS 🥇 349 (13 exactos) — CAMPEÓN DE LA QUINIELA, matemáticamente cerrado.** Boris y Paulo comparten **España** de campeón, así que el especial de campeón (+50) los mueve a la par; el único que puede acercar a Paulo es la Bota de Oro (si la gana Messi, Paulo +25). Peor caso para Boris = gana por **+25**. **Podio y reparto CONGELADOS:** 🥇 **Boris — 50% = $25.000** · 🥈 **Paulo (299, España) — 30% = $15.000** (blindado: peor caso +10 sobre Andrés) · 🥉 **Andrés (264, Francia 💀) — 20% = $10.000** (blindado +11 sobre Jorge). **Jorge 4º (253) · Carlos 5º (228).**
 
-🎯 **Lo único en juego en la final (dom 19-jul):** el **especial de campeón +50**. Boris y Paulo pusieron **España** → si España gana, ambos +50 (Boris 399, Paulo 349); si gana **Argentina**, nadie cobra campeón (ningún jugador la eligió). **No cambia el orden ni el reparto.** El **3er puesto (Francia–Inglaterra, 18-jul) da 0 pts** (sin avance ni campeón vivo). Boris es el único con **campeón (España) vivo Y** el finalista Argentina clavado.
+🎯 **Lo que queda vivo (no cambia el reparto, sí los puntos finales y la Bota):**
+- **Especial de campeón +50 — final España vs Argentina (dom 19-jul).** Boris y Paulo pusieron **España** → si España gana, ambos +50; si gana Argentina, nadie cobra campeón (ningún jugador la eligió).
+- **Especial de goleador +25 — EMPATADO 8-8: Mbappé (Francia) vs Messi (Argentina).** Lo eligieron: **Mbappé → Boris, Carlos, Andrés · Messi → Paulo** (Jorge=Undav 💀). Se define en los dos últimos partidos: **Mbappé juega el 3er puesto (18-jul), Messi la final (19-jul).**
+- **📌 Dónde entra el 3er/4º puesto:** en el **bracket vale 0** (semifinalistas ya cobraron +10; no es un "avance", no hay especial de 3er puesto). **Pero es la última bala de Mbappé para la Bota** → por eso Andrés (y Carlos) NO están congelados del todo: pueden sumar +25 si Mbappé gana el goleador. No altera el orden del podio.
+
+Boris es el único con **campeón (España) vivo, finalista Argentina clavado Y** el goleador Mbappé en carrera.
 
 ## Estado al 2026-07-15 — 🔥 SEMIS: M101 CERRADA (ESP a la final), M102 en el kickoff (día 35)
 
@@ -82,7 +87,7 @@ Avance a la **final** = **+16 pts** (campeón = especial 50, se puntúa recién 
 **Lecturas clave:**
 - **Boris ganó el desempata real:** en M102 apostó **Argentina** y Paulo **Inglaterra** → Boris +16, Paulo +0. Estiró a **+50** sobre Paulo y **cerró la quiniela** (ver estado arriba: intocable).
 - **España en la final = el campeón de Boris y Paulo sigue vivo** por el bonus de 50. Los otros tres tienen su campeón muerto (Francia ×2, Portugal).
-- **Nadie más se mueve:** Andrés y Carlos bloqueados desde semis; el 3er puesto no puntúa. La final solo reparte el especial de campeón (+50) a quien acertó España.
+- **En el bracket nadie más se mueve** (Andrés y Carlos bloqueados; el 3er puesto no da puntos de avance). **Pero el goleador +25 sigue vivo:** Mbappé (Francia, 3er puesto) vs Messi (Argentina, final), 8-8. Boris/Carlos/Andrés=Mbappé · Paulo=Messi. El orden del podio no cambia igual.
 
 ---
 
@@ -199,7 +204,7 @@ Avance a la **final** = **+16 pts** (campeón = especial 50, se puntúa recién 
 
 ---
 
-*Última actualización: 2026-07-16 — día 36, SEMIS CERRADAS. Entró M102 Argentina 2-1 Inglaterra (cargó solo, sin penales) → Argentina a la final; Boris gana el desempate (+16), Paulo +0. `refresh_dashboard.py`: BORIS 🥇 349 · PAULO 🥈 299 · ANDRÉS 🥉 264 · JORGE 253 · CARLOS 228. 🔒 TORNEO DECIDIDO (verificado vs reglas: campeón +50, final +16 ya contado, 3er puesto 0 pts): Boris 🥇 CAMPEÓN intocable (él y Paulo comparten España → el bonus los mueve a la par; brecha 50 fija). Reparto congelado: 🥇 Boris $25.000 · 🥈 Paulo $15.000 · 🥉 Andrés $10.000. La FINAL España vs Argentina (dom 19-jul) solo decide el especial de campeón +50 (España gana → Boris y Paulo +50; Argentina gana → nadie). 3er puesto Francia–Inglaterra 18-jul (0 pts). Pendiente: commit (dashboard, no deploya) + opción recap de la final para WhatsApp.*
+*Última actualización: 2026-07-16 — día 36, SEMIS CERRADAS. Entró M102 Argentina 2-1 Inglaterra (cargó solo, sin penales) → Argentina a la final; Boris gana el desempate (+16), Paulo +0. `refresh_dashboard.py`: BORIS 🥇 349 · PAULO 🥈 299 · ANDRÉS 🥉 264 · JORGE 253 · CARLOS 228. 🔒 TORNEO DECIDIDO (verificado vs reglas: campeón +50, final +16 ya contado, 3er puesto 0 pts): Boris 🥇 CAMPEÓN intocable (él y Paulo comparten España → el bonus los mueve a la par; peor caso gana por +25 si Messi saca la Bota). Reparto congelado: 🥇 Boris $25.000 · 🥈 Paulo $15.000 · 🥉 Andrés $10.000. Vivo aún: campeón +50 (final España–Argentina 19-jul; España gana → Boris y Paulo +50) y **goleador +25 empatado Mbappé (Francia, juega 3er puesto 18-jul) vs Messi (Argentina, final)** — Mbappé=Boris/Carlos/Andrés, Messi=Paulo. El 3er puesto NO da puntos de bracket pero es la última bala de Mbappé para la Bota (por eso Andrés/Carlos no están 100% congelados). Orden del podio no cambia. Pendiente: commit (dashboard, no deploya) + opción recap de la final para WhatsApp.*
 
 *Histórico previo: 2026-07-12 — día 32, CUARTOS 4/4 CERRADOS. Cron caído del 11-jul (mañana) al 12-jul por bloqueo de billing de la cuenta GitHub (`failure` en 4-6s: "account is locked due to a billing issue"; NO era código ni API) → Boris resolvió el billing → `gh workflow run actualizar.yml` manual `success` → `git pull` + `refresh_dashboard.py`. Entraron M99 Inglaterra 2-1 Noruega (prórroga) + M100 Argentina 3-1 Suiza (prórroga), ambos ET sin penales. Tabla: BORIS 🥇 317 (13 ex) +34 · PAULO 🥈 283 (España) · ANDRÉS 🥉 264 (Francia) · JORGE 237 · CARLOS 228. El 🥈 se despegó (Paulo +19). Semis: 🔥 M101 mar 14-jul Francia vs España (choque de campeones Andrés+Jorge vs Boris+Paulo) · M102 mié 15-jul Inglaterra vs Argentina. Deploy OK vía dispatch. Al retomar: `git pull` → `refresh_dashboard.py` → narrativa a mano; si el cron falla en 4-6s, revisar billing. Histórico previo abajo.*
 
