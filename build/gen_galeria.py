@@ -143,11 +143,15 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
     # ganadores reales de las llaves KO ya jugadas (73-104) → precisión de eliminatorias
     real_ko_win = {mn: real_view['win'][mn] for mn in range(73, 105) if real_view['win'].get(mn)}
     nko = len(real_ko_win)
-    # Bota de Oro: goles en vivo por figura + quién está eliminado, para el estado del pick de cada jugador
+    # Bota de Oro: goles en vivo por figura + foto (headshot) + quién está eliminado, para el estado del pick
     scorers = engine.load_scorers()
     eliminated = set(eq) - set(survivors)
     en2code = {eq[c]['nombre_en']: c for c in eq}
     max_g = max((g for g, _ in scorers.values()), default=0)
+    import json as _json
+    _fp = os.path.join(HERE, 'data', 'figuras_fotos.json')
+    fotos = ({engine._norm(k): v for k, v in _json.load(open(_fp, encoding='utf-8')).items()}
+             if os.path.exists(_fp) else {})
     players = []
     for slug in slugs:
         gs, ko, esp = load_pred(slug)
@@ -163,6 +167,7 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
         ginfo = scorers.get(engine._norm(gpick)) if gpick else None
         ggoals = ginfo[0] if ginfo else 0
         gcode = en2code.get(ginfo[1]) if ginfo else None
+        gfoto = fotos.get(engine._norm(gpick)) if gpick else None
         if engine.goleador_dead(gpick, scorers, eliminated, eq):
             gstate = 'dead'
         elif ggoals and ggoals == max_g:
@@ -173,7 +178,7 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
                         'apodo': apodos.get(slug, ''),
                         'sc': sc, 'champ': champ, 'h1x2': h1x2, 'hx': hx, 'hko': hko, 'nko': nko,
                         'gs': gs, 'ko': ko, 'esp': esp,
-                        'gol_pick': gpick, 'gol_goals': ggoals, 'gol_code': gcode, 'gol_state': gstate,
+                        'gol_pick': gpick, 'gol_goals': ggoals, 'gol_code': gcode, 'gol_state': gstate, 'gol_foto': gfoto,
                         'alive': champ in survivors, 'validated': (validated is None or slug in validated)})
     players.sort(key=lambda p: (-p['sc']['total'], -p['hx'], p['slug']))
     # delta ▲▼ vs el último snapshot de jornada (data/historico/)
@@ -460,17 +465,17 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
             st = 'dead' if not p['alive'] else 'alive'
             cg += (f'<div class="cg {st}">{flag(p["champ"], 80)}<div class="cgn">{p["name"]}</div>'
                    f'<div class="cgc">{"💀 eliminado" if not p["alive"] else "🟢 en carrera"} · {NM.get(p["champ"], p["champ"])}</div></div>')
-        # Bota de Oro: espejo de la de campeones — pick de goleador de cada jugador + goles + estado
+        # Bota de Oro: espejo de la de campeones — la CARA del goleador de cada jugador (como el recap) + goles + estado
         GST = {'lead': '👑 líder', 'run': '🟢 en carrera', 'dead': '💀 sin chance'}
         bg = ''
         for p in sorted(players, key=lambda p: (-p.get('gol_goals', 0), p['name'])):
             gst = p.get('gol_state', 'run')
-            stc = 'dead' if gst == 'dead' else 'alive'
-            gc = p.get('gol_code')
-            fl = flag(gc, 80) if gc else '<div class="cgnofl">⚽</div>'
+            foto = p.get('gol_foto')
+            face = (f'<div class="botaface" style="background-image:url(data:image/jpeg;base64,{foto})"></div>'
+                    if foto else '<div class="botaface noface">⚽</div>')
             pick = p.get('gol_pick') or '—'
             goals = p.get('gol_goals', 0)
-            bg += (f'<div class="cg {stc}">{fl}<div class="cgn">{p["name"]}</div>'
+            bg += (f'<div class="cg {gst}">{face}<div class="cgn">{p["name"]}</div>'
                    f'<div class="cgc">{GST[gst]} · {pick} · {goals} gol{"" if goals == 1 else "es"}</div></div>')
         # Liga de Consolación (ESPN ladder): los de fuera del podio compiten aparte
         cons_html = ''
@@ -603,6 +608,10 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 
 
 EXTRA_CSS = """<style>
+.cg .botaface{width:64px;height:64px;border-radius:50%;margin:0 auto 8px;background-size:cover;background-position:center top;border:2px solid var(--line)}
+.cg.lead .botaface{border-color:var(--gold)}
+.cg.dead .botaface{filter:grayscale(1)}
+.cg .botaface.noface{display:flex;align-items:center;justify-content:center;font-size:26px;background:var(--card)}
 .share{display:inline-block;margin:12px auto 0;background:#25d366;color:#06210f;font-weight:800;
 font-size:14px;text-decoration:none;padding:9px 20px;border-radius:24px;box-shadow:0 4px 14px #25d36644}
 .share:hover{background:#1ebe5a}
