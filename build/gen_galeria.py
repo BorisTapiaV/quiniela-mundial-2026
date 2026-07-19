@@ -143,6 +143,11 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
     # ganadores reales de las llaves KO ya jugadas (73-104) → precisión de eliminatorias
     real_ko_win = {mn: real_view['win'][mn] for mn in range(73, 105) if real_view['win'].get(mn)}
     nko = len(real_ko_win)
+    # Bota de Oro: goles en vivo por figura + quién está eliminado, para el estado del pick de cada jugador
+    scorers = engine.load_scorers()
+    eliminated = set(eq) - set(survivors)
+    en2code = {eq[c]['nombre_en']: c for c in eq}
+    max_g = max((g for g, _ in scorers.values()), default=0)
     players = []
     for slug in slugs:
         gs, ko, esp = load_pred(slug)
@@ -153,10 +158,22 @@ def build_players(slugs, real_view, real_group, real_esp, eq, fixture, terceros,
         hx = sum(1 for mn, (rl, rv) in real_group.items() if gs.get(mn) == (rl, rv))
         # acertó ganador de KO: su bracket hace ganar la llave al equipo que realmente ganó
         hko = sum(1 for mn, w in real_ko_win.items() if sc['bracket']['win'].get(mn) == w)
+        # goleador elegido: goles actuales, bandera del equipo y estado (💀 sin chance / 👑 líder / 🟢 en carrera)
+        gpick = (esp.get('goleador') or '').strip()
+        ginfo = scorers.get(engine._norm(gpick)) if gpick else None
+        ggoals = ginfo[0] if ginfo else 0
+        gcode = en2code.get(ginfo[1]) if ginfo else None
+        if engine.goleador_dead(gpick, scorers, eliminated, eq):
+            gstate = 'dead'
+        elif ggoals and ggoals == max_g:
+            gstate = 'lead'
+        else:
+            gstate = 'run'
         players.append({'slug': slug, 'name': esp.get('jugador') or display_name(slug), 'url': f'p/{slug_url(slug)}.html',
                         'apodo': apodos.get(slug, ''),
                         'sc': sc, 'champ': champ, 'h1x2': h1x2, 'hx': hx, 'hko': hko, 'nko': nko,
                         'gs': gs, 'ko': ko, 'esp': esp,
+                        'gol_pick': gpick, 'gol_goals': ggoals, 'gol_code': gcode, 'gol_state': gstate,
                         'alive': champ in survivors, 'validated': (validated is None or slug in validated)})
     players.sort(key=lambda p: (-p['sc']['total'], -p['hx'], p['slug']))
     # delta ▲▼ vs el último snapshot de jornada (data/historico/)
@@ -443,6 +460,18 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
             st = 'dead' if not p['alive'] else 'alive'
             cg += (f'<div class="cg {st}">{flag(p["champ"], 80)}<div class="cgn">{p["name"]}</div>'
                    f'<div class="cgc">{"💀 eliminado" if not p["alive"] else "🟢 en carrera"} · {NM.get(p["champ"], p["champ"])}</div></div>')
+        # Bota de Oro: espejo de la de campeones — pick de goleador de cada jugador + goles + estado
+        GST = {'lead': '👑 líder', 'run': '🟢 en carrera', 'dead': '💀 sin chance'}
+        bg = ''
+        for p in sorted(players, key=lambda p: (-p.get('gol_goals', 0), p['name'])):
+            gst = p.get('gol_state', 'run')
+            stc = 'dead' if gst == 'dead' else 'alive'
+            gc = p.get('gol_code')
+            fl = flag(gc, 80) if gc else '<div class="cgnofl">⚽</div>'
+            pick = p.get('gol_pick') or '—'
+            goals = p.get('gol_goals', 0)
+            bg += (f'<div class="cg {stc}">{fl}<div class="cgn">{p["name"]}</div>'
+                   f'<div class="cgc">{GST[gst]} · {pick} · {goals} gol{"" if goals == 1 else "es"}</div></div>')
         # Liga de Consolación (ESPN ladder): los de fuera del podio compiten aparte
         cons_html = ''
         if len(players) > 3:
@@ -486,6 +515,8 @@ def render(players, has_results, state, real_view, fxno, NM, ISO, ranks, miles, 
 {bracket_html}
 <h2 class="sec">💀 Supervivencia de campeones</h2>
 <div class="cgrid">{cg}</div>
+<h2 class="sec">🥇 Bota de Oro <span class="note">(el goleador que eligió cada jugador · 👑 = puntero)</span></h2>
+<div class="cgrid">{bg}</div>
 {cons_html}"""
 
     demobanner = '<div class="demo">⚠ VISTA DEMO — jugadores y resultados de muestra</div>' if is_demo else ''
