@@ -14,6 +14,7 @@ Render por Edge --headless (misma receta que gen_tarjeta/gen_cierre).
 Uso:
   python build/gen_diplomas.py            # los 5
   python build/gen_diplomas.py boris      # solo uno (por slug corto)
+  python build/gen_diplomas.py --v2       # sufijo -v2 en la salida (no pisa los actuales)
 """
 import os, sys, subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -44,50 +45,51 @@ TERRA  = ('#d98a56', '#b5622f')
 DIPLOMAS = [
     dict(
         slug='1-boris', rank='🥇', pos='Campeón de la Quiniela', accent=GOLD,
-        name='Boris Tapia V.', champ='ESP', pts=349, exactos=13, humor=False,
+        name='Boris Tapia V.', champ='ESP', pts=424, exactos=13, humor=False,
         title='Primer Lugar',
         cuerpo='Por dominar el torneo de principio a fin, clavar <b>13 resultados '
-               'exactos</b> —más que ningún otro— y llevar a España hasta la final. '
-               'Liderato de punta a punta, sin apelación.',
+               'exactos</b> —más que ningún otro—, coronar a España campeona y '
+               'quedarse con la Bota de Oro. Liderato de punta a punta, sin apelación.',
         sello='CAMPEÓN',
     ),
     dict(
         slug='2-paulo', rank='🥈', pos='Subcampeón', accent=SILVER,
-        name='Paulo Salas', champ='ESP', pts=299, exactos=10, humor=False,
+        name='Paulo Salas', champ='ESP', pts=349, exactos=10, humor=False,
         title='Segundo Lugar',
         cuerpo='Por una campaña sólida de comienzo a fin, <b>10 aciertos exactos</b> '
                'y el temple para blindar el segundo puesto cuando más apretaba. '
-               'Escolta de lujo, España viva hasta el último día.',
+               'Escolta de lujo, España campeona hasta el final.',
         sello='SUBCAMPEÓN',
     ),
     dict(
         slug='3-andres', rank='🥉', pos='Tercer Lugar', accent=BRONZE,
-        name='Andrés Acosta', champ='FRA', pts=264, exactos=9, humor=False,
+        name='Andrés Acosta', champ='FRA', pts=289, exactos=9, humor=False,
         title='Tercer Lugar',
         cuerpo='Por sostener el podio hasta el final con <b>9 aciertos exactos</b> '
                'y buen ojo para el cuadro. Ni la caída de Francia en semifinales '
-               'lo bajó del cajón.',
+               'lo bajó del cajón; la Bota de Mbappé le selló el bronce.',
         sello='PODIO',
     ),
     dict(
-        slug='4-jorge', rank='🎖️', pos='Mención de Honor', accent=VERDE,
-        name='Jorge Vásquez', champ='FRA', pts=253, exactos=9, humor=True,
-        title='El que Remó desde el Fondo',
-        cuerpo='Por escalar desde el último lugar de la tabla hasta pelear el podio, '
-               'y por confiar el título de goleador a <b>Deniz Undav</b> — acto de fe '
-               'que el fútbol, cruelmente, no premió 💀. Olfato para las llaves, '
-               'paciencia de santo.',
-        sello='CORAZÓN',
+        slug='4-carlos', rank='🎖️', pos='Mención Especial', accent=TERRA,
+        name='Carlos Salgado', champ='POR', pts=253, exactos=9, humor=True,
+        title='El Líder que Cayó y Resucitó',
+        cuerpo='Por comandar la pelea por el podio durante semanas… hasta que '
+               'Portugal se despidió y lo mandó al fondo. Pero en el último día '
+               'la Bota de Oro le devolvió el guiño: su apuesta por <b>Mbappé</b> '
+               'le sumó 25 puntos y lo trepó de vuelta al cuarto lugar. Cerró con '
+               '<b>9 aciertos exactos</b>: cayó con su campeón, se levantó para el final.',
+        sello='LA LIGA',
     ),
     dict(
-        slug='5-carlos', rank='🎖️', pos='Mención Especial', accent=TERRA,
-        name='Carlos Salgado', champ='POR', pts=228, exactos=9, humor=True,
-        title='El Liderato más Efímero',
-        cuerpo='Por comandar la pelea por el podio durante semanas… hasta que '
-               'Portugal se despidió y lo mandó al fondo. Cerró con <b>9 aciertos '
-               'exactos</b> (más que varios de arriba): los números no mienten, '
-               'la tabla lo recordará por lo que pudo ser.',
-        sello='LA LIGA',
+        slug='5-jorge', rank='🎖️', pos='Mención de Honor', accent=VERDE,
+        name='Jorge Vásquez', champ='FRA', pts=253, exactos=8, humor=True,
+        title='El que Remó desde el Fondo',
+        cuerpo='Por escalar desde el último lugar de la tabla hasta pelear el podio, '
+               'y por ser el más certero de todos leyendo las llaves de eliminatorias. '
+               'Confió el título de goleador a <b>Deniz Undav</b> — acto de fe que el '
+               'fútbol, cruelmente, no premió 💀. Rey de los cruces, paciencia de santo.',
+        sello='CORAZÓN',
     ),
 ]
 
@@ -208,9 +210,9 @@ def edge_bin():
     return None
 
 
-def render_one(d):
+def render_one(d, suffix=''):
     os.makedirs(OUTDIR, exist_ok=True)
-    slug = f'diploma-{d["slug"]}'
+    slug = f'diploma-{d["slug"]}{suffix}'
     htmlpath = os.path.join(OUTDIR, f'{slug}.html')
     pngpath = os.path.join(OUTDIR, f'{slug}.png')
     pdfpath = os.path.join(OUTDIR, f'{slug}.pdf')
@@ -234,14 +236,17 @@ def render_one(d):
 
 
 def main():
-    sel = sys.argv[1].lower() if len(sys.argv) > 1 else None
+    args = sys.argv[1:]
+    suffix = '-v2' if '--v2' in args else ''
+    args = [a for a in args if a != '--v2']
+    sel = args[0].lower() if args else None
     picked = [d for d in DIPLOMAS if not sel or sel in d['slug'] or sel in d['name'].lower()]
     if not picked:
         print(f'Sin match para "{sel}". Slugs: {[d["slug"] for d in DIPLOMAS]}')
         return
     for d in picked:
-        render_one(d)
-    print(f'\n{len(picked)} diploma(s) en {OUTDIR}')
+        render_one(d, suffix)
+    print(f'\n{len(picked)} diploma(s){" (v2)" if suffix else ""} en {OUTDIR}')
 
 
 if __name__ == '__main__':

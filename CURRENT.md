@@ -21,30 +21,24 @@
 
 ---
 
-## Estado al 2026-07-19 — 🏆 DÍA DE LA FINAL: la Bota se inclina a Boris (día 39)
+## Estado al 2026-07-19 — 🏆 TORNEO CERRADO: España campeón, Boris gana la quiniela (día 39, noche)
 
-> **M103 3er puesto: Inglaterra 6-4 Francia** (regular, cargó solo) — no mueve el bracket (vale 0). **HOY la FINAL España vs Argentina** cierra el Mundial y los dos especiales que quedan vivos. La tabla no cambió con el 3er puesto: **BORIS 🥇 349 · PAULO 🥈 299 · ANDRÉS 🥉 264 · JORGE 253 · CARLOS 228.**
+> **M104 FINAL: España 1-0 Argentina (tiempo extra, cargó solo).** España campeón del Mundial → **Boris y Paulo +50** (los dos la pusieron). **Bota de Oro: Mbappé 10 - Messi 8** — Messi no marcó en la final, así que la Bota es de Mbappé → **+25 a Boris, Carlos y Andrés** (Paulo tenía a Messi). Tabla definitiva: **BORIS 🥇 424 · PAULO 🥈 349 · ANDRÉS 🥉 289 · CARLOS 253 · JORGE 253.**
 
-🔑 **El giro del fin de semana está en la Bota de Oro (+25), y va a favor de Boris.** Mbappé anotó en el 3er puesto → **10 goles y su Mundial terminó** (Francia ya no juega). **Messi sigue en 8 y solo le queda la final de hoy.** Venían empatados 8-8; ahora **Mbappé lidera 10-8**. Para robar la Bota, **Messi necesita 3+ goles hoy** (llega a 11); con 2 quedaría 10-10 (desempate FIFA); con 0-1 la Bota es de Mbappé. Picks: **Mbappé → Boris, Carlos, Andrés · Messi → Paulo** (Jorge=Undav 💀).
+🏆 **BORIS CAMPEÓN DE LA QUINIELA — 424 pts, +75 sobre el 2º** (el mejor de los 4 escenarios que se venían proyectando). Único jugador con campeón (España), finalista (Argentina) **y** Bota (Mbappé) los tres al mismo tiempo. Cerró el año liderando de punta a punta (13 exactos, nunca cedió la punta).
 
-🎯 **La final de hoy (España vs Argentina) decide los dos únicos especiales que restan:**
-- **Campeón +50 —** España gana → **Boris y Paulo +50** (ambos la pusieron); Argentina gana → **nadie cobra campeón** (ningún jugador eligió Argentina).
-- **Goleador +25 —** se cierra al terminar la final según quién quede arriba en goles (ver arriba).
+🥇 **Reparto final del pozo $50.000** (verificado vs `reglas-puntaje.md`): **Boris 50% = $25.000 · Paulo 30% = $15.000 · Andrés 20% = $10.000.**
 
-🏆 **Reparto CONGELADO — Boris campeón, verificado en los 4 escenarios de la final** (vs `reglas-puntaje.md`: campeón +50, goleador +25, 3er puesto 0):
+🔄 **La final movió el fondo del podio:** la Bota (+25 a Mbappé) subió a **Carlos al 4º (253)** y bajó a **Jorge al 5º (253)** — empatados en puntos, Carlos gana el desempate por exactos (9 vs 8). El orden del podio (Boris/Paulo/Andrés) no cambió.
 
-| Final hoy | Campeón +50 | Bota +25 | Boris final | Paulo final | Margen Boris |
-|-----------|-------------|----------|:-----------:|:-----------:|:------------:|
-| España gana + Mbappé Bota | Boris+Paulo | Boris/Carlos/Andrés | **424** | 349 | **+75** |
-| España gana + Messi Bota (3+ goles) | Boris+Paulo | Paulo | **399** | 374 | **+25** |
-| Argentina gana + Mbappé Bota | nadie | Boris/Carlos/Andrés | **374** | 299 | **+75** |
-| Argentina gana + Messi Bota (3+ goles) | nadie | Paulo | **349** | 324 | **+25** |
+⚙️ **Notas técnicas de esta sesión:** el especial de goleador es **carga manual** (`data/resultados_especiales.csv` → `goleador,Kylian Mbappe`) — el campeón sí se deriva solo del bracket. Se corrigió `snapshot.py` (pasaba `real_especiales={}` → el dashboard nunca contaba la Bota). Deploy de cierre disparado y verificado en vivo (sitio muestra 424).
 
-**En los 4 casos Boris gana por +25 a +75.** Podio y reparto intactos: 🥇 **Boris 50% $25.000** · 🥈 **Paulo (299) 30% $15.000** (blindado, peor caso +10 sobre Andrés) · 🥉 **Andrés (264) 20% $10.000** (blindado +11 sobre Jorge). **Jorge 4º (253) · Carlos 5º (228).** El escenario más probable (Messi < 3 goles) lleva a Boris a **+75**; el "peor caso +25" del 16-jul ahora exige un partidazo de Messi. **Boris es el único con campeón vivo, finalista clavado Y la Bota liderando.**
+### 🎓 Material de premiación — v2 LISTA (post-final)
 
-### 🎓 Material de premiación — LISTO (se entrega hoy, tras la final)
-
-Todo en `diplomas/`, **local, no deploya.** **Opción abierta hoy:** una vez jugada la final, sumar a `diplomas/palabras-entrega.md` un párrafo de cierre con el resultado real (y si se confirma la Bota de Mbappé, el guiño) → regenerar `python build/gen_palabras_pdf.py`. Recap de la final para WhatsApp también disponible (`build/gen_recap.py`).
+Todo en `diplomas/`, **local, no deploya.** Tras jugarse la final se sacó una **v2 de todo el material** (la v1 del 16-jul quedó intacta), corrigiendo el recorrido, los puntos finales, los exactos (Jorge 8, no 9), el texto de Carlos ("más que varios" era falso) y el **swap 4º/5º** (Carlos 4º, Jorge 5º):
+- **Palabras de entrega v2** — `diplomas/palabras-entrega-v2.{md,pdf}` (regenera: `python build/gen_palabras_pdf.py diplomas/palabras-entrega-v2.md`).
+- **5 diplomas v2** — `diplomas/diploma-*-v2.{png,pdf}` (regenera: `python build/gen_diplomas.py --v2`).
+- **Pendiente:** entregar tras la premiación. Recap de la final para WhatsApp disponible (`build/gen_recap.py 2026-07-19`).
 
 ## Estado al 2026-07-16 — 🏁 SEMIS CERRADAS: la quiniela quedó DECIDIDA (día 36)
 
@@ -243,7 +237,9 @@ Avance a la **final** = **+16 pts** (campeón = especial 50, se puntúa recién 
 
 ---
 
-*Última actualización: 2026-07-19 — día 39, DÍA DE LA FINAL. `git pull` (HEAD `47a561f`, cron sano) → entró M103 Inglaterra 6-4 Francia (3er puesto, cargó solo, vale 0 en el bracket). `refresh_dashboard.py` sin cambios en la tabla (BORIS 349 · PAULO 299 · ANDRÉS 264 · JORGE 253 · CARLOS 228). 🔑 GIRO EN LA BOTA: Mbappé anotó en el 3er puesto → 10 goles y cerró su Mundial; Messi 8 y le queda la final → Mbappé lidera 10-8 (antes 8-8), Messi necesita 3+ hoy para robarla. La Bota (+25) es pick de Boris/Carlos/Andrés. La FINAL de hoy España vs Argentina cierra los dos especiales: campeón +50 (ESP→Boris+Paulo; ARG→nadie) + goleador. Verificado vs reglas: en los 4 escenarios Boris gana por +25 a +75 → reparto CONGELADO (🥇 Boris $25.000 · 🥈 Paulo $15.000 · 🥉 Andrés $10.000). **Sesión (feature): (1) nueva sección 🥇 Bota de Oro en la portada** — espejo de "Supervivencia de campeones", con la cara del goleador de cada jugador (headshot de `figuras_fotos.json`, borde dorado al líder / gris al muerto); en `build_players`+`render` (`.botaface`), deployada 2× (workflow_dispatch), verificada en vivo. **(2) Recap de la final** generado + PNG (`tarjetas/recap-2026-07-19.png`). Gotcha: la portada tiene 2 bloques `<style>` (el CSS de la Bota vive en el 2º, `EXTRA_CSS`) — previews aislados deben concatenar ambos. 4 commits, 0 memorias, 0 voseo. Pendiente: ver la final → párrafo de cierre en `palabras-entrega.md` + entregar premiación. Histórico previo abajo.*
+*Última actualización: 2026-07-19 (noche) — 🏆 TORNEO CERRADO. **M104 FINAL España 1-0 Argentina** (tiempo extra, cargó solo) → España campeón → Boris y Paulo +50. **Bota de Oro Mbappé 10 - Messi 8** (Messi no marcó en la final) → +25 a Boris/Carlos/Andrés. Se cargó a mano el especial de goleador (`data/resultados_especiales.csv` → `Kylian Mbappe`); el campeón se deriva del bracket. **Fix `snapshot.py`** (pasaba `real_especiales={}` → el dashboard nunca contaba la Bota). Tabla definitiva + deploy de cierre verificados en vivo: **BORIS 🥇 424 · PAULO 🥈 349 · ANDRÉS 🥉 289 · CARLOS 253 · JORGE 253.** Reparto $50.000: Boris $25.000 · Paulo $15.000 · Andrés $10.000. La Bota subió a **Carlos al 4º** y bajó a **Jorge al 5º** (empate 253, desempate por exactos 9>8). **Material de premiación v2** (palabras + 5 diplomas, sufijo `-v2`, la v1 del 16-jul intacta): recorrido corregido + puntos finales + Jorge 8 exactos + Carlos sin "más que varios" + swap 4º/5º; generadores parametrizados (`gen_palabras_pdf.py <ruta>`, `gen_diplomas.py --v2`). Commit + push (sin deploy adicional). 0 voseo. Histórico previo abajo.*
+
+*Histórico: 2026-07-19 — día 39, DÍA DE LA FINAL. `git pull` (HEAD `47a561f`, cron sano) → entró M103 Inglaterra 6-4 Francia (3er puesto, cargó solo, vale 0 en el bracket). `refresh_dashboard.py` sin cambios en la tabla (BORIS 349 · PAULO 299 · ANDRÉS 264 · JORGE 253 · CARLOS 228). 🔑 GIRO EN LA BOTA: Mbappé anotó en el 3er puesto → 10 goles y cerró su Mundial; Messi 8 y le queda la final → Mbappé lidera 10-8 (antes 8-8), Messi necesita 3+ hoy para robarla. La Bota (+25) es pick de Boris/Carlos/Andrés. La FINAL de hoy España vs Argentina cierra los dos especiales: campeón +50 (ESP→Boris+Paulo; ARG→nadie) + goleador. Verificado vs reglas: en los 4 escenarios Boris gana por +25 a +75 → reparto CONGELADO (🥇 Boris $25.000 · 🥈 Paulo $15.000 · 🥉 Andrés $10.000). **Sesión (feature): (1) nueva sección 🥇 Bota de Oro en la portada** — espejo de "Supervivencia de campeones", con la cara del goleador de cada jugador (headshot de `figuras_fotos.json`, borde dorado al líder / gris al muerto); en `build_players`+`render` (`.botaface`), deployada 2× (workflow_dispatch), verificada en vivo. **(2) Recap de la final** generado + PNG (`tarjetas/recap-2026-07-19.png`). Gotcha: la portada tiene 2 bloques `<style>` (el CSS de la Bota vive en el 2º, `EXTRA_CSS`) — previews aislados deben concatenar ambos. 4 commits, 0 memorias, 0 voseo. Pendiente: ver la final → párrafo de cierre en `palabras-entrega.md` + entregar premiación. Histórico previo abajo.*
 
 *Histórico: 2026-07-16 — día 36, SEMIS CERRADAS. Entró M102 Argentina 2-1 Inglaterra (cargó solo, sin penales) → Argentina a la final; Boris gana el desempate (+16), Paulo +0. `refresh_dashboard.py`: BORIS 🥇 349 · PAULO 🥈 299 · ANDRÉS 🥉 264 · JORGE 253 · CARLOS 228. 🔒 TORNEO DECIDIDO (verificado vs reglas: campeón +50, final +16 ya contado, 3er puesto 0 pts): Boris 🥇 CAMPEÓN intocable (él y Paulo comparten España → el bonus los mueve a la par; peor caso gana por +25 si Messi saca la Bota). Reparto congelado: 🥇 Boris $25.000 · 🥈 Paulo $15.000 · 🥉 Andrés $10.000. Vivo aún: campeón +50 (final España–Argentina 19-jul; España gana → Boris y Paulo +50) y **goleador +25 empatado Mbappé (Francia, juega 3er puesto 18-jul) vs Messi (Argentina, final)** — Mbappé=Boris/Carlos/Andrés, Messi=Paulo. El 3er puesto NO da puntos de bracket pero es la última bala de Mbappé para la Bota (por eso Andrés/Carlos no están 100% congelados). Orden del podio no cambia. Pendiente: commit (dashboard, no deploya) + opción recap de la final para WhatsApp.*
 

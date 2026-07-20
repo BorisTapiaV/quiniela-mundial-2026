@@ -5,7 +5,9 @@ Convierte diplomas/palabras-entrega.md -> HTML pergamino (mismo look que los
 diplomas) -> PDF A4 vertical via Edge --print-to-pdf. Una pagina por seccion
 (portada+apertura juntas; luego un homenajeado por pagina) para leer en voz alta.
 
-Uso: python build/gen_palabras_pdf.py
+Uso: python build/gen_palabras_pdf.py [diplomas/palabras-entrega-vN.md]
+     (sin argumento usa palabras-entrega.md; con argumento deriva los nombres
+      de salida .html/.pdf del mismo stem, para versiones que no pisen la actual)
 """
 import os, re, sys, subprocess
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -109,25 +111,31 @@ section h2{{break-after:avoid}}
 
 
 def main():
-    if not os.path.exists(MD):
-        print(f'No existe {MD}')
+    md_path = MD
+    if len(sys.argv) > 1:
+        arg = sys.argv[1]
+        md_path = arg if os.path.isabs(arg) else os.path.join(HERE, arg)
+    stem = os.path.splitext(md_path)[0]
+    out_html, out_pdf = stem + '.html', stem + '.pdf'
+    if not os.path.exists(md_path):
+        print(f'No existe {md_path}')
         return
-    with open(MD, encoding='utf-8') as f:
+    with open(md_path, encoding='utf-8') as f:
         md = f.read()
     html = build_html(md)
-    with open(OUT_HTML, 'w', encoding='utf-8') as f:
+    with open(out_html, 'w', encoding='utf-8') as f:
         f.write(html)
     edge = next((e for e in (
         r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
         r'C:\Program Files\Microsoft\Edge\Application\msedge.exe') if os.path.exists(e)), None)
     if not edge:
-        print(f'HTML: {OUT_HTML} (Edge no encontrado — sin PDF)')
+        print(f'HTML: {out_html} (Edge no encontrado — sin PDF)')
         return
-    url = 'file:///' + OUT_HTML.replace('\\', '/')
+    url = 'file:///' + out_html.replace('\\', '/')
     subprocess.run([edge, '--headless', '--disable-gpu', '--no-pdf-header-footer',
-                    '--virtual-time-budget=9000', f'--print-to-pdf={OUT_PDF}', url],
+                    '--virtual-time-budget=9000', f'--print-to-pdf={out_pdf}', url],
                    check=False)
-    print(f'PDF: {OUT_PDF}')
+    print(f'PDF: {out_pdf}')
 
 
 if __name__ == '__main__':
