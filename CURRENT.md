@@ -194,7 +194,7 @@ Avance a la **final** = **+16 pts** (campeón = especial 50, se puntúa recién 
 | 5 | ✅ **Cuadro real del torneo en la portada + archivo plegable de grupos** (27-jun) — `engine.bracket_partial`; el cuadro se llena solo (16avos ya con los 5 cruces formados), y al cerrar los 72 aparece el `<details>` "Fase de grupos — cerrada" con las 12 tablas finales. Cruces KO también resueltos en el calendario. Evolución del ranking ya operativa. **Se completa solo esta noche al cerrar grupos** | hecho |
 | 6 | `og.png` con logo FC | opcional cosmético |
 | 7 | Más planillas que lleguen al pool | esperar |
-| 8 | 🎓 **Premiación v2 LISTA en `diplomas/` (5 diplomas + palabras, sufijo `-v2`, PNG+PDF).** Corregida con la final (puntos, exactos, swap 4º/5º). Falta **entregar al grupo**. Opción abierta: párrafo personalizado + recap de la final (`gen_recap.py 2026-07-19`) | entregar |
+| 8 | ✅ **Diplomas y premios ENTREGADOS (2026-07-20).** Premiación v2 (5 diplomas + palabras, sufijo `-v2`) entregada al grupo; pozo $50.000 repartido (Boris $25.000 · Paulo $15.000 · Andrés $10.000). Cierra el lado premiación del torneo | hecho |
 | 9 | 🌐 **Bajar el sitio Netlify cuando Boris decida** (torneo cerrado). Diferido — "de ahí vemos". El repo + Actions quedan; el cron ya no tiene partidos que cargar (ventana de fixture agotada). Al bajarlo: sitio `3ca883c4-…` cuenta `boris.tapia@veridia.green` | diferido |
 
 ---
