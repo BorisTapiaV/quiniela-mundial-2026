@@ -143,11 +143,11 @@ Avance a la **final** = **+16 pts** (campeón = especial 50, se puntúa recién 
 
 | Pos | Jugador | Campeón | Pts | Exactos | Vivo |
 |:---:|---------|---------|:---:|:---:|:---:|
-| 🥇 | **Boris Tapia V (La Casa)** | España | **349** | 13 | 🟢 |
-| 🥈 | **Paulo Salas** | España | **299** | 10 | 🟢 |
-| 🥉 | Andrés Acosta (Colombia) | Francia | 264 | 9 | 🟢 |
-| 4 | Jorge Vásquez | Francia | 253 | 8 | 🟢 |
-| 5 | Carlos Salgado | Portugal | 228 | 9 | 🟢 |
+| 🥇 | **Boris Tapia V (La Casa)** | España | **424** | 13 | 🟢 |
+| 🥈 | **Paulo Salas** | España | **349** | 10 | 🟢 |
+| 🥉 | Andrés Acosta (Colombia) | Francia | 289 | 9 | 🟢 |
+| 4 | Carlos Salgado | Portugal | 253 | 9 | 🟢 |
+| 5 | Jorge Vásquez | Francia | 253 | 8 | 🟢 |
 <!-- AUTO:TABLA fin -->
 
 **La carrera tras cuartos (4/4):** **Boris 🥇 317 (13 exactos)** manda con **+34** sobre el 2º — liderato sólido, desempate pts → exactos → campeón → FIFA (`config/reglas-puntaje.md`). **El 🥈 (30% del pozo) se despegó:** **Paulo 🥈 (283, España)** vs **Andrés 🥉 (264, Francia)** ahora a **+19** — venían de 1 solo punto el 09-jul, pero el sábado Boris+Paulo cazaron los dos ganadores (Inglaterra+Argentina, +20 c/u) y Andrés solo Argentina (+10). **Jorge 4º (237, Francia) +0 · Carlos 5º (228, Portugal 💀 eliminado) +0.** **Semis con choque directo de campeones:** **M101 mar 14-jul Francia (Andrés+Jorge) vs España (Boris+Paulo)** — uno de los dos campeones muere en semis; el que gane mete su campeón a la final y sigue vivo por el bonus de 50 pts. **M102 mié 15-jul Inglaterra vs Argentina** (ningún campeón en juego).

@@ -55,13 +55,26 @@ def load_players():
     return players
 
 
+def _load_real_especiales():
+    """Especiales reales conocidos (goleador/…) desde data/resultados_especiales.csv.
+    El campeón se deriva del bracket; el goleador es carga manual (Bota de Oro)."""
+    re_ = {}
+    p = os.path.join(HERE, 'data', 'resultados_especiales.csv')
+    if os.path.exists(p):
+        for r in csv.DictReader(open(p, encoding='utf-8')):
+            if r.get('valor'):
+                re_[r['clave']] = r['valor']
+    return re_
+
+
 def compute_standings(players, rg, rk, eq=None, fixture=None, terceros=None):
     eq = eq or engine.load_equipos(); fixture = fixture or engine.load_fixture()
     terceros = terceros or engine.load_terceros()
     rv = engine.full_bracket(rg, rk, eq, fixture, terceros)
+    real_esp = _load_real_especiales()
     rows = []
     for p in players:
-        sc = engine.score_player(p['gs'], p['ko'], rv, rg, p['esp'], {}, eq, fixture, terceros)
+        sc = engine.score_player(p['gs'], p['ko'], rv, rg, p['esp'], real_esp, eq, fixture, terceros)
         exactos = sum(1 for mn, gv in rg.items() if p['gs'].get(mn) == gv)
         rows.append({'slug': p['slug'], 'name': p['name'], 'total': sc['total'],
                      'exactos': exactos, 'champ': sc['bracket']['champion']})
