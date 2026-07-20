@@ -217,6 +217,8 @@ Avance a la **final** = **+16 pts** (campeón = especial 50, se puntúa recién 
 
 | Necesito | Archivo |
 |----------|---------|
+| 🕐 **ARRANCAR EL MUNDIAL 2030 (léeme primero)** | **`ARRANQUE_2030.md`** — qué se reusa/cambia + método de pronóstico ya refinado + gotchas. El único doc que hay que leer en 4 años |
+| **Retrospectiva del experimento de pronóstico (2026)** | `referencias/RETROSPECTIVA_EXPERIMENTO_PRONOSTICO_2026-07.md` + `python build/retro_experimento.py` |
 | Diseño + decisiones + estructura | `README.md` |
 | Modelo de puntaje + "la carrera" | `config/reglas-puntaje.md` |
 | Reglamento FIFA modularizado (Art 11-14) | `reglas/INDEX.md` |

@@ -4,6 +4,9 @@ Quiniela/polla del Mundial FIFA 2026 (Canadá · México · EE.UU.) entre ~12 am
 
 **Estado al 2026-06-07:** backend completo y validado. Falta la plantilla de captura + orquestación con resultados reales.
 
+> 🏆 **Torneo 2026 CERRADO (2026-07-19):** España campeón, Boris ganó su propia quiniela (424 pts, +75). El experimento de pronóstico ("La Casa") acertó 11/12 grupos · 4/4 semis · 2/2 finalistas · campeón · goleador → `referencias/RETROSPECTIVA_EXPERIMENTO_PRONOSTICO_2026-07.md`.
+> 🕐 **¿Volviste para el Mundial 2030?** Lee **`ARRANQUE_2030.md`** — es el único doc que necesitas (qué se reusa/cambia + método de pronóstico refinado + gotchas).
+
 ---
 
 ## 🧭 Decisiones clave (todas tomadas)
